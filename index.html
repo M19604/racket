@@ -960,7 +960,7 @@ function closeAlert() {
 document.getElementById("alert").style.top = "-7%";
 }
 setTimeout(function() {
-if (localStorage.getItem("username") !== "" && localStorage.getItem("password") !== "") {
+if (localStorage.getItem("username") !== null && localStorage.getItem("password") !== null) {
 document.getElementById("loginPage").style.display = "none";
 loadData(localStorage.getItem("username"));
 }
