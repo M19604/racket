@@ -867,7 +867,7 @@ document.getElementById("signupPage").style.display = "none";
 }
 function signup() {
 var signupForm = document.getElementById("signupForm");
-var scriptURL = "https://script.google.com/macros/s/AKfycbyB03ROjtSfL3BcRqRmS_GWoeoWta3thIQkbKJebhj1WTjZm4Ye3U1UDh5bvGUHdbQlSw/exec";
+var scriptURL = "https://script.google.com/macros/s/AKfycbz9cYHq-AGvYjduCyvK5miIUF7NeE-RcVEGrFk-uUxtYvhwuS4bKXBWWwCe_ulIaiz2Yw/exec";
 if (document.getElementById("signupUsername").value.trim() !== "" && document.getElementById("signupPassword").value.trim() !== "" && !document.getElementById("signupUsername").value.includes("-") && document.getElementById("signupUsername") !== "SERVERLIST" && document.getElementById("signupUsername") !== "SERVERCODES" && document.getElementById("signupUsername") !== "USERNAMES" && document.getElementById("signupUsername") !== "PASSWORDS" && document.getElementById("signupUsername") !== "VERIFIEDSUPPORTERS") {
 fetch(scriptURL, {method:"POST", body: new FormData(signupForm)});
 localStorage.setItem("username", document.getElementById("signupUsername").value.trim());
