@@ -847,7 +847,7 @@ document.getElementById("joinServerName").value = serverData[i]["SERVERLIST"];
 fetch(joinScriptURL, {method:"POST", body: new FormData(joinForm)});
 setTimeout(function() {
 location.reload();
-}, 1500)
+}, 500)
 } else if (i === serverData.length - 1) {
 alert("Invalid join code!");
 }
@@ -874,7 +874,7 @@ localStorage.setItem("username", document.getElementById("signupUsername").value
 localStorage.setItem("password", document.getElementById("signupPassword").value)
 setTimeout(function() {
 location.reload();
-}, 500)
+}, 1500)
 }
 }
 function login() {
