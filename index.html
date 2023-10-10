@@ -873,6 +873,7 @@ fetch(scriptURL, {method:"POST", body: new FormData(signupForm)});
 localStorage.setItem("username", document.getElementById("signupUsername").value.trim());
 localStorage.setItem("password", document.getElementById("signupPassword").value)
 setTimeout(function() {
+location.reload();
 }, 1500)
 }
 }
