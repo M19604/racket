@@ -1006,7 +1006,7 @@ for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["USER - " + username] !== "" && serverData[i]["USER - " + username] !== undefined && serverData[i]["USER - " + username] !== "undefined") {
 var serverEle = document.createElement("div");
 serverEle.title = serverData[i]["USER - " + username];
-serverEle.textContent = serverEle.title[0];
+serverEle.textContent = serverData[i]["USER - " + username];
 serverEle.className = "server";
 document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
 document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
