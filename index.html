@@ -1002,17 +1002,6 @@ setTimeout(function() {
 document.getElementById("chatUsername").value = username;
 document.getElementById("serverUsername").value = username;
 document.getElementById("joinServerUsername").value = username;
-if (username !== "" && username !== undefined && username !== "undefined") {
-for (let i = 0; i < serverData.length; i++) {
-var user = serverData[i]["USER - " + username];
-var serverEle = document.createElement("div");
-serverEle.title = serverData[i]["USER - " + username];
-serverEle.textContent = serverData[i]["USER - " + username];
-serverEle.className = "server";
-document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
-document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
-}
-}
 for (let i = 0; i < serverData.length; i++) {
 var messageData = serverData[i]["Racket"];
 if (messageData !== "") {
@@ -1065,6 +1054,17 @@ clearInterval(interval);
 loadData("USER - " + localStorage.getItem("username"));
 }
 })
+}
+if (username !== "" && username !== undefined && username !== "undefined") {
+for (let i = 0; i < serverData.length; i++) {
+var user = serverData[i]["USER - " + username];
+var serverEle = document.createElement("div");
+serverEle.title = user;
+serverEle.textContent = user[0];
+serverEle.className = "server";
+document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
+document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
+}
 }
 document.body.style.opacity = 1;
 }, 500)
