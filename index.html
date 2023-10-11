@@ -61,6 +61,11 @@
 </div>
 </div>
 <div id="alert" onclick="closeAlert()">Invalid username or password!</div>
+<div id="errorPage">
+<div id="errorPageCode"></div>
+<div id="errorPageText"></div>
+<div class="retryBTN" onclick="location.reload()">Retry</div>
+</div>
 <style>
 body {
 margin: 0;
@@ -707,6 +712,65 @@ text-align: center;
 #alert:hover {
 filter: brightness(125%);
 }
+
+#errorPage {
+width: 100%;
+height: 100%;
+position: absolute;
+top: 0;
+left: 0;
+background-color: #1d1d1d;
+user-select: none;
+z-index: 999;
+}
+
+#errorPageCode {
+display: flex;
+align-items: end;
+justify-content: center;
+width: 100%;
+height: 50%;
+padding: 1vw;
+box-sizing: border-box;
+color: #e1e1e1;
+font-size: 13vw;
+font-family: sans-serif;
+font-weight: 1000;
+position: absolute;
+top: 0;
+left: 0;
+}
+
+#errorPageText {
+display: flex;
+align-items: start;
+justify-content: center;
+width: 100%;
+height: 50%;
+padding: 1vw;
+box-sizing: border-box;
+color: #e1e1e1;
+font-size: 3vw;
+position: absolute;
+bottom: 0;
+left: 0;
+}
+
+.retryBTN {
+color: #fff;
+font-size: 3vw;
+width: 15%;
+padding: 1vw;
+position: absolute;
+left: 41.5%;
+height: 7%;
+display: flex;
+align-items: center;
+justify-content: center;
+bottom: 10%;
+border: .25vw solid #bb86fc;
+cursor: pointer;
+}
 </style>
 <script>
 var form = document.getElementById("chatForm");
@@ -899,14 +963,33 @@ alert("Invalid username or password.");
 }
 }
 function updateData() {
-var apiUrl = 'https://sheetdb.io/api/v1/2azyssbcwwacw';
-fetch(apiUrl).then(response => { 
+var url1 = 'https://sheetdb.io/api/v1/2azyssbcwwacw';
+var url2 = "https://sheetdb.io/api/v1/wcerjuwpbkhvo";
+var url3 = "https://sheetdb.io/api/v1/8zatodczc4enz";
+fetch(url1).then(response => { 
 return response.json(); 
 }).then(data => { 
 serverData = data;
-}).catch(err) {
-alert(err);
+console.log("Server 1 connected.");
+}).catch(err => {
+fetch(url2).then(response => { 
+return response.json(); 
+}).then(data => { 
+serverData = data;
+console.log("Server 2 connected.");
+}).catch(err => {
+fetch(url3).then(response => { 
+return response.json(); 
+}).then(data => { 
+serverData = data;
+console.log("Server 3 connected.");
+}).catch(err => {
+loadError("503", "All servers are currently down. Check back later!");
+})
 }
+})
+}
+})
 }
 updateData();
 function loadData(username) {
@@ -977,4 +1060,9 @@ loadData(localStorage.getItem("username"));
 }
 document.body.style.opacity = 1;
 }, 500)
+function loadError(code, text) {
+document.getElementById("errorPage").style.display = "block";
+document.getElementById("errorPageCode").textContent = code;
+document.getElementById("errorPageText").textContent = text;
+}
 </script>
