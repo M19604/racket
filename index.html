@@ -752,7 +752,7 @@ username.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
 username.textContent = messageData.split(" - ")[0] + " ";
-if (messageData.trim().includes(" ")) {
+if (messageData.trim().includes(" ") && messageData !== "") {
 icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.split(" - ")[0].split(" ")[1][0];
 } else {
 icon.textContent = messageData.split(" - ")[0][0];
