@@ -1003,7 +1003,7 @@ document.getElementById("chatUsername").value = username;
 document.getElementById("serverUsername").value = username;
 document.getElementById("joinServerUsername").value = username;
 for (let i = 0; i < serverData.length; i++) {
-if (serverData[i]["USER - " + username] !== "") {
+if (serverData[i]["USER - " + username] !== "" && serverData[i]["USER - " + username] !== undefined && serverData[i]["USER - " + username] !== "undefined") {
 var serverEle = document.createElement("div");
 serverEle.title = serverData[i]["USER - " + username];
 serverEle.textContent = serverEle.title[0];
