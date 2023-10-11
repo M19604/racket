@@ -951,7 +951,6 @@ location.reload();
 }
 function login() {
 var logged = false;
-console.log(serverData)
 if (document.getElementById("loginUsername").value !== "") {
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["USERNAMES"] === document.getElementById("loginUsername").value && serverData[i]["PASSWORDS"] === document.getElementById("loginPassword").value) {
