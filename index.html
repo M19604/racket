@@ -722,6 +722,7 @@ left: 0;
 background-color: #1d1d1d;
 user-select: none;
 z-index: 999;
+display: none;
 }
 
 #errorPageCode {
@@ -969,28 +970,27 @@ var url3 = "https://sheetdb.io/api/v1/8zatodczc4enz";
 fetch(url1).then(response => { 
 return response.json(); 
 }).then(data => { 
-serverData = data;
 console.log("Server 1 connected.");
-}).catch(err => {
+if (data[0] === undefined) {
 fetch(url2).then(response => { 
 return response.json(); 
 }).then(data => { 
-serverData = data;
-console.log("Server 2 connected.");
-}).catch(err => {
+console.log("Server 1 connected.");
+if (data[0] === undefined) {
 fetch(url3).then(response => { 
 return response.json(); 
 }).then(data => { 
-serverData = data;
-console.log("Server 3 connected.");
-}).catch(err => {
-loadError("503", "All servers are currently down. Check back later!");
-})
-})
-})
+console.log("Server 1 connected.");
+if (data[0] === undefined) {
+loadError("503", "Our servers are currently down. Check back later!");
 }
 })
 }
+}
+})
+}
+}
+})
 }
 updateData();
 function loadData(username) {
