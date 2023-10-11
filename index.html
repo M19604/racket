@@ -904,7 +904,9 @@ fetch(apiUrl).then(response => {
 return response.json(); 
 }).then(data => { 
 serverData = data;
-})
+}).catch(err) {
+alert(err);
+}
 }
 updateData();
 function loadData(username) {
