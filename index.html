@@ -952,7 +952,7 @@ location.reload();
 }
 function login() {
 var logged = false;
-if (document.getElementById("loginUsername").value !== "") {
+if (localStorage.getItem("username") !== "") {
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["USERNAMES"] === document.getElementById("loginUsername").value && serverData[i]["PASSWORDS"] === document.getElementById("loginPassword").value) {
 loadData(document.getElementById("loginUsername").value);
@@ -1002,8 +1002,9 @@ setTimeout(function() {
 document.getElementById("chatUsername").value = username;
 document.getElementById("serverUsername").value = username;
 document.getElementById("joinServerUsername").value = username;
+if (username !== "" && username !== undefined && username !== "undefined") {
 for (let i = 0; i < serverData.length; i++) {
-if (serverData[i]["USER - " + username] !== "" && serverData[i]["USER - " + username] !== undefined && serverData[i]["USER - " + username] !== "undefined") {
+var user = serverData[i]["USER - " + username];
 var serverEle = document.createElement("div");
 serverEle.title = serverData[i]["USER - " + username];
 serverEle.textContent = serverData[i]["USER - " + username];
