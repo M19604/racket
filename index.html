@@ -75,6 +75,7 @@ align-items: center;
 justify-content: center;
 background-color: #121212;
 opacity: 0;
+overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -817,7 +818,7 @@ username.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
 username.textContent = messageData.split(" - ")[0] + " ";
-if (messageData.trim().includes(" ") && messageData !== "") {
+if (messageData.split(" - ")[0].trim().includes(" ") && messageData !== "") {
 icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.split(" - ")[0].split(" ")[1][0];
 } else {
 icon.textContent = messageData.split(" - ")[0][0];
@@ -997,6 +998,7 @@ loadError("503", "Our servers are currently down. Check back later!");
 }
 updateData();
 function loadData(username) {
+setTimeout(function() {
 document.getElementById("chatUsername").value = username;
 document.getElementById("serverUsername").value = username;
 document.getElementById("joinServerUsername").value = username;
@@ -1044,6 +1046,7 @@ username.appendChild(vs);
 }
 }
 }
+}, 500)
 }
 window.alert = function(text) {
 document.getElementById("alert").textContent = text;
