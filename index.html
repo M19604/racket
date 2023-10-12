@@ -1012,7 +1012,7 @@ header.className = "header";
 var icon = document.createElement("div");
 icon.id = "icon";
 var usernameEle = document.createElement("a");
-username.id = "username";
+usernameEle.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
 usernameEle.textContent = messageData.split(" - ")[0] + " ";
@@ -1037,7 +1037,6 @@ usernameEle.appendChild(vs);
 }
 }
 for (let i = 0; i < serverData.length; i++) {
-console.log(username);
 if (serverData[i]["USER - " + username.trim()] !== "" && serverData[i]["USER - " + username.trim()] !== undefined) {
 var user = serverData[i]["USER - " + username.trim()];
 var serverEle = document.createElement("div");
