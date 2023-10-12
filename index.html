@@ -1069,8 +1069,8 @@ loadData(localStorage.getItem("username"));
 }
 document.body.style.opacity = 1;
 if (localStorage.getItem("username") === "Test") {
-localStorage.remove("username");
-localStorage.remove("password");
+localStorage.removeItem("username");
+localStorage.removeItem("password");
 }
 }, 500)
 function loadError(code, text) {
