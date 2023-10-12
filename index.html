@@ -1037,13 +1037,12 @@ username.appendChild(vs);
 }
 }
 for (let i = 0; i < serverData.length; i++) {
-if (serverData[i]["USER - Luke Skutt"] !== "" && serverData[i]["USER - Luke Skutt"] !== undefined) {
+if (serverData[i]["USER - " + username] !== "" && serverData[i]["USER - " + username] !== undefined) {
 var user = serverData[i]["USER - " + username];
 var serverEle = document.createElement("div");
 serverEle.title = user;
-serverEle.textContent = serverData[i]["USER - Luke Skutt"][0];
+serverEle.textContent = serverData[i]["USER - " + username][0];
 serverEle.className = "server";
-console.log(serverData[i]["USER - Luke Skutt"])
 document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
 document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
 }
