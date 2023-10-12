@@ -1003,6 +1003,18 @@ document.getElementById("chatUsername").value = username;
 document.getElementById("serverUsername").value = username;
 document.getElementById("joinServerUsername").value = username;
 for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["USER - " + username.trim()] !== "" && serverData[i]["USER - " + username.trim()] !== undefined) {
+var user = serverData[i]["USER - " + username.trim()];
+var serverEle = document.createElement("div");
+console.log(username);
+serverEle.title = user;
+serverEle.textContent = serverData[i]["USER - " + username.trim()][0];
+serverEle.className = "server";
+document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
+document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
+}
+}
+for (let i = 0; i < serverData.length; i++) {
 var messageData = serverData[i]["Racket"];
 if (messageData !== "") {
 var ele = document.createElement("div");
@@ -1034,18 +1046,6 @@ vs.textContent = "verified_user";
 usernameEle.appendChild(vs);
 }
 }
-}
-}
-for (let i = 0; i < serverData.length; i++) {
-if (serverData[i]["USER - " + username.trim()] !== "" && serverData[i]["USER - " + username.trim()] !== undefined) {
-var user = serverData[i]["USER - " + username.trim()];
-var serverEle = document.createElement("div");
-console.log(username);
-serverEle.title = user;
-serverEle.textContent = serverData[i]["USER - " + username.trim()][0];
-serverEle.className = "server";
-document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
-document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
 }
 }
 }, 1500)
