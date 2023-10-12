@@ -1068,10 +1068,6 @@ loadData(localStorage.getItem("username"));
 })
 }
 document.body.style.opacity = 1;
-if (localStorage.getItem("username") === "Test") {
-localStorage.removeItem("username");
-localStorage.removeItem("password");
-}
 }, 500)
 function loadError(code, text) {
 document.getElementById("errorPage").style.display = "block";
