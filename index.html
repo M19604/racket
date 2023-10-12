@@ -95,6 +95,7 @@ position: absolute;
 right: 0;
 overflow-y: auto;
 padding-bottom: 6vw;
+padding-top: 3vw;
 }
 
 #chat #message {
@@ -829,7 +830,7 @@ ele.appendChild(header);
 header.appendChild(icon);
 header.appendChild(username);
 ele.appendChild(text);
-document.getElementById("chat").scrollTop = document.getElementById("chat").height;
+document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
 var vs = document.createElement("a");
