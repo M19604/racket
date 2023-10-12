@@ -1011,17 +1011,17 @@ var header = document.createElement("div");
 header.className = "header";
 var icon = document.createElement("div");
 icon.id = "icon";
-var username = document.createElement("a");
+var usernameEle = document.createElement("a");
 username.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
-username.textContent = messageData.split(" - ")[0] + " ";
+usernameEle.textContent = messageData.split(" - ")[0] + " ";
 icon.textContent = messageData.split(" - ")[0][0];
 text.textContent = messageData.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
 header.appendChild(icon);
-header.appendChild(username);
+header.appendChild(usernameEle);
 ele.appendChild(text);
 document.getElementById("chat").scrollTop = document.getElementById("chat").height;
 for (let i = 0; i < serverData.length; i++) {
@@ -1038,11 +1038,11 @@ username.appendChild(vs);
 }
 for (let i = 0; i < serverData.length; i++) {
 console.log(username);
-if (serverData[i]["USER - " + username] !== "" && serverData[i]["USER - " + username] !== undefined) {
-var user = serverData[i]["USER - " + username];
+if (serverData[i]["USER - " + username.trim()] !== "" && serverData[i]["USER - " + username.trim()] !== undefined) {
+var user = serverData[i]["USER - " + username.trim()];
 var serverEle = document.createElement("div");
 serverEle.title = user;
-serverEle.textContent = serverData[i]["USER - " + username][0];
+serverEle.textContent = serverData[i]["USER - " + username.trim()][0];
 serverEle.className = "server";
 document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
 document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
