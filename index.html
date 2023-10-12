@@ -1024,17 +1024,6 @@ header.appendChild(icon);
 header.appendChild(username);
 ele.appendChild(text);
 document.getElementById("chat").scrollTop = document.getElementById("chat").height;
-if (username !== "" && username !== undefined && username !== "undefined") {
-for (let i = 0; i < serverData.length; i++) {
-var user = serverData[i]["USER - " + username];
-var serverEle = document.createElement("div");
-serverEle.title = user;
-serverEle.textContent = user[0];
-serverEle.className = "server";
-document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
-document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
-}
-}
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
 var vs = document.createElement("a");
@@ -1045,6 +1034,18 @@ vs.textContent = "verified_user";
 username.appendChild(vs);
 }
 }
+}
+}
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["USER - Luke Skutt"] !== "" && serverData[i]["USER - Luke Skutt"] !== undefined) {
+var user = serverData[i]["USER - " + username];
+var serverEle = document.createElement("div");
+serverEle.title = user;
+serverEle.textContent = serverData[i]["USER - Luke Skutt"][0];
+serverEle.className = "server";
+console.log(serverData[i]["USER - Luke Skutt"])
+document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
+document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
 }
 }
 }, 1500)
