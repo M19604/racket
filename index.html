@@ -1037,10 +1037,10 @@ username.appendChild(vs);
 }
 }
 for (let i = 0; i < serverData.length; i++) {
+console.log(username);
 if (serverData[i]["USER - " + username] !== "" && serverData[i]["USER - " + username] !== undefined) {
 var user = serverData[i]["USER - " + username];
 var serverEle = document.createElement("div");
-console.log(username);
 serverEle.title = user;
 serverEle.textContent = serverData[i]["USER - " + username][0];
 serverEle.className = "server";
