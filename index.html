@@ -830,14 +830,14 @@ for (let i = 0; i < Object.keys(emojis).length; i++) {
 messageContent = messageData.split(" - ")[1].replaceAll(":" + Object.keys(emojis)[i] + ":", Object.values(emojis)[i]);
 if (i === Object.keys(emojis).length) {
 text.textContent = messageContent;
-}
-}
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
 header.appendChild(icon);
 header.appendChild(username);
 ele.appendChild(text);
 document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
+}
+}
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
 var vs = document.createElement("a");
@@ -1073,13 +1073,19 @@ var text = document.createElement("a");
 text.id = "messageText";
 usernameEle.textContent = messageData.split(" - ")[0] + " ";
 icon.textContent = messageData.split(" - ")[0][0];
-text.textContent = messageData.split(" - ")[1];
+var messageContent = "";
+for (let i = 0; i < Object.keys(emojis).length; i++) {
+messageContent = messageData.split(" - ")[1].replaceAll(":" + Object.keys(emojis)[i] + ":", Object.values(emojis)[i]);
+if (i === Object.keys(emojis).length) {
+text.textContent = messageContent;
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
 header.appendChild(icon);
-header.appendChild(usernameEle);
+header.appendChild(username);
 ele.appendChild(text);
 document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
+}
+}
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
 var vs = document.createElement("a");
