@@ -1070,7 +1070,7 @@ text.textContent = messageData.split(" - ")[0];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
 header.appendChild(icon);
-header.appendChild(username);
+header.appendChild(usernameEle);
 ele.appendChild(text);
 document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
 for (let i = 0; i < serverData.length; i++) {
