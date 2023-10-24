@@ -828,7 +828,7 @@ icon.textContent = messageData.split(" - ")[0][0];
 var messageContent = "";
 for (let i = 0; i < Object.keys(emojis).length; i++) {
 messageContent = messageData.split(" - ")[1].replaceAll(":" + Object.keys(emojis)[i] + ":", Object.values(emojis)[i]);
-if (i === Object.keys(emojis).length) {
+if (i === Object.keys(emojis).length - 1) {
 text.textContent = messageContent;
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
