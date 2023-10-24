@@ -782,7 +782,7 @@ var serverData = null;
 form.addEventListener("submit", e => {
 e.preventDefault();
 })
-var slowmodeTime = 10;
+var slowmodeTime = 30;
 var slowmode = 0;
 input.addEventListener("keyup", e => {
 if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0) {
@@ -824,7 +824,7 @@ icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.sp
 } else {
 icon.textContent = messageData.split(" - ")[0][0];
 }
-text.textContent = messageData.split(" - ")[0];
+text.textContent = messageData.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
 header.appendChild(icon);
@@ -1066,7 +1066,7 @@ var text = document.createElement("a");
 text.id = "messageText";
 usernameEle.textContent = messageData.split(" - ")[0] + " ";
 icon.textContent = messageData.split(" - ")[0][0];
-text.textContent = messageData.split(" - ")[0];
+text.textContent = messageData.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
 header.appendChild(icon);
