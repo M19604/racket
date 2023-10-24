@@ -886,7 +886,7 @@ document.getElementById("createServerPage").style.right = 0;
 if (e.target.id === "joinServer" || e.target.parentElement.id === "joinServer") {
 document.getElementById("joinServerPage").style.left = 0;
 }
-if (e.target.className === "serverCreateBTN" && document.getElementById("serverName").value !== "" && document.getElementById("serverCode").value !== "") {
+if (e.target.className === "serverCreateBTN" && document.getElementById("serverName").value.trim() !== "" && document.getElementById("serverCode").value.trim() !== "" && document.getElementById("serverName").value.trim() !== "SERVERCODES" && document.getElementById("serverName").value.trim() !== "USERNAMES" && document.getElementById("serverName").value.trim() !== "PASSWORDS" && !document.getElementById("serverName").value.trim().includes("USER -") && document.getElementById("serverName").value.trim() !== "SERVERLIST" && document.getElementById("serverName").value.trim() !== "VERIFIEDSUPPORTERS" && document.getElementById("serverName").value.trim() !== "SERVERCODES") {
 const form1 = document.getElementById("serverForm");
 var scriptURL = "https://script.google.com/macros/s/AKfycbxQLlIitJkjZIpIP2EzbdGXar-ZSIgO9ydb_YJOvlI3daHPZ3YmUn3Lm2cMzo32eWV-Kg/exec";
 fetch(scriptURL, {method:"POST", body: new FormData(form1)});
