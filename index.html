@@ -199,7 +199,7 @@ cursor: pointer;
 }
 
 .sidebar #signoutBTN {
-width: 100%;
+width: 8%;
 height: auto;
 padding: 2vw;
 box-sizing: border-box;
@@ -216,6 +216,7 @@ box-shadow: 0 -1vw 3vw #121212;
 user-select: none;
 cursor: pointer;
 transition: .5s;
+overflow-x: hidden;
 }
 
 .sidebar #signoutBTN:hover {
@@ -1129,8 +1130,8 @@ setTimeout(function() {
 if (serverData !== null && localStorage.getItem("username") !== null && localStorage.getItem("password") !== null) {
 loadData(localStorage.getItem("username"));
 document.getElementById("loginPage").style.display = "none";
-document.body.style.opacity = 1;
 }
+document.body.style.opacity = 1;
 }, 2000)
 function loadError(code, text) {
 document.getElementById("errorPage").style.display = "block";
