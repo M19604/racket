@@ -209,7 +209,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 background-color: #121212;
-position: absolute;
+position: fixed;
 bottom: 0;
 left: 0;
 box-shadow: 0 -1vw 3vw #121212;
@@ -955,6 +955,11 @@ setTimeout(function() {
 document.getElementById("joinServerName").value = "";
 }, 100)
 }
+}
+if (e.target.id === "signoutBTN") {
+localStorage.removeItem("username");
+localStorage.removeItem("password");
+location.reload();
 }
 })
 function openSignup() {
