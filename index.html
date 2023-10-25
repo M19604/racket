@@ -1094,14 +1094,13 @@ document.getElementById("alert").style.top = "3%";
 function closeAlert() {
 document.getElementById("alert").style.top = "-7%";
 }
-var loadingInterval = setInterval(function() {
+setTimeout(function() {
 if (serverData !== null && localStorage.getItem("username") !== null && localStorage.getItem("password") !== null) {
-clearInterval(loadingInterval);
 loadData(localStorage.getItem("username"));
 document.getElementById("loginPage").style.display = "none";
 document.body.style.opacity = 1;
 }
-})
+}, 2000)
 function loadError(code, text) {
 document.getElementById("errorPage").style.display = "block";
 document.getElementById("errorPageCode").textContent = code;
