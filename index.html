@@ -1094,7 +1094,7 @@ document.getElementById("alert").style.top = "3%";
 function closeAlert() {
 document.getElementById("alert").style.top = "-7%";
 }
-setTimeout(function() {
+window.onload = function() {
 if (localStorage.getItem("username") !== null && localStorage.getItem("password") !== null) {
 document.getElementById("loginPage").style.display = "none";
 var interval = setInterval(function() {
@@ -1102,7 +1102,7 @@ if (serverData !== null) {
 clearInterval(interval);
 loadData(localStorage.getItem("username"));
 }
-})
+}
 }
 document.body.style.opacity = 1;
 }, 1000)
