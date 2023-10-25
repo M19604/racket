@@ -3,7 +3,7 @@
 <title>Racket</title>
 <div id="chat">
 <form id="chatForm">
-<input id="message" name="Message" placeholder="Type here..." maxlength="50">
+<input id="message" name="Message" placeholder="Type here..." maxlength="250">
 <input id="serverName" name="Server" value="Racket" hidden>
 <input id="chatUsername" name="Username" value="" hidden>
 </form>
@@ -782,7 +782,7 @@ var serverData = null;
 form.addEventListener("submit", e => {
 e.preventDefault();
 })
-var slowmodeTime = 30;
+var slowmodeTime = 5;
 var slowmode = 0;
 input.addEventListener("keyup", e => {
 if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0) {
