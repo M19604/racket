@@ -1094,18 +1094,14 @@ document.getElementById("alert").style.top = "3%";
 function closeAlert() {
 document.getElementById("alert").style.top = "-7%";
 }
-setTimeout(function() {
-if (localStorage.getItem("username") !== null && localStorage.getItem("password") !== null) {
-document.getElementById("loginPage").style.display = "none";
-var interval = setInterval(function() {
-if (serverData !== null) {
-clearInterval(interval);
+var loadingInterval = setInterval(function() {
+if (serverData !== null && localStorage.getItem("username") !== null && localStorage.getItem("password") !== null) {
+clearInterval(loadingInterval);
 loadData(localStorage.getItem("username"));
+document.getElementById("loginPage").style.display = "none";
+document.body.style.opacity = 1;
 }
 })
-}
-document.body.style.opacity = 1;
-}, 1000)
 function loadError(code, text) {
 document.getElementById("errorPage").style.display = "block";
 document.getElementById("errorPageCode").textContent = code;
