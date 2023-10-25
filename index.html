@@ -177,6 +177,7 @@ position: absolute;
 top: 0;
 left: 0;
 overflow-y: auto;
+overflow-x: hidden;
 }
 
 .sidebar .addServer,
@@ -211,6 +212,14 @@ background-color: #121212;
 position: absolute;
 bottom: 0;
 left: 0;
+box-shadow: 0 -1vw 3vw #121212;
+user-select: none;
+cursor: pointer;
+transition: .5s;
+}
+
+.sidebar #signoutBTN:hover {
+color: #ff775e;
 }
 
 .sidebar .addServer {
