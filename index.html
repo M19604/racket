@@ -67,6 +67,12 @@
 <div id="errorPageText"></div>
 <div class="retryBTN" onclick="location.reload()">Retry</div>
 </div>
+<div id="serverNameElement"></div>
+<div class="material-icons" id="memberListBTN">menu</div>
+<div id="memberList">
+<div id="memberListTitle"></div>
+</div>
+<div id="memberListBox"></div>
 <style>
 body {
 margin: 0;
@@ -133,7 +139,6 @@ align-items: center;
 #chat .message #icon {
 width: 3vw;
 height: 3vw;
-background-color: mediumseagreen;
 display: inline-flex;
 align-items: center;
 justify-content: center;
@@ -216,7 +221,6 @@ box-shadow: 0 -1vw 3vw #121212;
 user-select: none;
 cursor: pointer;
 transition: .5s;
-overflow-x: hidden;
 }
 
 .sidebar #signoutBTN:hover {
@@ -801,6 +805,115 @@ bottom: 10%;
 border: .25vw solid #bb86fc;
 cursor: pointer;
 }
+
+#serverNameElement {
+padding-right: 1vw;
+padding-left: 1vw;
+background-color: #121212;
+box-shadow: 0 .15vw .5vw #0c0c0c;
+font-size: 2vw;
+color: #e1e1e1;
+position: absolute;
+left: 9%;
+top: 0;
+border-radius: 1vw;
+height: 5vw;
+display: none;
+align-items: center;
+justify-content: center;
+user-select: none;
+}
+
+#memberListBTN {
+width: 5vw;
+height: 5vw;
+background-color: #121212;
+box-shadow: 0 .15vw .5vw #0c0c0c;
+border-radius: 50%;
+color: #e1e1e1;
+font-size: 3vw;
+display: flex;
+align-items: center;
+justify-content: center;
+position: absolute;
+top: 1vw;
+right: 1vw;
+user-select: none;
+cursor: pointer;
+transition: .5s;
+}
+
+#memberListBTN:hover {
+filter: brightness(115%);
+}
+
+#memberList {
+height: 100%;
+width: 25%;
+background-color: #1e1e1e;
+position: absolute;
+top: 0;
+right: -25%;
+transition: .5s;
+box-shadow: 0 .15vw 5vw #0c0c0c;
+overflow-y: auto;
+z-index: 2;
+}
+
+#memberListBox {
+width: 100%;
+height: 100%;
+position: absolute;
+top: 0;
+left: 0;
+display: none;
+opacity: .5;
+background-color: #121212;
+cursor: pointer;
+}
+
+#memberList #memberListTitle {
+width: 100%;
+font-size: 2vw;
+color: #fff;
+font-weight: bold;
+text-align: center;
+padding: 1vw;
+box-sizing: border-box;
+user-select: none;
+}
+
+#memberList .member {
+width: 100%;
+padding: .5vw;
+box-sizing: border-box;
+text-align: center;
+}
+
+#memberList .member #memberIcon {
+width: 3vw;
+height: 3vw;
+border-radius: 50%;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+color: #e1e1e1;
+font-weight: bold;
+box-shadow: 0 .15vw .5vw #0c0c0c;
+user-select: none;
+font-size: 1.5vw;
+}
+
+#memberList .member #memberName {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+color: #e1e1e1;
+height: 5vw;
+padding-left: 1vw;
+font-size: 1.5vw;
+user-select: none;
+}
 </style>
 <script>
 var form = document.getElementById("chatForm");
@@ -827,7 +940,7 @@ slowmode = 0;
 })
 document.addEventListener("click", e => {
 if (e.target.className === "server") {
-document.getElementById("serverName").value = e.target.title;
+document.getElementById("serverName").value = e.target.name;
 var messages = document.getElementsByClassName("message");
 while (messages[0]) {
 messages[0].remove();
@@ -851,6 +964,8 @@ icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.sp
 } else {
 icon.textContent = messageData.split(" - ")[0][0];
 }
+var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 text.textContent = messageData.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
@@ -961,6 +1076,43 @@ if (e.target.id === "signoutBTN") {
 localStorage.removeItem("username");
 localStorage.removeItem("password");
 location.reload();
+}
+if (e.target.id === "memberListBTN") {
+var members = document.getElementsByClassName("member");
+while (members[0]) {
+members[0].remove();
+}
+document.getElementById("memberListTitle").textContent = document.getElementById("serverName").value;
+for (let i = 0; i < serverData.length; i++) {
+for (let a = 0; a < serverData.length; a++) {
+if (serverData[i]["USER - " + serverData[a]["USERNAMES"]] === document.getElementById("serverName").value) {
+var member = document.createElement("div");
+member.className = "member";
+var memberIcon = document.createElement("div");
+memberIcon.id = "memberIcon";
+var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+memberIcon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+memberIcon.textContent = serverData[a]["USERNAMES"];
+if (serverData[a]["USERNAMES"].split(" ")[1] !== undefined) {
+memberIcon.textContent = serverData[a]["USERNAMES"].split(" ")[0][0] + serverData[a]["USERNAMES"].split(" ")[1][0];
+} else {
+memberIcon.textContent = serverData[a]["USERNAMES"][0];
+}
+var memberName = document.createElement("div");
+memberName.id = "memberName";
+memberName.textContent = serverData[a]["USERNAMES"];
+document.getElementById("memberList").appendChild(member);
+member.appendChild(memberIcon);
+member.appendChild(memberName);
+}
+}
+}
+document.getElementById("memberList").style.right = "0";
+document.getElementById("memberListBox").style.display = "block";
+}
+if (e.target.id === "memberListBox") {
+document.getElementById("memberList").style.right = "-25%";
+document.getElementById("memberListBox").style.display = "none";
 }
 })
 function openSignup() {
@@ -1076,7 +1228,7 @@ for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["USER - " + username.trim()] !== "" && serverData[i]["USER - " + username.trim()] !== undefined) {
 var user = serverData[i]["USER - " + username.trim()];
 var serverEle = document.createElement("div");
-serverEle.title = user;
+serverEle.name = user;
 serverEle.textContent = serverData[i]["USER - " + username.trim()][0];
 serverEle.className = "server";
 document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
@@ -1097,7 +1249,13 @@ usernameEle.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
 usernameEle.textContent = messageData.split(" - ")[0] + " ";
+if (messageData.split(" - ")[0].trim().includes(" ") && messageData !== "") {
+icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.split(" - ")[0].split(" ")[1][0];
+} else {
 icon.textContent = messageData.split(" - ")[0][0];
+}
+var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 text.textContent = messageData.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
@@ -1138,4 +1296,17 @@ document.getElementById("errorPage").style.display = "block";
 document.getElementById("errorPageCode").textContent = code;
 document.getElementById("errorPageText").textContent = text;
 }
+setTimeout(function() {
+var serverEles = document.getElementsByClassName("server");
+for (let i = 0; i < serverEles.length; i++) {
+serverEles[i].addEventListener("mouseover", e => {
+document.getElementById("serverNameElement").style.top = serverEles[i].getBoundingClientRect().top;
+document.getElementById("serverNameElement").textContent = serverEles[i].name;
+document.getElementById("serverNameElement").style.display = "flex";
+})
+serverEles[i].addEventListener("mouseout", e => {
+document.getElementById("serverNameElement").style.display = "none";
+})
+}
+}, 5000)
 </script>
