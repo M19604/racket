@@ -1287,6 +1287,9 @@ var usernameEle = document.createElement("a");
 usernameEle.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
+var timestamp = document.createElement("div");
+timestamp.id = "timestamp";
+timestamp.textContent = serverData[i]["TIMESTAMP"];
 usernameEle.textContent = messageData.split(" - ")[0] + " ";
 if (messageData.split(" - ")[0].trim().includes(" ") && messageData !== "") {
 icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.split(" - ")[0].split(" ")[1][0];
@@ -1298,6 +1301,7 @@ icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 text.textContent = messageData.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
+ele.appendChild(timestamp);
 header.appendChild(icon);
 header.appendChild(usernameEle);
 ele.appendChild(text);
