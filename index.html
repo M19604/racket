@@ -119,7 +119,6 @@ position: fixed;
 bottom: 0;
 right: 0;
 user-select: none;
-z-index: 3;
 }
 
 #chat .message {
@@ -953,7 +952,7 @@ var slowmodeTime = 5;
 var slowmode = 0;
 input.addEventListener("keyup", e => {
 if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0) {
-var scriptURL = "https://script.google.com/macros/s/AKfycbwJI4ZLtHy6AafZjz3qkFAqSmlzGjpWwDqnifbh4B-3ToFgEBJHS7N_jw9t5JLoIOLJdg/exec";
+var scriptURL = "https://script.google.com/macros/s/AKfycbzcp7SZ5TMRHjm1Gz7i5zNcTGDuMNHrDcFxPTIvW-49zn8zaCOW1lhmUHDjVK45zAnBLw/exec";
 fetch(scriptURL, {method:"POST", body: new FormData(form)});
 input.value = "";
 var interval = setInterval(function() {
@@ -1350,4 +1349,4 @@ document.getElementById("serverNameElement").style.display = "none";
 }
 }, loadTime*2)
 </script>
-<!-- MADE BY LUKE SKUTT, 2023 -->
+<!-- MADE BY LUKE SKUTT, 2023 -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
