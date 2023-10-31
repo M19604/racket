@@ -1,3 +1,4 @@
+<!-- MADE BY LUKE SKUTT, 2023 -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito Sans">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <title>Racket</title>
@@ -125,6 +126,7 @@ padding: 1vw;
 width: 100%;
 box-sizing: border-box;
 transition: .5s;
+position: relative;
 }
 
 #chat .message:hover {
@@ -174,10 +176,26 @@ padding-left: 4vw;
 overflow-wrap: break-word;
 }
 
+#chat .message #timestamp {
+position: absolute;
+top: 0;
+right: 0;
+padding: 1vw;
+color: #999999;
+font-size: 1vw;
+font-weight: bold;
+display: none;
+user-select: none;
+}
+
+#chat .message:hover #timestamp {
+display: block;
+}
+
 .sidebar {
 background-color: #121212;
 width: 8%;
-height: 100%;
+height: 85%;
 position: absolute;
 top: 0;
 left: 0;
@@ -205,7 +223,7 @@ cursor: pointer;
 
 .sidebar #signoutBTN {
 width: 8%;
-height: auto;
+height: 10%;
 padding: 2vw;
 box-sizing: border-box;
 color: tomato;
@@ -742,6 +760,7 @@ color: tomato;
 cursor: pointer;
 transition: .5s;
 text-align: center;
+z-index: 1000;
 }
 
 #alert:hover {
@@ -933,7 +952,7 @@ var slowmodeTime = 5;
 var slowmode = 0;
 input.addEventListener("keyup", e => {
 if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0) {
-var scriptURL = "https://script.google.com/macros/s/AKfycbySQ1G_jf9XnyVJ-z5GxN1z94PKjc2TQw8oBR53CGbZYuXXMq043KFV-fKwYhg9042kcA/exec";
+var scriptURL = "https://script.google.com/macros/s/AKfycbwJI4ZLtHy6AafZjz3qkFAqSmlzGjpWwDqnifbh4B-3ToFgEBJHS7N_jw9t5JLoIOLJdg/exec";
 fetch(scriptURL, {method:"POST", body: new FormData(form)});
 input.value = "";
 var interval = setInterval(function() {
@@ -965,6 +984,9 @@ var username = document.createElement("a");
 username.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
+var timestamp = document.createElement("div");
+timestamp.id = "timestamp";
+timestamp.textContent = serverData[i]["TIMESTAMP"];
 username.textContent = messageData.split(" - ")[0] + " ";
 if (messageData.split(" - ")[0].trim().includes(" ") && messageData !== "") {
 icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.split(" - ")[0].split(" ")[1][0];
@@ -979,6 +1001,7 @@ ele.appendChild(header);
 header.appendChild(icon);
 header.appendChild(username);
 ele.appendChild(text);
+ele.appendChild(timestamp);
 document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
@@ -1062,7 +1085,7 @@ document.getElementById("serverPage").style.display = "none";
 }
 if (e.target.id === "serverJoinBTN") {
 var joinForm = document.getElementById("joinServerForm");
-var joinScriptURL = "https://script.google.com/macros/s/AKfycbwBPlCKkYYBwAHTNARtn46cTqtZpzLYk2qrb5DQ75dbq1IUQFEdAkSH7ej1riqr3Cb52A/exec";
+var joinScriptURL = "https://script.google.com/macros/s/AKfycbzAZwarw9ifSCINivMOiSKhn-ME6BCsVPlP5Q-sW3nWo9dTWXxNyQYqxbTtaMx_n77unA/exec";
 var serverName = "";
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["SERVERCODES"] === document.getElementById("joinServerName").value) {
@@ -1255,6 +1278,7 @@ var messageData = serverData[i]["Racket"];
 if (messageData !== "") {
 var ele = document.createElement("div");
 ele.className = "message";
+ele.name = serverData[i]["TIMESTAMP"];
 var header = document.createElement("div");
 header.className = "header";
 var icon = document.createElement("div");
@@ -1325,3 +1349,4 @@ document.getElementById("serverNameElement").style.display = "none";
 }
 }, loadTime*2)
 </script>
+<!-- MADE BY LUKE SKUTT, 2023 -->
