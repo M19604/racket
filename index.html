@@ -920,6 +920,7 @@ user-select: none;
 }
 </style>
 <script>
+var loadTime = 2500;
 var form = document.getElementById("chatForm");
 var input = document.getElementById("message");
 var serverData = null;
@@ -1302,7 +1303,7 @@ loadData(localStorage.getItem("username"));
 document.getElementById("loginPage").style.display = "none";
 }
 document.body.style.opacity = 1;
-}, 2000)
+}, loadTime)
 function loadError(code, text) {
 document.getElementById("errorPage").style.display = "block";
 document.getElementById("errorPageCode").textContent = code;
@@ -1320,5 +1321,5 @@ serverEles[i].addEventListener("mouseout", e => {
 document.getElementById("serverNameElement").style.display = "none";
 })
 }
-}, 5000)
+}, loadTime + 2000)
 </script>
