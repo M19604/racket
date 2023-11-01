@@ -74,6 +74,10 @@
 <div id="memberListTitle"></div>
 </div>
 <div id="memberListBox"></div>
+<div id="dmsPage">
+<div class="userTitle">Direct Messages</div>
+<input id="userSearch" placeholder="Search users...">
+</div>
 <style>
 body {
 margin: 0;
@@ -119,6 +123,7 @@ position: fixed;
 bottom: 0;
 right: 0;
 user-select: none;
+z-index: 2;
 }
 
 #chat .message {
@@ -760,7 +765,7 @@ color: tomato;
 cursor: pointer;
 transition: .5s;
 text-align: center;
-z-index: 1000;
+z-index: 999;
 }
 
 #alert:hover {
@@ -843,6 +848,7 @@ display: none;
 align-items: center;
 justify-content: center;
 user-select: none;
+z-index: 3;
 }
 
 #memberListBTN {
@@ -1154,6 +1160,18 @@ document.getElementById("loginPage").style.display = "flex";
 document.getElementById("signupPage").style.display = "none";
 }
 function signup() {
+var exists = false;
+for (let i = 0; i < serverData.length; i++) {
+if (document.getElementById("signupUsername").value === serverData[i]["USERNAMES"]) {
+exists = true;
+alert(exists)
+}
+if (i === serverData.length - 1) {
+if (exists) {
+alert("Username is not available.");
+document.getElementById("signupUsername").value = "";
+document.getElementById("signupPassword").value = "";
+} else {
 var signupForm = document.getElementById("signupForm");
 var scriptURL = "https://script.google.com/macros/s/AKfycbz9cYHq-AGvYjduCyvK5miIUF7NeE-RcVEGrFk-uUxtYvhwuS4bKXBWWwCe_ulIaiz2Yw/exec";
 if (document.getElementById("signupUsername").value.trim() !== "" && document.getElementById("signupPassword").value.trim() !== "" && !document.getElementById("signupUsername").value.includes("-") && document.getElementById("signupUsername") !== "SERVERLIST" && document.getElementById("signupUsername") !== "SERVERCODES" && document.getElementById("signupUsername") !== "USERNAMES" && document.getElementById("signupUsername") !== "PASSWORDS" && document.getElementById("signupUsername") !== "VERIFIEDSUPPORTERS") {
@@ -1165,7 +1183,11 @@ location.reload();
 }, 1500)
 }
 }
+}
+}
+}
 function login() {
+if (document.getElementById("loginUsername").value.trim() !== "") {
 var logged = false;
 if (localStorage.getItem("username") !== "") {
 for (let i = 0; i < serverData.length; i++) {
@@ -1177,6 +1199,7 @@ localStorage.setItem("username", document.getElementById("loginUsername").value)
 localStorage.setItem("password", document.getElementById("loginPassword").value);
 } else if (i === serverData.length - 1 && logged === false) {
 alert("Invalid username or password.");
+}
 }
 }
 }
