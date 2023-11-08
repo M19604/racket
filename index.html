@@ -1523,7 +1523,7 @@ var dmMessages = [];
 var names = [];
 names.push(document.getElementById("dmUsername").value.trim(), e.target.name.trim());
 names.sort();
-document.getElementById("dmName").value = names[0] + " / " + names[1];
+document.getElementById("dmName").value = names.sort()[0] + " / " + names.sort()[1];
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["DIRECTMESSAGES"].split(" + ")[0] === names[0] + " / " + names[1]) {
 dmMessages.push(serverData[i]["DIRECTMESSAGES"]);
