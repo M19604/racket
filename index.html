@@ -1006,7 +1006,7 @@ color: #fff;
 border: none;
 outline: none;
 font-size: 2vw;
-height: 5%;
+height: 8%;
 padding-left: 3vw;
 padding-right: 3vw;
 transition: .5s;
@@ -1716,10 +1716,10 @@ var timestamp = document.createElement("div");
 timestamp.id = "timestamp";
 timestamp.textContent = serverData[i]["TIMESTAMP"];
 username.textContent = messageData[i].split(" + ")[1].split(" - ")[0] + " ";
-if (messageData[i].split(" - ")[0].trim().includes(" ") && messageData[i] !== "") {
-icon.textContent = messageData[i].split(" - ")[0].split(" ")[0][0] + messageData[i].split(" - ")[0].split(" ")[1][0];
+if (username.textContent.trim().includes(" ")) {
+icon.textContent = username.textContent.split(" ")[0][0] + username.textContent.split(" ")[1][0];
 } else {
-icon.textContent = messageData[i].split(" - ")[0][0];
+icon.textContent = username.textContent[0];
 }
 var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
 icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
