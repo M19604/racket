@@ -4,12 +4,13 @@
 <title>Racket</title>
 <div id="chat">
 <form id="chatForm">
-<input id="message" name="Message" placeholder="Type here..." maxlength="250">
+<input id="message" name="Message" placeholder="Type here..." maxlength="250" autocomplete="off">
 <input id="serverName" name="Server" value="Racket" hidden>
 <input id="chatUsername" name="Username" value="" hidden>
 </form>
 </div>
 <div class="sidebar">
+<div class="material-icons" id="dmsBTN">forum<div class="notificationIcon"></div></div>
 <div class="addServer">+</div>
 <div class="material-icons" id="signoutBTN">logout</div>
 </div>
@@ -77,6 +78,16 @@
 <div id="dmsPage">
 <div class="userTitle">Direct Messages</div>
 <input id="userSearch" placeholder="Search users...">
+<div id="dmContainer"></div>
+</div>
+</div>
+</div>
+<div id="dmChat">
+<form id="dmForm">
+<input id="dmMessage" name="Message" placeholder="Type here..." maxlength="250" autocomplete="off">
+<input id="dmName" name="DMTitle" value="" hidden>
+<input id="dmUsername" name="Username" value="" hidden>
+</form>
 </div>
 <style>
 body {
@@ -99,6 +110,7 @@ color: #1e1e1e;
 background-color: #bb86fc;
 }
 
+#dmChat,
 #chat {
 width: 92%;
 height: 100%;
@@ -108,8 +120,15 @@ right: 0;
 overflow-y: auto;
 padding-bottom: 8vw;
 padding-top: 3vw;
+z-index: 0;
 }
 
+#dmChat {
+display: none;
+z-index: 5;
+}
+
+#dmChat #dmMessage,
 #chat #message {
 width: 92%;
 outline: none;
@@ -126,6 +145,7 @@ user-select: none;
 z-index: 2;
 }
 
+#dmChat .message,
 #chat .message {
 padding: 1vw;
 width: 100%;
@@ -134,15 +154,18 @@ transition: .5s;
 position: relative;
 }
 
+#dmChat .message:hover,
 #chat .message:hover {
 background-color: #252525;
 }
 
+#dmChat .message .header,
 #chat .message .header {
 display: flex;
 align-items: center;
 }
 
+#dmChat .message #icon,
 #chat .message #icon {
 width: 3vw;
 height: 3vw;
@@ -156,6 +179,8 @@ user-select: none;
 box-shadow: 0 .15vw .5vw #1e1e1e;
 }
 
+#dmChat .message #verified,
+#dmChat .message #username,
 #chat .message #verified,
 #chat .message #username {
 color: #e1e1e1;
@@ -169,11 +194,13 @@ padding-left: 1vw;
 user-select: none;
 }
 
+#dmChat .message #verified,
 #chat .message #verified {
 padding-left: .25vw;
 color: #bb86fc;
 }
 
+#dmChat .message #messageText,
 #chat .message #messageText {
 color: #e1e1e1;
 font-size: 1.5vw;
@@ -181,6 +208,7 @@ padding-left: 4vw;
 overflow-wrap: break-word;
 }
 
+#dmChat .message #timestamp,
 #chat .message #timestamp {
 position: absolute;
 top: 0;
@@ -193,6 +221,7 @@ display: none;
 user-select: none;
 }
 
+#dmChat .message:hover #timestamp,
 #chat .message:hover #timestamp {
 display: block;
 }
@@ -208,6 +237,7 @@ overflow-y: auto;
 overflow-x: hidden;
 }
 
+.sidebar #dmsBTN,
 .sidebar .addServer,
 .sidebar .server {
 color: #e1e1e1;
@@ -224,6 +254,7 @@ align-items: center;
 justify-content: center;
 user-select: none;
 cursor: pointer;
+position: relative;
 }
 
 .sidebar #signoutBTN {
@@ -250,6 +281,7 @@ transition: .5s;
 color: #ff775e;
 }
 
+.sidebar #dmsBTN,
 .sidebar .addServer {
 background-color: #1e1e1e;
 box-shadow: 0 .15vw .5vw #0c0c0c;
@@ -257,6 +289,7 @@ font-size: 3vw;
 transition: .3s;
 }
 
+.sidebar #dmsBTN:hover,
 .sidebar .addServer:hover {
 color: #bb86fc;
 }
@@ -654,6 +687,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 display: none;
+z-index: 5;
 }
 
 #signupPage #signupContainer {
@@ -848,7 +882,7 @@ display: none;
 align-items: center;
 justify-content: center;
 user-select: none;
-z-index: 3;
+z-index: 5;
 }
 
 #memberListBTN {
@@ -868,6 +902,7 @@ right: 1vw;
 user-select: none;
 cursor: pointer;
 transition: .5s;
+z-index: 1;
 }
 
 #memberListBTN:hover {
@@ -945,6 +980,135 @@ padding-left: 1vw;
 font-size: 1.5vw;
 user-select: none;
 }
+
+#dmsPage {
+position: absolute;
+top: 0;
+width: 92%;
+height: 100%;
+right: -100%;
+background-color: #292929;
+transition: .5s;
+z-index: 4;
+}
+
+#dmsPage #userSearch {
+width: 75%;
+background-color: #1e1e1e;
+box-shadow: 0 .15vw .5vw #0c0c0c;
+position: absolute;
+top: 10%;
+left: 12.5%;
+padding: 1vw;
+box-sizing: border-box;
+border-radius: 5vw;
+color: #fff;
+border: none;
+outline: none;
+font-size: 2vw;
+height: 5%;
+padding-left: 3vw;
+padding-right: 3vw;
+transition: .5s;
+}
+
+#dmsPage #userSearch:hover,
+#dmsPage #userSearch:focus {
+filter: brightness(110%);
+}
+
+#dmsPage .userTitle {
+color: #e1e1e1;
+font-size: 3vw;
+font-weight: 1000;
+position: absolute;
+width: 75%;
+top: 2%;
+left: 12.5%;
+display: flex;
+align-items: center;
+justify-content: center;
+user-select: none;
+height: 8%;
+}
+
+.notificationIcon {
+width: 1.5vw;
+height: 1.5vw;
+background-color: #bb86fc;
+position: absolute;
+bottom: 0;
+right: 0;
+border: .5vw solid #0c0c0c;
+border-radius: 50%;
+display: none;
+}
+
+#dmsPage #dmContainer {
+position: absolute;
+top: 20%;
+right: 0;
+width: 100%;
+height: 80%;
+overflow-y: auto;
+}
+
+#dmsPage .dmMessage {
+width: 75%;
+background-color: #1e1e1e;
+height: 10%;
+margin-left: 12.5%;
+padding: 1vw;
+box-sizing: border-box;
+border-radius: 55vw;
+display: flex;
+align-items: center;
+padding-left: 3vw;
+position: relative;
+margin-bottom: 2vw;
+}
+
+#dmsPage .dmMessage #icon {
+width: 5vh;
+height: 5vh;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+color: #e1e1e1;
+border-radius: 50%;
+font-weight: bold;
+user-select: none;
+box-shadow: 0 .15vw .5vw #1e1e1e;
+background-color: mediumseagreen;
+}
+
+#dmsPage .dmMessage #verified,
+#dmsPage .dmMessage #username {
+color: #e1e1e1;
+display: inline-flex;
+padding: .25vw;
+font-size: 2vw;
+box-sizing: border-box;
+font-weight: bold;
+align-items: center;
+padding-left: 1vw;
+user-select: none;
+}
+
+#dmsPage .dmMessage #verified {
+padding-left: .25vw;
+color: #bb86fc;
+}
+
+#dmsPage .dmMessage #timestamp {
+padding: 1vw;
+color: #999;
+font-size: 2vw;
+font-weight: bold;
+user-select: none;
+position: absolute;
+right: 3%;
+}
 </style>
 <script>
 var loadTime = 3500;
@@ -972,6 +1136,8 @@ slowmode = 0;
 })
 document.addEventListener("click", e => {
 if (e.target.className === "server") {
+document.getElementById("dmsPage").style.right = "-100%";
+document.getElementById("dmChat").style.display = "none";
 document.getElementById("serverName").value = e.target.name;
 var messages = document.getElementsByClassName("message");
 while (messages[0]) {
@@ -1043,6 +1209,8 @@ document.getElementById("serverPage").style.display = "none";
 }, 2200)
 }
 if (e.target.className === "addServer") {
+document.getElementById("dmsPage").style.right = "-100%";
+document.getElementById("dmChat").style.display = "none";
 document.getElementById("serverPage").style.display = "flex";
 setTimeout(function() {
 document.getElementById("serverPage").style.opacity = 1;
@@ -1149,6 +1317,12 @@ document.getElementById("memberListBox").style.display = "block";
 if (e.target.id === "memberListBox") {
 document.getElementById("memberList").style.right = "-25%";
 document.getElementById("memberListBox").style.display = "none";
+}
+if (e.target.id === "dmsBTN" || e.target.className === "notificationIcon") {
+document.getElementById("dmsPage").style.right = 0;
+document.getElementById("dmChat").style.display = "none";
+localStorage.setItem("dmSave", JSON.stringify(document.getElementsByClassName("dmMessage")));
+document.getElementsByClassName("notificationIcon")[0].style.display = "none";
 }
 })
 function openSignup() {
@@ -1285,6 +1459,129 @@ setTimeout(function() {
 document.getElementById("chatUsername").value = username;
 document.getElementById("serverUsername").value = username;
 document.getElementById("joinServerUsername").value = username;
+document.getElementById("dmUsername").value = username;
+var count = 0;
+var newMessages = [];
+var dates = [];
+for (let a = 0; a < serverData.length; a++) {
+if (serverData[a]["DIRECTMESSAGES"].split(" + ")[0].split(" / ")[0] === username || serverData[a]["DIRECTMESSAGES"].split(" + ")[0].split(" / ")[1] === username) {
+count += 1;
+newMessages.push(serverData[a]["DIRECTMESSAGES"]);
+dates.push(serverData[a]["TIMESTAMP"]);
+}
+}
+setTimeout(function() {
+var dmnames = [];
+for (let b = newMessages.length - 1; b > 0; b--) {
+if (!Object.values(dmnames).includes(newMessages[b].split(" + ")[1].split(" - ")[0]) && newMessages[b].split(" + ")[1].split(" - ")[0] !== document.getElementById("dmUsername").value) {
+dmnames.push(newMessages[b].split(" + ")[1].split(" - ")[0]);
+var messageData = newMessages[b];
+var ele = document.createElement("div");
+ele.className = "dmMessage";
+ele.name = messageData.split(" + ")[1].split(" - ")[0];
+var icon = document.createElement("div");
+icon.id = "icon";
+icon.name = messageData.split(" + ")[1].split(" - ")[0];
+var username = document.createElement("a");
+username.id = "username";
+username.name = messageData.split(" + ")[1].split(" - ")[0];
+var timestamp = document.createElement("div");
+timestamp.id = "timestamp";
+timestamp.textContent = dates[b];
+timestamp.name = messageData.split(" + ")[1].split(" - ")[0];
+username.textContent = messageData.split(" + ")[1].split(" - ")[0] + " ";
+if (messageData.split(" + ")[1].split(" - ")[0].trim().includes(" ") && messageData !== "") {
+icon.textContent = messageData.split(" + ")[1].split(" - ")[0].split(" ")[0][0] + messageData.split(" + ")[1].split(" - ")[0].split(" ")[1][0];
+} else {
+icon.textContent = messageData.split(" + ")[1].split(" - ")[0][0];
+}
+var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+document.getElementById("dmContainer").appendChild(ele);
+ele.appendChild(icon);
+ele.appendChild(username);
+ele.appendChild(timestamp);
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" + ")[1].split(" - ")[0]) {
+var vs = document.createElement("a");
+vs.id = "verified";
+vs.className = "material-icons";
+vs.title = "Verified Supporter";
+vs.textContent = "verified_user";
+vs.name = messageData.split(" + ")[1].split(" - ")[0];
+ele.appendChild(vs);
+}
+}
+ele.addEventListener("click", e => {
+document.getElementById("dmChat").style.display = "block";
+document.getElementById("dmName").value = document.getElementById("dmUsername").value.trim() + " / " + e.target.name.trim();
+var messages = document.getElementsByClassName("message");
+while (messages[0]) {
+messages[0].remove();
+}
+var dmMessages = [];
+var names = [];
+names.push(document.getElementById("dmUsername").value.trim(), e.target.name.trim());
+names.sort();
+document.getElementById("dmName").value = names[0] + " / " + names[1];
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["DIRECTMESSAGES"].split(" + ")[0] === names[0] + " / " + names[1]) {
+dmMessages.push(serverData[i]["DIRECTMESSAGES"]);
+}
+}
+for (let i = 0; i < serverData.length; i++) {
+var messageData = dmMessages;
+var ele = document.createElement("div");
+ele.className = "message";
+var header = document.createElement("div");
+header.className = "header";
+var icon = document.createElement("div");
+icon.id = "icon";
+var username = document.createElement("a");
+username.id = "username";
+var text = document.createElement("a");
+text.id = "messageText";
+var timestamp = document.createElement("div");
+timestamp.id = "timestamp";
+timestamp.textContent = dates[i];
+username.textContent = messageData[i].split(" + ")[1].split(" - ")[0] + " ";
+if (messageData[i].split(" - ")[0].trim().includes(" ") && messageData[i] !== "") {
+icon.textContent = messageData[i].split(" - ")[0].split(" ")[0][0] + messageData[i].split(" - ")[0].split(" ")[1][0];
+} else {
+icon.textContent = messageData[i].split(" - ")[0][0];
+}
+var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+text.textContent = messageData[i].split(" - ")[1];
+document.getElementById("dmChat").appendChild(ele);
+ele.appendChild(header);
+header.appendChild(icon);
+header.appendChild(username);
+ele.appendChild(text);
+ele.appendChild(timestamp);
+for (let a = 0; a < serverData.length; a++) {
+if (messageData[i] !== undefined && serverData[a]["VERIFIEDSUPPORTERS"] === messageData[i].split(" + ")[1].split(" - ")[0]) {
+var vs = document.createElement("a");
+vs.id = "verified";
+vs.className = "material-icons";
+vs.title = "Verified Supporter";
+vs.textContent = "verified_user";
+username.appendChild(vs);
+}
+}
+document.getElementById("dmChat").scrollTo(0,document.getElementById("dmChat").scrollHeight);
+}
+})
+}
+}
+var dmEles = document.getElementsByClassName("dmMessage");
+if (localStorage.getItem("dmSave") === null) {
+localStorage.setItem("dmSave", JSON.stringify(dmEles));
+}
+if (localStorage.getItem("dmSave") !== JSON.stringify(dmEles)) {
+document.getElementsByClassName("notificationIcon")[0].style.display = "block";
+}
+}, 1000)
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["USER - " + username.trim()] !== "" && serverData[i]["USER - " + username.trim()] !== undefined) {
 var user = serverData[i]["USER - " + username.trim()];
@@ -1375,5 +1672,91 @@ document.getElementById("serverNameElement").style.display = "none";
 })
 }
 }, loadTime*2)
+var userSearch = document.getElementById("userSearch");
+userSearch.addEventListener("keyup", e => {
+if (e.key === "Enter" && userSearch.value.trim() !== "") {
+var userTo = userSearch.value.trim();
+var exists = false;
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["USERNAMES"] === userTo) {
+exists = true;
+}
+if (i === serverData.length - 1) {
+if (exists) {
+userSearch.blur();
+document.getElementById("dmChat").style.display = "block";
+var names = [];
+names.push(document.getElementById("dmUsername").value, userTo);
+names.sort();
+document.getElementById("dmName").value = document.getElementById("dmUsername").value + " / " + userTo;
+userSearch.value = "";
+var messages = document.getElementsByClassName("message");
+while (messages[0]) {
+messages[0].remove();
+}
+var dmMessages = [];
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["DIRECTMESSAGES"].split(" + ")[0] === names[0] + " / " + names[1]) {
+dmMessages.push(serverData[i]["DIRECTMESSAGES"]);
+}
+}
+for (let i = 0; i < serverData.length; i++) {
+var messageData = dmMessages;
+var ele = document.createElement("div");
+ele.className = "message";
+var header = document.createElement("div");
+header.className = "header";
+var icon = document.createElement("div");
+icon.id = "icon";
+var username = document.createElement("a");
+username.id = "username";
+var text = document.createElement("a");
+text.id = "messageText";
+var timestamp = document.createElement("div");
+timestamp.id = "timestamp";
+timestamp.textContent = serverData[i]["TIMESTAMP"];
+username.textContent = messageData[i].split(" + ")[1].split(" - ")[0] + " ";
+if (messageData[i].split(" - ")[0].trim().includes(" ") && messageData[i] !== "") {
+icon.textContent = messageData[i].split(" - ")[0].split(" ")[0][0] + messageData[i].split(" - ")[0].split(" ")[1][0];
+} else {
+icon.textContent = messageData[i].split(" - ")[0][0];
+}
+var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+text.textContent = messageData[i].split(" - ")[1];
+document.getElementById("dmChat").appendChild(ele);
+ele.appendChild(header);
+header.appendChild(icon);
+header.appendChild(username);
+ele.appendChild(text);
+ele.appendChild(timestamp);
+for (let a = 0; a < serverData.length; a++) {
+if (messageData[i] !== undefined && serverData[a]["VERIFIEDSUPPORTERS"] === messageData[i].split(" + ")[1].split(" - ")[0]) {
+var vs = document.createElement("a");
+vs.id = "verified";
+vs.className = "material-icons";
+vs.title = "Verified Supporter";
+vs.textContent = "verified_user";
+username.appendChild(vs);
+}
+}
+document.getElementById("dmChat").scrollTo(0,document.getElementById("dmChat").scrollHeight);
+}
+} else {
+alert("Username does not exist.");
+userSearch.value = "";
+}
+}
+}
+}
+})
+document.getElementById("dmMessage").addEventListener("keyup", e => {
+if (e.key === "Enter" && document.getElementById("dmMessage").value.trim() !== "") {
+var scriptURL = "https://script.google.com/macros/s/AKfycbzgw19-u_xob7hItVDacgQ4wpfDiga7vEHdp9O1--LE4f14-x0N0AADPbZjQyrJpN1qdg/exec";
+var dmForm = document.getElementById("dmForm");
+fetch(scriptURL, {method: "POST", body: new FormData(dmForm)});
+document.getElementById("dmMessage").value = "";
+}
+})
 </script>
 <!-- MADE BY LUKE SKUTT, 2023 -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
