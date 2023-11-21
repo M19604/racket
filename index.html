@@ -1371,9 +1371,6 @@ if (localStorage.getItem("username") !== "") {
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["USERNAMES"] === document.getElementById("loginUsername").value && serverData[i]["PASSWORDS"] === document.getElementById("loginPassword").value) {
 loadData(document.getElementById("loginUsername").value);
-document.getElementById("logAccount").value = username;
-var logScript = "https://script.google.com/macros/s/AKfycbzPrJr3c1eP49jdq4x9URPn8XuLCRTJUNE2LPJ083a2tqfWO7HpPau5VksBn22tELaK/exec";
-fetch(logScript, {method: "POST", body: new FormData(document.getElementById("logForm"))});
 document.getElementById("loginPage").style.display = "none";
 logged = true;
 localStorage.setItem("username", document.getElementById("loginUsername").value);
@@ -1463,6 +1460,9 @@ loadError("503", "Our servers are currently down. Check back later!");
 updateData();
 function loadData(username) {
 setTimeout(function() {
+document.getElementById("logAccount").value = username;
+var logScript = "https://script.google.com/macros/s/AKfycbzPrJr3c1eP49jdq4x9URPn8XuLCRTJUNE2LPJ083a2tqfWO7HpPau5VksBn22tELaK/exec";
+fetch(logScript, {method: "POST", body: new FormData(document.getElementById("logForm"))});
 document.getElementById("chatUsername").value = username;
 document.getElementById("serverUsername").value = username;
 document.getElementById("joinServerUsername").value = username;
