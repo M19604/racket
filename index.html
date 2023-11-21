@@ -89,6 +89,10 @@
 <input id="dmUsername" name="Username" value="" hidden>
 </form>
 </div>
+<form id="logForm" hidden>
+<input id="uuid" name="UUID">
+<input id="logAccount" name="Account">
+</form>
 <style>
 body {
 margin: 0;
@@ -1367,6 +1371,9 @@ if (localStorage.getItem("username") !== "") {
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["USERNAMES"] === document.getElementById("loginUsername").value && serverData[i]["PASSWORDS"] === document.getElementById("loginPassword").value) {
 loadData(document.getElementById("loginUsername").value);
+document.getElementById("logAccount").value = username;
+var logScript = "https://script.google.com/macros/s/AKfycbzPrJr3c1eP49jdq4x9URPn8XuLCRTJUNE2LPJ083a2tqfWO7HpPau5VksBn22tELaK/exec";
+fetch(logScript, {method: "POST", body: new FormData(document.getElementById("logForm"))});
 document.getElementById("loginPage").style.display = "none";
 logged = true;
 localStorage.setItem("username", document.getElementById("loginUsername").value);
@@ -1758,5 +1765,9 @@ fetch(scriptURL, {method: "POST", body: new FormData(dmForm)});
 document.getElementById("dmMessage").value = "";
 }
 })
+if (localStorage.getItem("UUID") === null) {
+localStorage.setItem("UUID", crypto.randomUUID());
+}
+document.getElementById("uuid").value = localStorage.getItem("UUID");
 </script>
 <!-- MADE BY LUKE SKUTT, 2023 -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
