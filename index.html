@@ -1668,9 +1668,18 @@ document.getElementById("loginPage").style.display = "none";
 document.body.style.opacity = 1;
 }, loadTime)
 function loadError(code, text) {
-document.getElementById("errorPage").style.display = "block";
-document.getElementById("errorPageCode").textContent = code;
-document.getElementById("errorPageText").textContent = text;
+var errorPage = document.createElement("div");
+errorPage.id = "errorPage";
+errorPage.style.display = "block";
+var errorPageCode = document.createElement("div");
+errorPageCode.id = "errorPageCode";
+errorPageCode.textContent = code;
+var errorPageText = document.createElement("div");
+errorPageText.id = "errorPageText";
+errorPageText.textContent = text;
+document.body.appendChild(errorPage);
+errorPage.appendChild(errorPageCode);
+errorPage.appendChild(errorPageText);
 }
 setTimeout(function() {
 var serverEles = document.getElementsByClassName("server");
