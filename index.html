@@ -1677,9 +1677,14 @@ errorPageCode.textContent = code;
 var errorPageText = document.createElement("div");
 errorPageText.id = "errorPageText";
 errorPageText.textContent = text;
+var retryBTN = document.createElement("div");
+retryBTN.className = "retryBTN";
+retryBTN.onclick = "location.reload()";
+retryBTN.textContent = "Retry";
 document.body.appendChild(errorPage);
 errorPage.appendChild(errorPageCode);
 errorPage.appendChild(errorPageText);
+errorPage.appendChild(retryBTN);
 }
 setTimeout(function() {
 var serverEles = document.getElementsByClassName("server");
