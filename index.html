@@ -1116,7 +1116,7 @@ right: 3%;
 }
 </style>
 <script>
-var banned = false;
+var loaded = false;
 var loadTime = 4500;
 var form = document.getElementById("chatForm");
 var input = document.getElementById("message");
@@ -1127,7 +1127,7 @@ e.preventDefault();
 var slowmodeTime = 5;
 var slowmode = 0;
 input.addEventListener("keyup", e => {
-if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0 && banned === false) {
+if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0 && loaded === false && document.getElementById("chatUsername").value.trim() !== "") {
 var scriptURL = "https://script.google.com/macros/s/AKfycbzcp7SZ5TMRHjm1Gz7i5zNcTGDuMNHrDcFxPTIvW-49zn8zaCOW1lhmUHDjVK45zAnBLw/exec";
 fetch(scriptURL, {method:"POST", body: new FormData(form)});
 input.value = "";
@@ -1474,7 +1474,7 @@ var newMessages = [];
 var dates = [];
 for (let a = 0; a < serverData.length; a++) {
 if (username === "" ||serverData[a]["BLOCKEDUUIDS"] === localStorage.getItem("UUID")) {
-banned = true;
+loaded = true;
 setInterval(function() {
 loadError("403", "You have been banned from Racket. Contact 012578@clioschools.net for more information.");
 })
