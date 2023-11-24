@@ -1537,10 +1537,24 @@ messages[0].remove();
 var dmMessages = [];
 var names = [];
 names.push(document.getElementById("dmUsername").value.trim(), e.target.name.trim());
-names.sort();
+var final = "";
+var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`";
+if (characters.indexOf(names[0][0]) > characters.indexOf(names[1][0])) {
+final = names[1] + " / " + names[0];
+} else if (characters.indexOf(strings[0][0]) < characters.indexOf(strings[1][0])) {
+final = names[0] + " / " + names[1];
+} else if (names[0][0] === names[1][0]) {
+for (let i = 1; i < names[0].length; i++) {
+if (characters.indexOf(names[0][i]) > characters.indexOf(names[1][i])) {
+final = names[1] + " / " + names[0];
+} else {
+final = names[0] + " / " + names[1];
+}
+}
+}
 document.getElementById("dmName").value = names.sort()[0] + " / " + names.sort()[1];
 for (let i = 0; i < serverData.length; i++) {
-if (serverData[i]["DIRECTMESSAGES"].split(" + ")[0] === names[0] + " / " + names[1]) {
+if (serverData[i]["DIRECTMESSAGES"].split(" + ")[0] === final) {
 dmMessages.push(serverData[i]["DIRECTMESSAGES"]);
 }
 }
