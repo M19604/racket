@@ -1461,6 +1461,7 @@ loadError("503", "Our servers are currently down. Check back later!");
 }
 updateData();
 function loadData(username) {
+var dates = [];
 setTimeout(function() {
 document.getElementById("logAccount").value = username;
 var logScript = "https://script.google.com/macros/s/AKfycbzPrJr3c1eP49jdq4x9URPn8XuLCRTJUNE2LPJ083a2tqfWO7HpPau5VksBn22tELaK/exec";
@@ -1471,7 +1472,6 @@ document.getElementById("joinServerUsername").value = username;
 document.getElementById("dmUsername").value = username;
 var count = 0;
 var newMessages = [];
-var dates = [];
 for (let a = 0; a < serverData.length; a++) {
 if (username === "" ||serverData[a]["BLOCKEDUUIDS"] === localStorage.getItem("UUID")) {
 loaded = true;
@@ -1541,7 +1541,7 @@ var final = "";
 var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`";
 if (characters.indexOf(names[0][0]) > characters.indexOf(names[1][0])) {
 final = names[1] + " / " + names[0];
-} else if (characters.indexOf(strings[0][0]) < characters.indexOf(strings[1][0])) {
+} else if (characters.indexOf(names[0][0]) < characters.indexOf(names[1][0])) {
 final = names[0] + " / " + names[1];
 } else if (names[0][0] === names[1][0]) {
 for (let i = 1; i < names[0].length; i++) {
@@ -1553,11 +1553,22 @@ final = names[0] + " / " + names[1];
 }
 }
 document.getElementById("dmName").value = names.sort()[0] + " / " + names.sort()[1];
+var dmDates = [];
+var check = setInterval(function() {
+if (final !== "") {
+clearInterval(check);
 for (let i = 0; i < serverData.length; i++) {
-if (serverData[i]["DIRECTMESSAGES"].split(" + ")[0] === final) {
+if (serverData[i]["DIRECTMESSAGES"].split(" + ")[0] === final || serverData[i]["DIRECTMESSAGES"].split(" + ")[0] === final.split(" / ")[1] + " / " + final.split(" / ")[0]) {
 dmMessages.push(serverData[i]["DIRECTMESSAGES"]);
+dmDates.push(serverData[i]["TIMESTAMP"]);
+}
+if (i === serverData.length - 1) {
+finish();
 }
 }
+}
+})
+function finish() {
 for (let i = 0; i < serverData.length; i++) {
 var messageData = dmMessages;
 var ele = document.createElement("div");
@@ -1572,12 +1583,12 @@ var text = document.createElement("a");
 text.id = "messageText";
 var timestamp = document.createElement("div");
 timestamp.id = "timestamp";
-timestamp.textContent = dates[i];
+timestamp.textContent = dmDates[i];
 username.textContent = messageData[i].split(" + ")[1].split(" - ")[0] + " ";
 if (messageData[i].split(" - ")[0].trim().includes(" ") && messageData[i] !== "") {
-icon.textContent = messageData[i].split(" - ")[0].split(" ")[0][0] + messageData[i].split(" - ")[0].split(" ")[1][0];
+icon.textContent = messageData[i].split(" - ")[0].split(" ")[0][0] + messageData[i].split(" - ")[0].split(" ")[1][0].replace("/", "");
 } else {
-icon.textContent = messageData[i].split(" - ")[0][0];
+icon.textContent = messageData[i].split(" - ")[0][0].replace("/", "");
 }
 var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
 icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
@@ -1599,6 +1610,7 @@ username.appendChild(vs);
 }
 }
 document.getElementById("dmChat").scrollTo(0,document.getElementById("dmChat").scrollHeight);
+}
 }
 })
 }
