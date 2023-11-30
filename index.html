@@ -54,7 +54,7 @@
 </div>
 <div id="signupPage">
 <div id="signupContainer">
-<div class="title">Signup</div>
+<div class="title">Create an account</div>
 <form id="signupForm">
 <input name="loginUsername" id="signupUsername" placeholder="Username..." maxlength="32">
 <input name="loginPassword" id="signupPassword" placeholder="Password..." type="password">
@@ -578,7 +578,7 @@ width: 100%;
 position: absolute;
 top: 0;
 left: 0;
-background-color: #292929;
+background-color: #1e1e1e;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -586,10 +586,10 @@ z-index: 3;
 }
 
 #loginPage #loginContainer {
-width: 65%;
+width: 50%;
 height: 75%;
-background-color: #121212;
-box-shadow: 0 .5vw .25vw #0c0c0c;
+background-color: #292929;
+box-shadow: 0 .5vw .5vw #181818;
 border-radius: 1vw;
 position: relative;
 }
@@ -601,10 +601,11 @@ display: flex;
 align-items: center;
 padding: 2vw;
 box-sizing: border-box;
-color: #bb86fc;
-font-size: 4vw;
+color: #fff;
+font-size: 3.5vw;
 font-weight: bold;
 user-select: none;
+justify-content: center;
 }
 
 #loginPage #loginContainer .gotoSignup {
@@ -647,17 +648,20 @@ color: #e1e1e1;
 border-radius: 1vw;
 position: absolute;
 left: 17.5%;
-border: .15vw solid #8561b1;
-box-shadow: 0 .5vw .25vw #0c0c0c;
+border: .15vw solid #1e1e1e;
 outline: none;
 transition: .5s;
 }
 
 #loginPage #loginContainer #loginPassword:hover,
+#loginPage #loginContainer #loginUsername:hover {
+border: .15vw solid #121212;
+}
+
 #loginPage #loginContainer #loginPassword:focus,
-#loginPage #loginContainer #loginUsername:hover,
 #loginPage #loginContainer #loginUsername:focus {
 border: .15vw solid #bb86fc;
+box-shadow: 0 0 .20vw #aa76eb;
 }
 
 #loginPage #loginContainer #loginPassword {
@@ -669,14 +673,19 @@ top: 70%;
 text-align: center;
 box-sizing: border-box;
 background-color: #8561b1;
-font-size: 3vw;
+font-size: 2.5vw;
 font-weight: 1000;
-padding: .5vw;
+padding: 1vw;
 user-select: none;
 cursor: pointer;
+filter: brightness(75%);
 }
 
-#loginPage #loginContainer .loginSubmit:hover {
+#loginPage #loginContainer .loginSubmit.active {
+filter: brightness(100%);
+}
+
+#loginPage #loginContainer .loginSubmit.active:hover {
 filter: brightness(125%);
 }
 
@@ -686,19 +695,19 @@ width: 100%;
 position: absolute;
 top: 0;
 left: 0;
-background-color: #292929;
+background-color: #1e1e1e;
 display: flex;
 align-items: center;
 justify-content: center;
+z-index: 3;
 display: none;
-z-index: 5;
 }
 
 #signupPage #signupContainer {
-width: 65%;
+width: 50%;
 height: 75%;
-background-color: #121212;
-box-shadow: 0 .5vw .25vw #0c0c0c;
+background-color: #292929;
+box-shadow: 0 .5vw .5vw #181818;
 border-radius: 1vw;
 position: relative;
 }
@@ -710,10 +719,11 @@ display: flex;
 align-items: center;
 padding: 2vw;
 box-sizing: border-box;
-color: #bb86fc;
-font-size: 4vw;
+color: #fff;
+font-size: 3.5vw;
 font-weight: bold;
 user-select: none;
+justify-content: center;
 }
 
 #signupPage #signupContainer .gotoSignup {
@@ -756,17 +766,24 @@ color: #e1e1e1;
 border-radius: 1vw;
 position: absolute;
 left: 17.5%;
-border: .15vw solid #8561b1;
-box-shadow: 0 .5vw .25vw #0c0c0c;
+border: .15vw solid #1e1e1e;
 outline: none;
 transition: .5s;
 }
 
+#signupPage #signupContainer .signupSubmit.active {
+filter: brightness(100%);
+}
+
 #signupPage #signupContainer #signupPassword:hover,
+#signupPage #signupContainer #signupUsername:hover {
+border: .15vw solid #121212;
+}
+
 #signupPage #signupContainer #signupPassword:focus,
-#signupPage #signupContainer #signupUsername:hover,
 #signupPage #signupContainer #signupUsername:focus {
 border: .15vw solid #bb86fc;
+box-shadow: 0 0 .20vw #aa76eb;
 }
 
 #signupPage #signupContainer #signupPassword {
@@ -778,14 +795,15 @@ top: 70%;
 text-align: center;
 box-sizing: border-box;
 background-color: #8561b1;
-font-size: 3vw;
+font-size: 2.5vw;
 font-weight: 1000;
-padding: .5vw;
+padding: 1vw;
 user-select: none;
 cursor: pointer;
+filter: brightness(75%);
 }
 
-#signupPage #signupContainer .signupSubmit:hover {
+#signupPage #signupContainer .signupSubmit.active:hover {
 filter: brightness(125%);
 }
 
@@ -1339,6 +1357,34 @@ function openLogin() {
 document.getElementById("loginPage").style.display = "flex";
 document.getElementById("signupPage").style.display = "none";
 }
+document.getElementById("loginUsername").addEventListener("keyup", e => {
+if (document.getElementById("loginUsername").value !== "" && document.getElementById("loginPassword").value !== "") {
+document.getElementsByClassName("loginSubmit")[0].classList.add("active");
+} else {
+document.getElementsByClassName("loginSubmit")[0].classList.remove("active");
+}
+})
+document.getElementById("loginPassword").addEventListener("keyup", e => {
+if (document.getElementById("loginUsername").value !== "" && document.getElementById("loginPassword").value !== "") {
+document.getElementsByClassName("loginSubmit")[0].classList.add("active");
+} else {
+document.getElementsByClassName("loginSubmit")[0].classList.remove("active");
+}
+})
+document.getElementById("signupPassword").addEventListener("keyup", e => {
+if (document.getElementById("signupUsername").value !== "" && document.getElementById("signupPassword").value !== "") {
+document.getElementsByClassName("signupSubmit")[0].classList.add("active");
+} else {
+document.getElementsByClassName("signupSubmit")[0].classList.remove("active");
+}
+})
+document.getElementById("signupUsername").addEventListener("keyup", e => {
+if (document.getElementById("signupUsername").value !== "" && document.getElementById("signupPassword").value !== "") {
+document.getElementsByClassName("signupSubmit")[0].classList.add("active");
+} else {
+document.getElementsByClassName("signupSubmit")[0].classList.remove("active");
+}
+})
 function signup() {
 var exists = false;
 for (let i = 0; i < serverData.length; i++) {
