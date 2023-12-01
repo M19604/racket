@@ -592,6 +592,7 @@ background-color: #292929;
 box-shadow: 0 .5vw .5vw #181818;
 border-radius: 1vw;
 position: relative;
+transition: .5s;
 }
 
 #loginPage #loginContainer .title {
@@ -710,6 +711,9 @@ background-color: #292929;
 box-shadow: 0 .5vw .5vw #181818;
 border-radius: 1vw;
 position: relative;
+transition: .5s;
+transform: translate(0, -2vw);
+opacity: 0;
 }
 
 #signupPage #signupContainer .title {
@@ -1013,6 +1017,7 @@ right: -100%;
 background-color: #292929;
 transition: .5s;
 z-index: 4;
+display: none;
 }
 
 #dmsPage #userSearch {
@@ -1343,21 +1348,45 @@ document.getElementById("memberList").style.right = "-25%";
 document.getElementById("memberListBox").style.display = "none";
 }
 if (e.target.id === "dmsBTN" || e.target.className === "notificationIcon") {
+document.getElementById("dmsPage").style.display = "block";
 document.getElementById("dmsPage").style.right = 0;
 document.getElementById("dmChat").style.display = "none";
 localStorage.setItem("dmSave", JSON.stringify(document.getElementsByClassName("dmMessage")));
 document.getElementsByClassName("notificationIcon")[0].style.display = "none";
 }
-})
+})  
 function openSignup() {
+var loginPage = document.getElementById("loginContainer");
+var signupPage = document.getElementById("signupContainer");
+loginPage.style.transform = "translate(0, -2vw)";
+loginPage.style.opacity = 0;
+setTimeout(function() {
 document.getElementById("signupPage").style.display = "flex";
 document.getElementById("loginPage").style.display = "none";
+setTimeout(function() {
+signupPage.style.transform = "translate(0)";
+signupPage.style.opacity = 1;
+}, 300)
+}, 500)
 }
 function openLogin() {
-document.getElementById("loginPage").style.display = "flex";
+var loginPage = document.getElementById("loginContainer");
+var signupPage = document.getElementById("signupContainer");
+signupPage.style.transform = "translate(0, -2vw)";
+signupPage.style.opacity = 0;
+setTimeout(function() {
 document.getElementById("signupPage").style.display = "none";
+document.getElementById("loginPage").style.display = "flex";
+setTimeout(function() {
+loginPage.style.transform = "translate(0)";
+loginPage.style.opacity = 1;
+}, 300)
+}, 500)
 }
 document.getElementById("loginUsername").addEventListener("keyup", e => {
+if (e.key === "Enter" && document.getElementById("loginUsername").value !== "" && document.getElementById("loginPassword").value !== "") {
+login();
+}
 if (document.getElementById("loginUsername").value !== "" && document.getElementById("loginPassword").value !== "") {
 document.getElementsByClassName("loginSubmit")[0].classList.add("active");
 } else {
@@ -1365,6 +1394,9 @@ document.getElementsByClassName("loginSubmit")[0].classList.remove("active");
 }
 })
 document.getElementById("loginPassword").addEventListener("keyup", e => {
+if (e.key === "Enter" && document.getElementById("loginUsername").value !== "" && document.getElementById("loginPassword").value !== "") {
+login();
+}
 if (document.getElementById("loginUsername").value !== "" && document.getElementById("loginPassword").value !== "") {
 document.getElementsByClassName("loginSubmit")[0].classList.add("active");
 } else {
@@ -1372,6 +1404,9 @@ document.getElementsByClassName("loginSubmit")[0].classList.remove("active");
 }
 })
 document.getElementById("signupPassword").addEventListener("keyup", e => {
+if (e.key === "Enter" && document.getElementById("signupUsername").value !== "" && document.getElementById("signupPassword").value !== "") {
+signup();
+}
 if (document.getElementById("signupUsername").value !== "" && document.getElementById("signupPassword").value !== "") {
 document.getElementsByClassName("signupSubmit")[0].classList.add("active");
 } else {
@@ -1379,6 +1414,9 @@ document.getElementsByClassName("signupSubmit")[0].classList.remove("active");
 }
 })
 document.getElementById("signupUsername").addEventListener("keyup", e => {
+if (e.key === "Enter" && document.getElementById("signupUsername").value !== "" && document.getElementById("signupPassword").value !== "") {
+signup();
+}
 if (document.getElementById("signupUsername").value !== "" && document.getElementById("signupPassword").value !== "") {
 document.getElementsByClassName("signupSubmit")[0].classList.add("active");
 } else {
@@ -1738,6 +1776,7 @@ setTimeout(function() {
 if (serverData !== null && localStorage.getItem("username") !== null && localStorage.getItem("password") !== null) {
 loadData(localStorage.getItem("username"));
 document.getElementById("loginPage").style.display = "none";
+document.getElementById("dmsPage").style.display = "block";     
 }
 document.body.style.opacity = 1;
 }, loadTime)
