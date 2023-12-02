@@ -1153,6 +1153,50 @@ input.addEventListener("keyup", e => {
 if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0 && loaded === false && document.getElementById("chatUsername").value.trim() !== "") {
 var scriptURL = "https://script.google.com/macros/s/AKfycbzcp7SZ5TMRHjm1Gz7i5zNcTGDuMNHrDcFxPTIvW-49zn8zaCOW1lhmUHDjVK45zAnBLw/exec";
 fetch(scriptURL, {method:"POST", body: new FormData(form)});
+var ele = document.createElement("div");
+ele.className = "message";
+var header = document.createElement("div");
+header.className = "header";
+var icon = document.createElement("div");
+icon.id = "icon";
+var username = document.createElement("a");
+username.id = "username";
+var text = document.createElement("a");
+text.id = "messageText";
+var timestamp = document.createElement("div");
+timestamp.id = "timestamp";
+var d = new Date();
+if (d.getHours() > 12) {
+timestamp.textContent = d.getMonth() + 1 + "/" + d.getDay() + "/" + d.getFullYear() + " - " + d.getHours() % 12 + ":" + d.getMinutes() + "PM";
+} else {
+timestamp.textContent = d.getMonth() + 1 + "/" + d.getDay() + "/" + d.getFullYear() + " - " + d.getHours() + ":" + d.getMinutes() + "AM";
+}
+username.textContent = document.getElementById("chatUsername").value.split(" - ")[0] + " ";
+if (document.getElementById("chatUsername").value.includes(" ")) {
+icon.textContent = document.getElementById("chatUsername").value[0] + document.getElementById("chatUsername").value.split(" ")[1][0];
+} else {
+icon.textContent = document.getElementById("chatUsername").value[0];
+}
+var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+text.textContent = input.value.trim();
+document.getElementById("chat").appendChild(ele);
+ele.appendChild(header);
+header.appendChild(icon);
+header.appendChild(username);
+ele.appendChild(text);
+ele.appendChild(timestamp);
+document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["VERIFIEDSUPPORTERS"] === document.getElementById("chatUsername").value) {
+var vs = document.createElement("a");
+vs.id = "verified";
+vs.className = "material-icons";
+vs.title = "Verified Supporter";
+vs.textContent = "verified_user";
+username.appendChild(vs);
+}
+}
 input.value = "";
 var interval = setInterval(function() {
 slowmode += 1;
