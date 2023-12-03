@@ -1167,9 +1167,9 @@ var timestamp = document.createElement("div");
 timestamp.id = "timestamp";
 var d = new Date();
 if (d.getHours() > 12) {
-timestamp.textContent = d.getMonth() + 1 + "/" + d.getDay() + "/" + d.getFullYear() + " - " + d.getHours() % 12 + ":" + d.getMinutes() + "PM";
+timestamp.textContent = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() + " - " + d.getHours() % 12 + ":" + d.getMinutes() + " PM";
 } else {
-timestamp.textContent = d.getMonth() + 1 + "/" + d.getDay() + "/" + d.getFullYear() + " - " + d.getHours() + ":" + d.getMinutes() + "AM";
+timestamp.textContent = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() + " - " + d.getHours() + ":" + d.getMinutes() + " AM";
 }
 username.textContent = document.getElementById("chatUsername").value.split(" - ")[0] + " ";
 if (document.getElementById("chatUsername").value.includes(" ")) {
