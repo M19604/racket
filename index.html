@@ -1603,9 +1603,7 @@ var newMessages = [];
 for (let a = 0; a < serverData.length; a++) {
 if (username === "" ||serverData[a]["BLOCKEDUUIDS"] === localStorage.getItem("UUID")) {
 loaded = true;
-setInterval(function() {
 loadError("403", "You have been banned from Racket. Contact 012578@clioschools.net for more information.");
-})
 }
 if (serverData[a]["DIRECTMESSAGES"].split(" + ")[0].split(" / ")[0] === username || serverData[a]["DIRECTMESSAGES"].split(" + ")[0].split(" / ")[1] === username) {
 count += 1;
