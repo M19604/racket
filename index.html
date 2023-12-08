@@ -1760,6 +1760,19 @@ serverEle.className = "server";
 document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
 document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
 }
+if (i === serverData.length - 1) {
+var serverEles = document.getElementsByClassName("server");
+for (let i = 0; i < serverEles.length; i++) {
+serverEles[i].addEventListener("mouseover", e => {
+document.getElementById("serverNameElement").style.top = serverEles[i].getBoundingClientRect().top;
+document.getElementById("serverNameElement").textContent = serverEles[i].name;
+document.getElementById("serverNameElement").style.display = "flex";
+})
+serverEles[i].addEventListener("mouseout", e => {
+document.getElementById("serverNameElement").style.display = "none";
+})
+}
+}
 }
 } else {
 for (let i = 0; i < serverData.length; i++) {
@@ -1771,6 +1784,19 @@ serverEle.textContent = serverData[i]["USER - " + username.trim()][0];
 serverEle.className = "server";
 document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
 document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
+}
+if (i === serverData.length - 1) {
+var serverEles = document.getElementsByClassName("server");
+for (let i = 0; i < serverEles.length; i++) {
+serverEles[i].addEventListener("mouseover", e => {
+document.getElementById("serverNameElement").style.top = serverEles[i].getBoundingClientRect().top;
+document.getElementById("serverNameElement").textContent = serverEles[i].name;
+document.getElementById("serverNameElement").style.display = "flex";
+})
+serverEles[i].addEventListener("mouseout", e => {
+document.getElementById("serverNameElement").style.display = "none";
+})
+}
 }
 }
 for (let i = 0; i < serverData.length; i++) {
@@ -1855,19 +1881,6 @@ errorPage.appendChild(errorPageCode);
 errorPage.appendChild(errorPageText);
 errorPage.appendChild(retryBTN);
 }
-setTimeout(function() {
-var serverEles = document.getElementsByClassName("server");
-for (let i = 0; i < serverEles.length; i++) {
-serverEles[i].addEventListener("mouseover", e => {
-document.getElementById("serverNameElement").style.top = serverEles[i].getBoundingClientRect().top;
-document.getElementById("serverNameElement").textContent = serverEles[i].name;
-document.getElementById("serverNameElement").style.display = "flex";
-})
-serverEles[i].addEventListener("mouseout", e => {
-document.getElementById("serverNameElement").style.display = "none";
-})
-}
-}, loadTime*2)
 var userSearch = document.getElementById("userSearch");
 userSearch.addEventListener("keyup", e => {
 if (e.key === "Enter" && userSearch.value.trim() !== "") {
