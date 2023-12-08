@@ -1749,6 +1749,19 @@ if (localStorage.getItem("dmSave") !== JSON.stringify(dmEles)) {
 document.getElementsByClassName("notificationIcon")[0].style.display = "block";
 }
 }, 1000)
+if (username === "Racket") {
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["SERVERLIST"] !== "") {
+var serverEle = document.createElement("div");
+var user = serverData[i]["SERVERLIST"];
+serverEle.name = user;
+serverEle.textContent = serverData[i]["SERVERLIST"][0];
+serverEle.className = "server";
+document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
+document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
+}
+}
+} else {
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["USER - " + username.trim()] !== "" && serverData[i]["USER - " + username.trim()] !== undefined) {
 var user = serverData[i]["USER - " + username.trim()];
@@ -1801,6 +1814,7 @@ vs.className = "material-icons";
 vs.title = "Verified Supporter";
 vs.textContent = "verified_user";
 usernameEle.appendChild(vs);
+}
 }
 }
 }
