@@ -94,6 +94,7 @@
 <input id="uuid" name="UUID">
 <input id="logAccount" name="Account">
 </form>
+<script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <style>
 body {
 margin: 0;
@@ -1145,15 +1146,27 @@ var loadTime = 4500;
 var form = document.getElementById("chatForm");
 var input = document.getElementById("message");
 var serverData = null;
+const key = "f-2P0w.ETPdKQ:iFCWp8Xob5TEW81vorEyYQpLuaWlkH21gSmJ0N6ngZk";
+const realtime = new Ably.Realtime(key);
 form.addEventListener("submit", e => {
 e.preventDefault();
 })
 var slowmodeTime = 5;
 var slowmode = 0;
-input.addEventListener("keyup", e => {
-if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0 && loaded === false && document.getElementById("chatUsername").value.trim() !== "") {
-var scriptURL = "https://script.google.com/macros/s/AKfycbzcp7SZ5TMRHjm1Gz7i5zNcTGDuMNHrDcFxPTIvW-49zn8zaCOW1lhmUHDjVK45zAnBLw/exec";
-fetch(scriptURL, {method:"POST", body: new FormData(form)});
+async function initialize() {
+await realtime.connection.once("connected");
+const channel = realtime.channels.get("location-ch");
+}
+realtime.channels.get("location-ch").subscribe((event) => {
+var d = new Date();
+var obj = {};
+if (d.getHours() > 12) {
+obj["TIMESTAMP"] = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() + " - " + d.getHours() % 12 + ":" + d.getMinutes() + " PM";
+} else {
+obj["TIMESTAMP"] = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() + " - " + d.getHours() + ":" + d.getMinutes() + " AM";
+}
+obj[document.getElementById("serverName").value] = event.data.split(" >> ")[1];
+serverData.push(obj);
 var ele = document.createElement("div");
 ele.className = "message";
 var header = document.createElement("div");
@@ -1166,21 +1179,20 @@ var text = document.createElement("a");
 text.id = "messageText";
 var timestamp = document.createElement("div");
 timestamp.id = "timestamp";
-var d = new Date();
 if (d.getHours() > 12) {
 timestamp.textContent = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() + " - " + d.getHours() % 12 + ":" + d.getMinutes() + " PM";
 } else {
 timestamp.textContent = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() + " - " + d.getHours() + ":" + d.getMinutes() + " AM";
 }
-username.textContent = document.getElementById("chatUsername").value.split(" - ")[0] + " ";
-if (document.getElementById("chatUsername").value.includes(" ")) {
-icon.textContent = document.getElementById("chatUsername").value[0] + document.getElementById("chatUsername").value.split(" ")[1][0];
+username.textContent = event.data.split(" - ")[0].split(" >> ")[1];
+if (event.data.split(" - ")[0].split(" >> ")[1].includes(" ")) {
+icon.textContent = event.data.split(" - ")[0].split(" >> ")[1].split(" ")[0][0] + event.data.split(" - ")[0].split(" >> ")[1].split(" ")[1][0];
 } else {
-icon.textContent = document.getElementById("chatUsername").value[0];
+icon.textContent = event.data.split(" - ")[0].split(" >> ")[1][0];
 }
 var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
 icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-text.textContent = input.value.trim();
+text.textContent = event.data.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
 header.appendChild(icon);
@@ -1189,7 +1201,7 @@ ele.appendChild(text);
 ele.appendChild(timestamp);
 document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
 for (let i = 0; i < serverData.length; i++) {
-if (serverData[i]["VERIFIEDSUPPORTERS"] === document.getElementById("chatUsername").value) {
+if (serverData[i]["VERIFIEDSUPPORTERS"] === event.data.split(" - ")[0].split(" >> ")[1]) {
 var vs = document.createElement("a");
 vs.id = "verified";
 vs.className = "material-icons";
@@ -1198,6 +1210,13 @@ vs.textContent = "verified_user";
 username.appendChild(vs);
 }
 }
+})
+initialize();
+input.addEventListener("keyup", e => {
+if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0 && loaded === false && document.getElementById("chatUsername").value.trim() !== "") {
+realtime.channels.get("location-ch").publish("update", document.getElementById("serverName") + " >> " + document.getElementById("chatUsername").value + " - " + input.value);
+var scriptURL = "https://script.google.com/macros/s/AKfycbzcp7SZ5TMRHjm1Gz7i5zNcTGDuMNHrDcFxPTIvW-49zn8zaCOW1lhmUHDjVK45zAnBLw/exec";
+fetch(scriptURL, {method:"POST", body: new FormData(form)});
 input.value = "";
 var interval = setInterval(function() {
 slowmode += 1;
