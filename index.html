@@ -1167,6 +1167,7 @@ obj["TIMESTAMP"] = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() 
 }
 obj[document.getElementById("serverName").value] = event.data.split(" >> ")[1];
 serverData.push(obj);
+if (document.getElementById("serverName").value === event.data.split(" >> ")[0]) {
 var ele = document.createElement("div");
 ele.className = "message";
 var header = document.createElement("div");
@@ -1208,6 +1209,7 @@ vs.className = "material-icons";
 vs.title = "Verified Supporter";
 vs.textContent = "verified_user";
 username.appendChild(vs);
+}
 }
 }
 })
