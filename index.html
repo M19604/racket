@@ -1158,6 +1158,7 @@ await realtime.connection.once("connected");
 const channel = realtime.channels.get("location-ch");
 }
 realtime.channels.get("location-ch").subscribe((event) => {
+console.log(event);
 var d = new Date();
 var obj = {};
 if (d.getHours() > 12) {
@@ -1216,7 +1217,7 @@ username.appendChild(vs);
 initialize();
 input.addEventListener("keyup", e => {
 if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0 && loaded === false && document.getElementById("chatUsername").value.trim() !== "") {
-realtime.channels.get("location-ch").publish("update", document.getElementById("serverName") + " >> " + document.getElementById("chatUsername").value + " - " + input.value);
+realtime.channels.get("location-ch").publish("update", document.getElementById("serverName").value + " >> " + document.getElementById("chatUsername").value + " - " + input.value);
 var scriptURL = "https://script.google.com/macros/s/AKfycbzcp7SZ5TMRHjm1Gz7i5zNcTGDuMNHrDcFxPTIvW-49zn8zaCOW1lhmUHDjVK45zAnBLw/exec";
 fetch(scriptURL, {method:"POST", body: new FormData(form)});
 input.value = "";
