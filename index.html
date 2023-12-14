@@ -50,7 +50,7 @@
 <input id="loginPassword" placeholder="Password..." type="password">
 <div class="loginSubmit" onclick="login()">Login</div>
 </form>
-<div class="gotoSignup" onclick="openSignup()">Don't have an account? Sign up!</div>
+<div class="gotoSignup" onclick="openSignup()">Dont have an account? Sign up!</div>
 </div>
 </div>
 <div id="signupPage">
@@ -102,7 +102,7 @@ font-family: "Nunito Sans";
 display: flex;
 align-items: center;
 justify-content: center;
-background-color: #121212;
+background-color: #7a0402;
 opacity: 0;
 overflow: hidden;
 }
@@ -120,7 +120,7 @@ background-color: #bb86fc;
 #chat {
 width: 92%;
 height: 100%;
-background-color: #292929;
+background-color: ##ff6b69;
 position: absolute;
 right: 0;
 overflow-y: auto;
@@ -140,7 +140,7 @@ width: 92%;
 outline: none;
 border: none;
 border-top: .15vw solid #0c0c0c;
-background-color: #1e1e1e;
+background-color: #190f80;
 padding: .5vw;
 font-size: 1.5vw;
 color: #fff;
@@ -162,7 +162,7 @@ position: relative;
 
 #dmChat .message:hover,
 #chat .message:hover {
-background-color: #252525;
+background-color: #9dff00;
 }
 
 #dmChat .message .header,
@@ -182,7 +182,7 @@ color: #e1e1e1;
 border-radius: 50%;
 font-weight: bold;
 user-select: none;
-box-shadow: 0 .15vw .5vw #1e1e1e;
+box-shadow: 0 .15vw .5vw #1e4e1e;
 }
 
 #dmChat .message #verified,
@@ -233,7 +233,7 @@ display: block;
 }
 
 .sidebar {
-background-color: #121212;
+background-color: #d400ff;
 width: 8%;
 height: 85%;
 position: absolute;
@@ -247,7 +247,7 @@ overflow-x: hidden;
 .sidebar .addServer,
 .sidebar .server {
 color: #e1e1e1;
-background-color: #bb86fc;
+background-color: #ff8000;
 font-weight: bold;
 font-size: 2vw;
 width: 5vw;
@@ -273,11 +273,11 @@ font-size: 3vw;
 display: flex;
 align-items: center;
 justify-content: center;
-background-color: #121212;
+background-color: #591013;
 position: fixed;
 bottom: 0;
 left: 0;
-box-shadow: 0 -1vw 3vw #121212;
+box-shadow: 0 -1vw 3vw #b3e6c0;
 user-select: none;
 cursor: pointer;
 transition: .5s;
@@ -290,7 +290,7 @@ color: #ff775e;
 .sidebar #dmsBTN,
 .sidebar .addServer {
 background-color: #1e1e1e;
-box-shadow: 0 .15vw .5vw #0c0c0c;
+box-shadow: 0 .15vw .5vw #6007a8;
 font-size: 3vw;
 transition: .3s;
 }
@@ -1151,7 +1151,7 @@ const realtime = new Ably.Realtime(key);
 form.addEventListener("submit", e => {
 e.preventDefault();
 })
-var slowmodeTime = 5;
+var slowmodeTime = 1;
 var slowmode = 0;
 async function initialize() {
 await realtime.connection.once("connected");
@@ -1420,7 +1420,7 @@ document.getElementById("dmChat").style.display = "none";
 localStorage.setItem("dmSave", JSON.stringify(document.getElementsByClassName("dmMessage")));
 document.getElementsByClassName("notificationIcon")[0].style.display = "none";
 }
-})  
+})
 function openSignup() {
 var loginPage = document.getElementById("loginContainer");
 var signupPage = document.getElementById("signupContainer");
@@ -1544,49 +1544,49 @@ var url6 = "https://sheetdb.io/api/v1/vldnnozbyi93a";
 var url7 = "https://sheetdb.io/api/v1/uahn0pubbiorb";
 var url8 = "https://sheetdb.io/api/v1/g7npwb3ufk0ch";
 var url9 = "https://sheetdb.io/api/v1/jgkigxxi4o1hv";
-fetch(url1).then(response => { 
-return response.json(); 
-}).then(data => { 
+fetch(url1).then(response => {
+return response.json();
+}).then(data => {
 serverData = data;
 if (data[0] === undefined) {
-fetch(url2).then(response => { 
-return response.json(); 
-}).then(data => { 
+fetch(url2).then(response => {
+return response.json();
+}).then(data => {
 serverData = data;
 if (data[0] === undefined) {
-fetch(url3).then(response => { 
-return response.json(); 
-}).then(data => { 
+fetch(url3).then(response => {
+return response.json();
+}).then(data => {
 serverData = data;
 if (data[0] === undefined) {
-fetch(url4).then(response => { 
-return response.json(); 
-}).then(data => { 
+fetch(url4).then(response => {
+return response.json();
+}).then(data => {
 serverData = data;
 if (data[0] === undefined) {
-fetch(url5).then(response => { 
-return response.json(); 
-}).then(data => { 
+fetch(url5).then(response => {
+return response.json();
+}).then(data => {
 serverData = data;
 if (data[0] === undefined) {
-fetch(url6).then(response => { 
-return response.json(); 
-}).then(data => { 
+fetch(url6).then(response => {
+return response.json();
+}).then(data => {
 serverData = data;
 if (data[0] === undefined) {
-fetch(url7).then(response => { 
-return response.json(); 
-}).then(data => { 
+fetch(url7).then(response => {
+return response.json();
+}).then(data => {
 serverData = data;
 if (data[0] === undefined) {
-fetch(url8).then(response => { 
-return response.json(); 
-}).then(data => { 
+fetch(url8).then(response => {
+return response.json();
+}).then(data => {
 serverData = data;
 if (data[0] === undefined) {
-fetch(url9).then(response => { 
-return response.json(); 
-}).then(data => { 
+fetch(url9).then(response => {
+return response.json();
+}).then(data => {
 serverData = data;
 if (data[0] === undefined) {
 loadError("503", "Our servers are currently down. Check back later!");
@@ -1880,7 +1880,7 @@ setTimeout(function() {
 if (serverData !== null && localStorage.getItem("username") !== null && localStorage.getItem("password") !== null) {
 loadData(localStorage.getItem("username"));
 document.getElementById("loginPage").style.display = "none";
-document.getElementById("dmsPage").style.display = "block";     
+document.getElementById("dmsPage").style.display = "block";
 }
 document.body.style.opacity = 1;
 }, loadTime)
@@ -1994,4 +1994,4 @@ localStorage.setItem("UUID", crypto.randomUUID());
 }
 document.getElementById("uuid").value = localStorage.getItem("UUID");
 </script>
-<!-- MADE BY LUKE SKUTT, 2023 -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+<!-- MADE BY LUKE SKUTT, 2023 --
