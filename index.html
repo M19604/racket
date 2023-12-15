@@ -1151,7 +1151,7 @@ const realtime = new Ably.Realtime(key);
 form.addEventListener("submit", e => {
 e.preventDefault();
 })
-var slowmodeTime = 5;
+var slowmodeTime = 2;
 var slowmode = 0;
 async function initialize() {
 await realtime.connection.once("connected");
