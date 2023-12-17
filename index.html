@@ -1821,7 +1821,7 @@ document.getElementById("serverNameElement").style.display = "none";
 }
 }
 }
-for (let i = 0; i < serverData.length; i++) {
+for (let i = serverData.length - 300; i < serverData.length; i++) {
 var messageData = serverData[i]["Racket"];
 if (messageData !== "") {
 var ele = document.createElement("div");
