@@ -1238,7 +1238,7 @@ var messages = document.getElementsByClassName("message");
 while (messages[0]) {
 messages[0].remove();
 }
-for (let i = serverData.length - 300; i < serverData.length; i++) {
+for (let i = 0; i < serverData.length; i++) {
 var messageData = serverData[i][document.getElementById("serverName").value];
 if (messageData !== "") {
 var ele = document.createElement("div");
