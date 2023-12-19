@@ -107,6 +107,31 @@ opacity: 0;
 overflow: hidden;
 }
 
+.snowflake {
+width: 1vw;
+height: 1vw;
+border-radius: 50%;
+position: absolute;
+animation: snowfall linear infinite;
+}
+
+@keyframes snowfall {
+0% {
+top: -2vw;
+}
+100% {
+top: 100%;
+}
+}
+
+.christmasMessage {
+font-family: sans-serif;
+background: linear-gradient(to right, tomato, mediumseagreen);
+-webkit-text-fill-color: transparent; 
+-webkit-background-clip: text;
+font-weight: bold;
+}
+
 ::-webkit-scrollbar {
 display: none;
 }
@@ -127,6 +152,7 @@ overflow-y: auto;
 padding-bottom: 8vw;
 padding-top: 3vw;
 z-index: 0;
+background: radial-gradient(#123, #292929);
 }
 
 #dmChat {
@@ -162,7 +188,7 @@ position: relative;
 
 #dmChat .message:hover,
 #chat .message:hover {
-background-color: #252525;
+background-color: rgba(37,37,37,.5);
 }
 
 #dmChat .message .header,
@@ -247,7 +273,6 @@ overflow-x: hidden;
 .sidebar .addServer,
 .sidebar .server {
 color: #e1e1e1;
-background-color: #bb86fc;
 font-weight: bold;
 font-size: 2vw;
 width: 5vw;
@@ -1178,6 +1203,9 @@ var username = document.createElement("a");
 username.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
+if (event.data.split(" - ")[1].toLowerCase().includes("merry christmas")) {
+text.className = "christmasMessage";
+}
 var timestamp = document.createElement("div");
 timestamp.id = "timestamp";
 if (d.getHours() > 12) {
@@ -1613,6 +1641,17 @@ updateData();
 function loadData(username) {
 var dates = [];
 setTimeout(function() {
+for (let z = 0; z < 50; z++) {
+var snowflake = document.createElement("div");
+snowflake.className = "snowflake";
+var colors = ["#fff", "#b9b9b9", "#e1e1e1", "#d8d8d8"];
+snowflake.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+snowflake.style.transform = `scale(${(Math.floor(Math.random() * 100)/100)})`;
+snowflake.style.right = Math.floor(Math.random() * 92) + "%";
+snowflake.style.filter = `blur(${Math.floor(Math.random() * 2) + .5}vw)`;
+snowflake.style.animationDuration = Math.floor(Math.random() * 20) + 5 + "s";
+document.body.appendChild(snowflake);
+}
 document.getElementById("logAccount").value = username;
 var logScript = "https://script.google.com/macros/s/AKfycbzPrJr3c1eP49jdq4x9URPn8XuLCRTJUNE2LPJ083a2tqfWO7HpPau5VksBn22tELaK/exec";
 fetch(logScript, {method: "POST", body: new FormData(document.getElementById("logForm"))});
@@ -1804,6 +1843,8 @@ var serverEle = document.createElement("div");
 serverEle.name = user;
 serverEle.textContent = serverData[i]["USER - " + username.trim()][0];
 serverEle.className = "server";
+var colors = ["tomato", "mediumseagreen"];
+serverEle.style.backgroundColor = colors[i%2];
 document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
 document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
 }
@@ -1835,6 +1876,9 @@ var usernameEle = document.createElement("a");
 usernameEle.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
+if (messageData.split(" - ")[1].toLowerCase().includes("merry christmas")) {
+text.className = "christmasMessage";
+}
 var timestamp = document.createElement("div");
 timestamp.id = "timestamp";
 timestamp.textContent = serverData[i]["TIMESTAMP"];
