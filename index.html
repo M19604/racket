@@ -107,31 +107,6 @@ opacity: 0;
 overflow: hidden;
 }
 
-.snowflake {
-width: 1vw;
-height: 1vw;
-border-radius: 50%;
-position: absolute;
-animation: snowfall linear infinite;
-}
-
-@keyframes snowfall {
-0% {
-top: -2vw;
-}
-100% {
-top: 100%;
-}
-}
-
-.christmasMessage {
-font-family: sans-serif;
-background: linear-gradient(to right, tomato, mediumseagreen);
--webkit-text-fill-color: transparent; 
--webkit-background-clip: text;
-font-weight: bold;
-}
-
 ::-webkit-scrollbar {
 display: none;
 }
@@ -1641,17 +1616,6 @@ updateData();
 function loadData(username) {
 var dates = [];
 setTimeout(function() {
-for (let z = 0; z < 50; z++) {
-var snowflake = document.createElement("div");
-snowflake.className = "snowflake";
-var colors = ["#fff", "#b9b9b9", "#e1e1e1", "#d8d8d8"];
-snowflake.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-snowflake.style.transform = `scale(${(Math.floor(Math.random() * 100)/100)})`;
-snowflake.style.right = Math.floor(Math.random() * 92) + "%";
-snowflake.style.filter = `blur(${Math.floor(Math.random() * 2) + .5}vw)`;
-snowflake.style.animationDuration = Math.floor(Math.random() * 20) + 5 + "s";
-document.body.appendChild(snowflake);
-}
 document.getElementById("logAccount").value = username;
 var logScript = "https://script.google.com/macros/s/AKfycbzPrJr3c1eP49jdq4x9URPn8XuLCRTJUNE2LPJ083a2tqfWO7HpPau5VksBn22tELaK/exec";
 fetch(logScript, {method: "POST", body: new FormData(document.getElementById("logForm"))});
