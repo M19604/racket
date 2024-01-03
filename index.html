@@ -127,7 +127,6 @@ overflow-y: auto;
 padding-bottom: 8vw;
 padding-top: 3vw;
 z-index: 0;
-background: radial-gradient(#123, #292929);
 }
 
 #dmChat {
@@ -261,6 +260,7 @@ justify-content: center;
 user-select: none;
 cursor: pointer;
 position: relative;
+background-color: #bb86fc;
 }
 
 .sidebar #signoutBTN {
@@ -1807,8 +1807,6 @@ var serverEle = document.createElement("div");
 serverEle.name = user;
 serverEle.textContent = serverData[i]["USER - " + username.trim()][0];
 serverEle.className = "server";
-var colors = ["tomato", "mediumseagreen"];
-serverEle.style.backgroundColor = colors[i%2];
 document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
 document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
 }
