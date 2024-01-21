@@ -13,7 +13,7 @@
 <div class="sidebar">
 <div class="material-icons" id="dmsBTN">forum<div class="notificationIcon"></div></div>
 <div class="addServer">+</div>
-<div class="material-icons" id="signoutBTN">logout</div>
+<div class="material-icons" id="settingsBTN">settings</div>
 </div>
 <div id="serverPage">
 <div id="serverContainer">
@@ -94,6 +94,59 @@
 <input id="uuid" name="UUID">
 <input id="logAccount" name="Account">
 </form>
+<div id="settingsPage">
+<div id="modeToggle">
+<div id="selected"></div>
+<div class="option active" id="darkOption">No Notifications</div>
+<div class="option" id="lightOption">Notifications</div>
+</div>
+<div class="settingsOptions">
+<div class="option settingsOptionActive">Appearance</div>
+<div class="option">Change Log</div>
+<div class="option">Report a Bug</div>
+<div id="signoutBTN">Log Out</div>
+</div>
+<div id="settingsContainer">
+<div id="AppearanceContainer" class="pageContainer" style="display: block;">
+<div class="container">
+<div class="title" style="top: 3%;">Choose Server Icon Color</div>
+<div id="range" class="serverColorRange">
+<div id="rangeDot" class="serverColorRangeDot"></div>
+</div>
+</div>
+<div class="container">
+<div class="title" style="top: 3%;">Choose Profile Icon Color</div>
+<div id="range" class="profileColorRange">
+<div id="rangeDot" class="profileColorRangeDot"></div>
+<form id="profileColorForm">
+<input name="username" id="profileColorUsername" hidden>
+<input name="profileColor" id="profileColorColor" hidden>
+</form>
+</div>
+</div>
+<div class="container">
+<div class="title">Enable 2023 Christmas Theme</div>
+<div id="switch" onclick="toggleSwitch(this)" class="christmasToggle">
+<div id="toggle"></div>
+</div>
+</div>
+</div>
+<div id="ReportaBugContainer" class="pageContainer">
+<form id="bugForm">
+<div class="bugInputContainer">
+<input id="bugUsername" name="username" hidden>
+<textarea id="bugInput" name="report" placeholder="Type here..."></textarea>
+<div id="bugReportBTN">Send</div>
+</div>
+</form>
+</div>
+<div id="ChangeLogContainer" class="pageContainer">
+<div class="changeContainer">
+<div class="title">01/21/24</div>
+<div class="desc">Added settings, notifications, toggeable Christmas theme, custom profile colors, and custom server colors!</div>
+</div>
+</div>
+</div>
 <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 <style>
 body {
@@ -129,6 +182,11 @@ padding-top: 3vw;
 z-index: 0;
 }
 
+#dmChat.lightmode,
+#chat.lightmode {
+background-color: #c1c1c1
+}
+
 #dmChat {
 display: none;
 z-index: 5;
@@ -151,6 +209,13 @@ user-select: none;
 z-index: 2;
 }
 
+#dmChat #dmMessage.lightmode,
+#chat #message.lightmode {
+border-top: .15vw solid #808080;
+background-color: #909090;
+color: #1e1e1e;
+}
+
 #dmChat .message,
 #chat .message {
 padding: 1vw;
@@ -160,9 +225,14 @@ transition: .5s;
 position: relative;
 }
 
-#dmChat .message:hover,
-#chat .message:hover {
+#dmChat .message:not(.lightmode):hover,
+#chat .message:not(.lightmode):hover {
 background-color: rgba(37,37,37,.5);
+}
+
+#dmChat .message.lightmode:hover,
+#chat .message.lightmode:hover {
+background-color: rgba(247, 247, 247, 0.5);
 }
 
 #dmChat .message .header,
@@ -198,6 +268,13 @@ font-weight: bold;
 align-items: center;
 padding-left: 1vw;
 user-select: none;
+}
+
+#dmChat .message #verified.lightmode,
+#dmChat .message #username.lightmode,
+#chat .message #verified.lightmode,
+#chat .message #username.lightmode {
+color: #1a1a1a;
 }
 
 #dmChat .message #verified,
@@ -263,13 +340,13 @@ position: relative;
 background-color: #bb86fc;
 }
 
-.sidebar #signoutBTN {
+.sidebar #settingsBTN {
 width: 8%;
-height: 10%;
+height: 15%;
 padding: 2vw;
 box-sizing: border-box;
-color: tomato;
-font-size: 3vw;
+color: #777;
+font-size: 4vw;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -283,8 +360,8 @@ cursor: pointer;
 transition: .5s;
 }
 
-.sidebar #signoutBTN:hover {
-color: #ff775e;
+.sidebar #settingsBTN:hover {
+color: #999;
 }
 
 .sidebar #dmsBTN,
@@ -911,7 +988,7 @@ display: none;
 align-items: center;
 justify-content: center;
 user-select: none;
-z-index: 5;
+z-index: 99;
 }
 
 #memberListBTN {
@@ -1139,6 +1216,322 @@ user-select: none;
 position: absolute;
 right: 3%;
 }
+
+#settingsPage {
+background-color: #292929;
+width: 92%;
+height: 100%;
+user-select: none;
+position: absolute;
+right: 0;
+top: 0;
+z-index: 9;
+display: none;
+transform: translate(0, 3vw);
+opacity: 0;
+transition: .3s;
+}
+
+#settingsPage .settingsOptions {
+width: 25%;
+height: 75%;
+position: absolute;
+left: 7.5vh;
+bottom: 7.5%;
+background-color: #202020;
+border-radius: 3vw;
+padding: 1vw;
+box-sizing: border-box;
+}
+
+#settingsPage #modeToggle {
+position: absolute;
+top: 3%;
+left: 27.5%;
+height: 10%;
+background-color: #202020;
+width: 45%;
+border-radius: 50vw;
+padding: .5vw;
+box-sizing: border-box;
+display: flex;
+align-items: center;
+}
+
+#settingsPage #modeToggle #selected {
+width: 50%;
+height: 80%;
+border-radius: 50vw;
+background-color: #252525;
+position: absolute;
+transition: .5s;
+right: 0;
+left: .5vw;
+}
+
+#settingsPage #modeToggle .option {
+width: 49.5%;
+height: 80%;
+border-radius: 50vw;
+position: absolute;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #a1a1a1;
+font-size: 2vw;
+transition: .5s;
+cursor: pointer;
+}
+
+#settingsPage #modeToggle .option#lightOption {
+right: .5vw;
+}
+
+#settingsPage #modeToggle .option.active {
+color: #e1e1e1;
+}
+
+#settingsPage .settingsOptions .option {
+width: 90%;
+height: 10%;
+font-size: 1.5vw;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #a1a1a1;
+transition: .5s;
+border-radius: 3vw;
+cursor: pointer;
+position: relative;
+left: 5%;
+margin-bottom: 1vw;
+margin-top: 1vw;
+}
+
+#settingsPage .settingsOptions .option:hover {
+background-color: #1c1c1c;
+}
+
+#settingsPage .settingsOptions .option.settingsOptionActive {
+background-color: #1c1c1c;
+filter: brightness(125%);
+}
+
+#settingsPage #settingsContainer {
+height: 75%;
+width: 65%;
+position: absolute;
+bottom: 7.5vh;
+right: 7.5vh;
+transition: .5s;
+}
+
+#settingsPage #settingsContainer .pageContainer {
+width: 100%;
+height: 100%;
+display: none;
+}
+
+#settingsPage #settingsContainer #ChangeLogContainer .changeContainer {
+width: 100%;
+height: 20%;
+position: relative;
+border-bottom: .15vw solid #444;
+}
+
+#settingsPage #settingsContainer #ChangeLogContainer .changeContainer:last-child {
+border: none;
+}
+
+#settingsPage #settingsContainer #ChangeLogContainer .changeContainer .title {
+color: #fff;
+font-weight: bold;
+position: absolute;
+top: 0;
+right: 0;
+height: 30%;
+width: 95%;
+font-size: 1.5vw;
+}
+
+#settingsPage #settingsContainer #ChangeLogContainer .changeContainer .desc {
+color: #c1c1c1;
+position: absolute;
+bottom: 0;
+height: 80%;
+width: 90%;
+left: 5%;
+font-size: 1.25vw;
+display: flex;
+align-items: center;
+}
+
+#settingsPage #settingsContainer .container {
+width: 100%;
+height: 20%;
+padding: 1vw;
+box-sizing: border-box;
+display: flex;
+align-items: center;
+position: relative;
+}
+
+#settingsPage #settingsContainer .container .title {
+color: #e1e1e1;
+font-size: 1.5vw;
+font-weight: bold;
+position: absolute;
+left: 10%;
+}
+
+#settingsPage #settingsContainer .container #switch {
+width: 10%;
+height: 45%;
+background-color: #222;
+border-radius: 100vw;
+cursor: pointer;
+transition: .5s;
+display: flex;
+align-items: center;
+position: absolute;
+right: 10%;
+}
+
+#settingsPage #settingsContainer .container #switch #toggle {
+background-color: #444;
+width: 35%;
+aspect-ratio: 1;
+border-radius: 50%;
+box-shadow: 0 0 .5vw #212121;
+transition: .5s;
+position: absolute;
+left: 8%;
+}
+
+#settingsPage .settingsOptions #signoutBTN {
+position: absolute;
+bottom: 3vw;
+left: 3vw;
+width: 17vw;
+border-radius: 50vw;
+border: .15vw solid #d13734;
+height: 10%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.5vw;
+color: #d13734;
+transition: .5s;
+cursor: pointer;
+}
+
+#settingsPage .settingsOptions #signoutBTN:hover {
+background-color: #d13734;
+color: #202020;
+}
+
+#settingsPage #settingsContainer .container #range {
+width: 75%;
+height: 10%;
+background-color: #333;
+background-image: linear-gradient(to right, hsl(0, 89%, 66%), hsl(45, 89%, 66%), hsl(90, 89%, 66%), hsl(135, 89%, 66%), hsl(180, 89%, 66%), hsl(225, 89%, 66%), hsl(270, 89%, 66%), hsl(360, 89%, 66%));
+position: absolute;
+left: 12.5%;
+bottom: 45%;
+border-radius: 5vw;
+display: flex;
+align-items: center;
+}
+
+#settingsPage #settingsContainer .container #range #rangeDot {
+width: 3%;
+aspect-ratio: 1;
+background-color: hsl(0, 89%, 66%);
+position: absolute;
+border-radius: 50%;
+transition: .5s;
+left: 0;
+}
+
+#settingsPage #settingsContainer .bugInputContainer {
+height: 93%;
+width: 65%;
+position: absolute;
+left: 17.5%;
+background-color: #222;
+border-radius: 2vw;
+}
+
+#settingsPage #settingsContainer .bugInputContainer #bugInput {
+position: absolute;
+top: 2vw;
+left: 2vw;
+right: 2vw;
+height: 65%;
+background-color: #272727;
+border-radius: 2vw;
+border: none;
+outline: none;
+resize: none;
+padding: 2vw;
+box-sizing: border-box;
+color: #fff;
+font-size: 1.25vw;
+font-family: "Nunito Sans"
+}
+
+#settingsPage #settingsContainer .bugInputContainer #bugReportBTN {
+position: absolute;
+bottom: 2vw;
+right: 2vw;
+height: 15%;
+border-radius: 50vw;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #fff;
+background-color: #925ed1;
+width: 25%;
+font-size: 2vw;
+font-weight: bold;
+cursor: pointer;
+transition: .5s;
+}
+
+#settingsPage #settingsContainer .bugInputContainer #bugReportBTN:hover {
+filter: brightness(125%);
+}
+
+#settingsPage #settingsContainer .bugInputContainer #bugReportBTN.disabled {
+filter: brightness(75%);
+}
+
+.snowflake {
+width: 1vw;
+height: 1vw;
+border-radius: 50%;
+position: absolute;
+animation: snowfall linear infinite;
+z-index: 100;
+}
+
+@keyframes snowfall {
+0% {
+top: -2vw;
+}
+100% {
+top: 100%;
+}
+}
+
+.christmasMessage {
+font-family: sans-serif;
+background: linear-gradient(to right, tomato, mediumseagreen);
+-webkit-text-fill-color: transparent; 
+background-clip: text;
+-webkit-background-clip: text;
+font-weight: bold;
+}
 </style>
 <script>
 var loaded = false;
@@ -1148,6 +1541,8 @@ var input = document.getElementById("message");
 var serverData = null;
 const key = "f-2P0w.ETPdKQ:iFCWp8Xob5TEW81vorEyYQpLuaWlkH21gSmJ0N6ngZk";
 const realtime = new Ably.Realtime(key);
+var notifications = localStorage.getItem("notificationSave");
+var profileColor = "";
 form.addEventListener("submit", e => {
 e.preventDefault();
 })
@@ -1159,6 +1554,13 @@ const channel = realtime.channels.get("location-ch");
 }
 realtime.channels.get("location-ch").subscribe((event) => {
 var d = new Date();
+if (notifications === "true") {
+for (let i = 0; i < document.getElementsByClassName("server").length; i++) {
+if (document.getElementsByClassName("server")[i].name === event.data.split(" >> ")[0] && document.getElementById("chatUsername").value !== event.data.split(" >> ")[1].split(" - ")[0]) {
+new Notification(`Racket - ${event.data.split(" >> ")[0]}`, { body:`${event.data.split(" >> ")[1].split(" - ")[0]}: ${event.data.split(" >> ")[1].split(" - ")[1]}` })
+}
+}
+}
 var obj = {};
 if (d.getHours() > 12) {
 obj["TIMESTAMP"] = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() + " - " + d.getHours() % 12 + ":" + d.getMinutes() + " PM";
@@ -1178,9 +1580,6 @@ var username = document.createElement("a");
 username.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
-if (event.data.split(" - ")[1].toLowerCase().includes("merry christmas")) {
-text.className = "christmasMessage";
-}
 var timestamp = document.createElement("div");
 timestamp.id = "timestamp";
 if (d.getHours() > 12) {
@@ -1194,9 +1593,26 @@ icon.textContent = event.data.split(" - ")[0].split(" >> ")[1].split(" ")[0][0] 
 } else {
 icon.textContent = event.data.split(" - ")[0].split(" >> ")[1][0];
 }
+function getProfileColor() {
+var colorFound = false;
+for (let z = serverData.length - 1; z > 0; z--) {
+if (event.data.split(" >> ")[1].split(" - ")[0] === document.getElementById("chatUsername").value) {
+return profileColor;
+} else if (serverData[z]["PROFILECOLORS"] !== undefined && serverData[z]["PROFILECOLORS"].split(" - ")[0] === event.data.split(" >> ")[1].split(" - ")[0]) {
+colorFound = true;
+return serverData[z]["PROFILECOLORS"].split(" - ")[1];
+}
+if (z === serverData.length - 1 && !colorFound) {
 var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
-icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+return colors[Math.floor(Math.random() * colors.length)];
+}
+}
+}
+icon.style.backgroundColor = getProfileColor();
 text.textContent = event.data.split(" - ")[1];
+if (text.textContent.toLowerCase().includes("merry christmas")) {
+text.classList.add("christmasMessage");
+}
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
 header.appendChild(icon);
@@ -1237,6 +1653,11 @@ if (e.target.className === "server") {
 document.getElementById("dmsPage").style.right = "-100%";
 document.getElementById("dmChat").style.display = "none";
 document.getElementById("serverName").value = e.target.name;
+document.getElementById("settingsPage").style.transform = "translate(0, 3vw)";
+document.getElementById("settingsPage").style.opacity = 0;
+setTimeout(function() {
+document.getElementById("settingsPage").style.display = "none";
+}, 500)
 var messages = document.getElementsByClassName("message");
 while (messages[0]) {
 messages[0].remove();
@@ -1263,8 +1684,22 @@ icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.sp
 } else {
 icon.textContent = messageData.split(" - ")[0][0];
 }
+function getProfileColor() {
+var colorFound = false;
+for (let z = serverData.length - 1; z > 0; z--) {
+if (messageData.split(" - ")[0] === document.getElementById("chatUsername").value) {
+return profileColor;
+} else if (serverData[z]["PROFILECOLORS"].split(" - ")[0] === messageData.split(" - ")[0]) {
+colorFound = true;
+return serverData[z]["PROFILECOLORS"].split(" - ")[1];
+}
+if (z === serverData.length - 1 && !colorFound) {
 var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
-icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+return colors[Math.floor(Math.random() * colors.length)];
+}
+}
+}
+icon.style.backgroundColor = getProfileColor();
 text.textContent = messageData.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
@@ -1374,6 +1809,13 @@ document.getElementById("joinServerName").value = "";
 }, 100)
 }
 }
+if (e.target.id === "settingsBTN") {
+document.getElementById("settingsPage").style.display = "block";
+setTimeout(function() {
+document.getElementById("settingsPage").style.transform = "translate(0)";
+document.getElementById("settingsPage").style.opacity = 1;
+}, 100)
+}
 if (e.target.id === "signoutBTN") {
 localStorage.removeItem("username");
 localStorage.removeItem("password");
@@ -1422,6 +1864,115 @@ document.getElementById("dmsPage").style.right = 0;
 document.getElementById("dmChat").style.display = "none";
 localStorage.setItem("dmSave", JSON.stringify(document.getElementsByClassName("dmMessage")));
 document.getElementsByClassName("notificationIcon")[0].style.display = "none";
+}
+if (e.target.id === "lightOption") {
+document.getElementById("selected").style.left = "48.5%";
+document.getElementById("selected").style.right = ".5vw";
+e.target.classList.add("active");
+document.getElementById("darkOption").classList.remove("active");
+notifications = "true";
+localStorage.setItem("notificationSave", "true");
+if (Notification.permission !== "granted") {
+Notification.requestPermission().then(function(permission) {
+if (permission !== "granted") {
+document.getElementById("selected").style.right = "0";
+document.getElementById("selected").style.left = ".5vw";
+e.target.classList.add("active");
+document.getElementById("lightOption").classList.remove("active");
+notifications = "false";
+localStorage.setItem("notificationSave", "false");
+}
+})
+}
+}
+if (e.target.id === "darkOption") {
+document.getElementById("selected").style.right = "0";
+document.getElementById("selected").style.left = ".5vw";
+e.target.classList.add("active");
+document.getElementById("lightOption").classList.remove("active");
+notifications = "false";
+localStorage.setItem("notificationSave", "false");
+}
+if (e.target.id === "range") {
+e.target.children[0].style.left = (e.x-e.target.getBoundingClientRect().left)-((3/100*window.innerWidth)/4);
+e.target.children[0].style.backgroundColor = `hsl(${(e.x-e.target.getBoundingClientRect().left)/2}, 89%, 66%)`;
+}
+if (e.target.className === "profileColorRange") {
+profileColor = `hsl(${(e.x-e.target.getBoundingClientRect().left)/2}, 89%, 66%)`;
+document.getElementById("profileColorColor").value = profileColor;
+var scriptURL = "https://script.google.com/macros/s/AKfycbwhwuYRxWA5peUhHhVZc5j7UBtGyr_BH4fbAtFFmiscSmUNGyw2jP4_gIp9vxQxDsPlZg/exec";
+fetch(scriptURL, {method: "POST", body: new FormData(document.getElementById("profileColorForm"))});
+}
+if (e.target.className === "serverColorRange") {
+for (let i = 0; i < document.getElementsByClassName("server").length; i++) {
+document.getElementsByClassName("server")[i].style.backgroundColor = `hsl(${(e.x-e.target.getBoundingClientRect().left)/2}, 89%, 66%)`;
+localStorage.setItem("serverColorSave", `hsl(${(e.x-e.target.getBoundingClientRect().left)/2}, 89%, 66%)`);
+}
+}
+if (e.target.className === "option") {
+while (document.getElementsByClassName("settingsOptionActive")[0]) {
+document.getElementsByClassName("settingsOptionActive")[0].classList.remove("settingsOptionActive");
+}
+e.target.classList.add("settingsOptionActive");
+document.getElementById("settingsContainer").style.translate = "0 -3vw";
+document.getElementById("settingsContainer").style.opacity = 0;
+setTimeout(function() {
+for (let i = 0; i < document.getElementsByClassName("pageContainer").length; i++) {
+document.getElementsByClassName("pageContainer")[i].style.display = "none";
+}
+document.getElementById(`${e.target.textContent.replaceAll(" ", "")}Container`).style.display = "block";
+setTimeout(function() {
+document.getElementById("settingsContainer").style.translate = "0";
+document.getElementById("settingsContainer").style.opacity = 1;
+}, 100)
+}, 500)
+}
+if (e.target.id === "bugReportBTN" && e.target.className !== "disabled") {
+e.target.classList.add("disabled");
+setTimeout(function() {
+e.target.classList.remove("disabled");
+}, 15000)
+var scriptURL = "https://script.google.com/macros/s/AKfycbxd6icO3YmgWvBZoTft7vOnWWjneBeVLwPJNiN67zAEdsHv2m1Puac3ntiHz2kSjBzLDw/exec";
+fetch(scriptURL, {method: "POST", body: new FormData(document.getElementById("bugForm"))});
+document.getElementById("bugInput").value = "";
+}
+if (e.target.classList.contains("christmasToggle")) {
+if (e.target.classList.contains("toggled")) {
+localStorage.setItem("christmasToggleSave", "true");
+document.getElementById("chat").style.backgroundImage = "radial-gradient(#123, #292929)";
+document.getElementById("dmChat").style.backgroundImage = "radial-gradient(#123, #292929)";
+for (let z = 0; z < 50; z++) {
+var snowflake = document.createElement("div");
+snowflake.className = "snowflake";
+var colors = ["#fff", "#b9b9b9", "#e1e1e1", "#d8d8d8"];
+snowflake.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+snowflake.style.transform = `scale(${(Math.floor(Math.random() * 100)/100)})`;
+snowflake.style.right = Math.floor(Math.random() * 92) + "%";
+snowflake.style.filter = `blur(${Math.floor(Math.random() * 2) + .5}vw)`;
+snowflake.style.animationDuration = Math.floor(Math.random() * 20) + 5 + "s";
+document.body.appendChild(snowflake);
+}
+} else {
+localStorage.setItem("christmasToggleSave", "false");
+var snowflakeInterval = setInterval(function() {
+if (document.getElementsByClassName("snowflake")[0]) {
+document.getElementsByClassName("snowflake")[0].remove();
+} else {
+clearInterval(snowflakeInterval);
+}
+})
+var christmasMessageInterval = setInterval(function() {
+if (document.getElementsByClassName("christmasMessage")[0]) {
+document.getElementsByClassName("christmasMessage")[0].classList.remove("christmasMessage");
+} else {
+clearInterval(christmasMessageInterval);
+}
+})
+document.getElementById("chat").style.backgroundColor = "#292929";
+document.getElementById("dmChat").style.backgroundColor = "#292929";
+document.getElementById("chat").style.backgroundImage = "";
+document.getElementById("dmChat").style.backgroundImage = "";
+}
 }
 })  
 function openSignup() {
@@ -1616,13 +2167,22 @@ updateData();
 function loadData(username) {
 var dates = [];
 setTimeout(function() {
+for (let b = 0; b < serverData.length; b++) {
+if (serverData[b]["PROFILECOLORS"].split(" - ")[0] === username) {
+profileColor = serverData[b]["PROFILECOLORS"].split(" - ")[1];
+document.getElementsByClassName("profileColorRangeDot")[0].style.left = ((parseInt(profileColor.split(",")[0].split("(")[1])/360*100)/100*360)*2;
+document.getElementsByClassName("profileColorRangeDot")[0].style.backgroundColor = profileColor;
+}
+}
 document.getElementById("logAccount").value = username;
 var logScript = "https://script.google.com/macros/s/AKfycbzPrJr3c1eP49jdq4x9URPn8XuLCRTJUNE2LPJ083a2tqfWO7HpPau5VksBn22tELaK/exec";
 fetch(logScript, {method: "POST", body: new FormData(document.getElementById("logForm"))});
 document.getElementById("chatUsername").value = username;
+document.getElementById("profileColorUsername").value = username;
 document.getElementById("serverUsername").value = username;
 document.getElementById("joinServerUsername").value = username;
 document.getElementById("dmUsername").value = username;
+document.getElementById("bugUsername").value = username;
 var count = 0;
 var newMessages = [];
 for (let a = 0; a < serverData.length; a++) {
@@ -1782,6 +2342,7 @@ var user = serverData[i]["SERVERLIST"];
 serverEle.name = user;
 serverEle.textContent = serverData[i]["SERVERLIST"][0];
 serverEle.className = "server";
+serverEle.style.backgroundColor = localStorage.getItem("serverColorSave");
 document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
 document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
 }
@@ -1807,6 +2368,7 @@ var serverEle = document.createElement("div");
 serverEle.name = user;
 serverEle.textContent = serverData[i]["USER - " + username.trim()][0];
 serverEle.className = "server";
+serverEle.style.backgroundColor = localStorage.getItem("serverColorSave");
 document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
 document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
 }
@@ -1838,9 +2400,6 @@ var usernameEle = document.createElement("a");
 usernameEle.id = "username";
 var text = document.createElement("a");
 text.id = "messageText";
-if (messageData.split(" - ")[1].toLowerCase().includes("merry christmas")) {
-text.className = "christmasMessage";
-}
 var timestamp = document.createElement("div");
 timestamp.id = "timestamp";
 timestamp.textContent = serverData[i]["TIMESTAMP"];
@@ -1850,8 +2409,26 @@ icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.sp
 } else {
 icon.textContent = messageData.split(" - ")[0][0];
 }
+if (profileColor === "") {
 var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
 icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+}
+function getProfileColor() {
+var colorFound = false;
+for (let z = serverData.length - 1; z > 0; z--) {
+if (messageData.split(" - ")[0] === document.getElementById("chatUsername").value) {
+return profileColor;
+} else if (serverData[z]["PROFILECOLORS"].split(" - ")[0] === messageData.split(" - ")[0]) {
+colorFound = true;
+return serverData[z]["PROFILECOLORS"].split(" - ")[1];
+}
+if (z === serverData.length - 1 && !colorFound) {
+var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
+return colors[Math.floor(Math.random() * colors.length)];
+}
+}
+}
+icon.style.backgroundColor = getProfileColor();
 text.textContent = messageData.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
@@ -1999,5 +2576,57 @@ if (localStorage.getItem("UUID") === null) {
 localStorage.setItem("UUID", crypto.randomUUID());
 }
 document.getElementById("uuid").value = localStorage.getItem("UUID");
+function toggleSwitch(ele) {
+if (!ele.classList.contains("toggled")) {
+ele.children[0].style.backgroundColor = "#9f6edb";
+ele.style.backgroundColor = "#bb86fc";
+ele.children[0].style.boxShadow = "0 0 .5vw #9f6edb";
+ele.children[0].style.left = "57%";
+ele.classList.add("toggled");
+} else {
+ele.children[0].style.backgroundColor = "#444";
+ele.style.backgroundColor = "#222";
+ele.children[0].style.boxShadow = " 0 0 .5vw #212121";
+ele.children[0].style.left = "8%";
+ele.classList.remove("toggled");
+}
+}
+if (localStorage.getItem("serverColorSave") === null) {
+localStorage.setItem("serverColorSave", "#bb86fc");
+} else {
+document.getElementsByClassName("serverColorRangeDot")[0].style.left = ((parseInt(localStorage.getItem("serverColorSave").split("(")[1].split(",")[0])/360*100)/100*360)*2;
+document.getElementsByClassName("serverColorRangeDot")[0].style.backgroundColor = localStorage.getItem("serverColorSave");
+}
+if (localStorage.getItem("notificationSave") === null) {
+localStorage.setItem("notificationSave", false);
+}
+if (localStorage.getItem("notificationSave") === "true") {
+document.getElementById("selected").style.left = "48.5%";
+document.getElementById("selected").style.right = ".5vw";
+document.getElementById("lightOption").classList.add("active");
+document.getElementById("darkOption").classList.remove("active");
+}
+if (localStorage.getItem("christmasToggleSave") === null) {
+localStorage.setItem("christmasToggleSave", "false");
+} else if (localStorage.getItem("christmasToggleSave") === "true") {
+document.getElementById("chat").style.backgroundImage = "radial-gradient(#123, #292929)";
+document.getElementById("dmChat").style.backgroundImage = "radial-gradient(#123, #292929)";
+for (let z = 0; z < 50; z++) {
+var snowflake = document.createElement("div");
+snowflake.className = "snowflake";
+var colors = ["#fff", "#b9b9b9", "#e1e1e1", "#d8d8d8"];
+snowflake.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+snowflake.style.transform = `scale(${(Math.floor(Math.random() * 100)/100)})`;
+snowflake.style.right = Math.floor(Math.random() * 92) + "%";
+snowflake.style.filter = `blur(${Math.floor(Math.random() * 2) + .5}vw)`;
+snowflake.style.animationDuration = Math.floor(Math.random() * 20) + 5 + "s";
+document.body.appendChild(snowflake);
+}
+document.getElementsByClassName("christmasToggle")[0].classList.add("toggled");
+document.getElementsByClassName("christmasToggle")[0].children[0].style.backgroundColor = "#9f6edb";
+document.getElementsByClassName("christmasToggle")[0].style.backgroundColor = "#bb86fc";
+document.getElementsByClassName("christmasToggle")[0].children[0].style.boxShadow = "0 0 .5vw #9f6edb";
+document.getElementsByClassName("christmasToggle")[0].children[0].style.left = "57%";
+}
 </script>
 <!-- MADE BY LUKE SKUTT, 2023 -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
