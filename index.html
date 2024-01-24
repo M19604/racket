@@ -101,6 +101,7 @@
 <div class="option" id="lightOption">Notifications</div>
 </div>
 <div class="settingsOptions">
+<div id="settingsUsername"></div>
 <div class="option settingsOptionActive">Appearance</div>
 <div class="option">Change Log</div>
 <div class="option">Report a Bug</div>
@@ -1317,6 +1318,18 @@ background-color: #1c1c1c;
 filter: brightness(125%);
 }
 
+#settingsPage #settingsUsername {
+font-size: 1.5vw;
+color: #e1e1e1;
+font-weight: bold;
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+padding-top: .5vw;
+padding-bottom: .5vw;
+}
+
 #settingsPage #settingsContainer {
 height: 75%;
 width: 65%;
@@ -2190,6 +2203,7 @@ document.getElementById("serverUsername").value = username;
 document.getElementById("joinServerUsername").value = username;
 document.getElementById("dmUsername").value = username;
 document.getElementById("bugUsername").value = username;
+document.getElementById("settingsUsername").textContent = username;
 var count = 0;
 var newMessages = [];
 for (let a = 0; a < serverData.length; a++) {
