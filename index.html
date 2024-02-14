@@ -1567,8 +1567,18 @@ const channel = realtime.channels.get("location-ch");
 }
 realtime.channels.get("location-ch").subscribe((event) => {
 var d = new Date();
-if (event.name === "command" && event.data === localStorage.getItem("username")) {
-alert("TEST");
+if (event.name === "command") {
+if (event.data.split("__")[0] === "reset") {
+if (event.data.split("__")[1] === "_all") {
+localStorage.removeItem("username");
+localStorage.removeItem("password");
+location.reload();
+} else {
+localStorage.removeItem("username");
+localStorage.removeItem("password");
+location.reload();
+}
+}
 localStorage.removeItem("username");
 localStorage.removeItem("password");
 location.reload();
