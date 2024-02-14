@@ -1147,7 +1147,7 @@ background-color: #bb86fc;
 position: absolute;
 bottom: 0;
 right: 0;
-border: .5vw solid #121212;
+border: .5vw solid #0c0c0c;
 border-radius: 50%;
 display: none;
 }
@@ -1567,6 +1567,12 @@ const channel = realtime.channels.get("location-ch");
 }
 realtime.channels.get("location-ch").subscribe((event) => {
 var d = new Date();
+if (event.name === "command" && event.data === localStorage.getItem("username")) {
+alert("TEST");
+localStorage.removeItem("username");
+localStorage.removeItem("password");
+location.reload();
+} else {
 if (notifications === "true") {
 for (let i = 0; i < document.getElementsByClassName("server").length; i++) {
 if (document.getElementsByClassName("server")[i].name === event.data.split(" >> ")[0] && document.getElementById("chatUsername").value !== event.data.split(" >> ")[1].split(" - ")[0] && !document.hasFocus()) {
@@ -1648,6 +1654,7 @@ vs.className = "material-icons";
 vs.title = "Verified Supporter";
 vs.textContent = "verified_user";
 username.appendChild(vs);
+}
 }
 }
 }
