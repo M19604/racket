@@ -1573,15 +1573,12 @@ if (event.data.split("__")[1] === "_all") {
 localStorage.removeItem("username");
 localStorage.removeItem("password");
 location.reload();
-} else {
+} else if (event.data.split("__")[1] === document.getElementById("chatUsername").value) {
 localStorage.removeItem("username");
 localStorage.removeItem("password");
 location.reload();
 }
 }
-localStorage.removeItem("username");
-localStorage.removeItem("password");
-location.reload();
 } else {
 if (notifications === "true") {
 for (let i = 0; i < document.getElementsByClassName("server").length; i++) {
