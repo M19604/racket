@@ -1642,7 +1642,16 @@ if (icon.style.backgroundColor === "") {
 var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
 icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 }
-text.textContent = event.data.split(" - ")[1];
+var chance = Math.floor(Math.random() * 5);
+// APRIL FOOLS CODE:
+if (chance === 1) {
+var messageText = event.data.split(" - ")[1];
+randomWord = Math.floor(Math.random() * text.split(" ").length);
+text.textContent = messageText.replace(messageText.split(" ")[randomWord], "april fools");
+} else {
+text.textContent = event.data.split(" - ")[1]; // KEEP THIS LINE AFTER REMOVING APRIL FOOLS UPDATE
+}
+// NO MORE APRIL FOOLS CODE
 if (text.textContent.toLowerCase().includes("merry christmas")) {
 text.classList.add("christmasMessage");
 }
