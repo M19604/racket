@@ -1643,9 +1643,9 @@ var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
 icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 }
 // APRIL FOOLS CODE:
-var chance = Math.floor(Math.random() * 1);
+var chance = Math.floor(Math.random() * 2);
 var messageText = event.data.split(" - ")[1];
-if (chance !== 5) {
+if (chance === 1) {
 var words = ["april fools", "eldon is bad", "hhahahhaha", "you stink", "racket is so good", "daniel is so smart", "bing bong"];
 messageText = messageText.replace(messageText.split(" ")[Math.floor(Math.random() * messageText.split(" ").length)], words[Math.floor(Math.random() * Object.keys(words).length)]);
 }
