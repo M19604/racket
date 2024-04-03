@@ -1290,6 +1290,8 @@ right: .5vw;
 
 #settingsPage #modeToggle .option.active {
 color: #e1e1e1;
+background-color: #252525;
+border-radius: 50vw;
 }
 
 #settingsPage .settingsOptions .option {
@@ -2645,10 +2647,7 @@ document.getElementsByClassName("serverColorRangeDot")[0].style.backgroundColor 
 }
 if (localStorage.getItem("notificationSave") === null) {
 localStorage.setItem("notificationSave", false);
-}
-if (localStorage.getItem("notificationSave") === "true") {
-document.getElementById("selected").style.left = "48.5%";
-document.getElementById("selected").style.right = ".5vw";
+} else if (localStorage.getItem("notificationSave") === "true") {
 document.getElementById("lightOption").classList.add("active");
 document.getElementById("darkOption").classList.remove("active");
 }
