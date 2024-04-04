@@ -2,6 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito Sans">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="icon" type="image/x-icon" href="https://m19604.github.io/racket/favicon.png">
 <title>Racket</title>
 <div id="chat">
 <form id="chatForm">
@@ -145,6 +146,10 @@
 <div class="changeContainer">
 <div class="title">01/21/24</div>
 <div class="desc">Added settings, notifications, toggeable Christmas theme, custom profile colors, and custom server colors!</div>
+</div>
+<div class="changeContainer">
+<div class="title">04/04/24</div>
+<div class="desc">Minor bug and security fixes and new Racket favicon/logo.</div>
 </div>
 </div>
 </div>
@@ -1367,6 +1372,7 @@ right: 0;
 height: 30%;
 width: 95%;
 font-size: 1.5vw;
+padding-top: 1vw;
 }
 
 #settingsPage #settingsContainer #ChangeLogContainer .changeContainer .desc {
@@ -2088,9 +2094,8 @@ document.getElementsByClassName("signupSubmit")[0].classList.remove("active");
 function signup() {
 var exists = false;
 for (let i = 0; i < serverData.length; i++) {
-if (document.getElementById("signupUsername").value === serverData[i]["USERNAMES"]) {
+if (document.getElementById("signupUsername").value.trim() === serverData[i]["USERNAMES"]) {
 exists = true;
-alert(exists)
 }
 if (i === serverData.length - 1) {
 if (exists) {
