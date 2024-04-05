@@ -1586,6 +1586,12 @@ localStorage.removeItem("username");
 localStorage.removeItem("password");
 location.reload();
 }
+} else if (event.data.split("__")[0] === "refresh") {
+if (event.data.split("__")[1] === "_all") {
+location.reload();
+} else if (event.data.split("__")[1].replaceAll("_", " ") === document.getElementById("chatUsername").value) {
+location.reload();
+}
 }
 } else {
 if (notifications === "true") {
