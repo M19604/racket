@@ -1666,6 +1666,14 @@ header.appendChild(icon);
 header.appendChild(username);
 ele.appendChild(text);
 ele.appendChild(timestamp);
+if (event.data.split(" - ")[0].split(" >> ")[1] === "Incognito") {
+var badge = document.createElement("img");
+badge.src = "https://mobileimages.lowes.com/productimages/4d55aa9a-b645-48ec-9a9e-7e6480283eea/02592174.jpg?size=pdhism";
+badge.style.width = "30px";
+badge.style.height = "auto";
+badge.style.paddingLeft = "1vw";
+username.appendChild(badge);
+}
 document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["VERIFIEDSUPPORTERS"] === event.data.split(" - ")[0].split(" >> ")[1]) {
