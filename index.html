@@ -1688,8 +1688,8 @@ ele.appendChild(vid);
 } else {
 var img = document.createElement("img");
 for (let a = 0; a < text.textContent.split(" ").length; a++) {
-endings = "jpgpng";
-if (text.textContent.split(" ")[a].includes("https://") && endings.includes(text.textContent.split(".")[text.textContent.split(".").length-1])) {
+var endings = "comnetorg";
+if (text.textContent.split(" ")[a].includes("https://") && !endings.includes(text.textContent.split(".")[text.textContent.split(".").length-1])) {
 img.src = text.textContent.split(" ")[a];
 var br = document.createElement("br");
 ele.appendChild(br);
@@ -2581,8 +2581,8 @@ ele.appendChild(vid);
 } else {
 var img = document.createElement("img");
 for (let a = 0; a < text.textContent.split(" ").length; a++) {
-var endings = "jpgpng";
-if (text.textContent.split(" ")[a].includes("https://") && endings.includes(text.textContent.split(".")[text.textContent.split(".").length-1])) {
+var endings = "comnetorg";
+if (text.textContent.split(" ")[a].includes("https://") && !endings.includes(text.textContent.split(".")[text.textContent.split(".").length-1])) {
 img.src = text.textContent.split(" ")[a];
 var br = document.createElement("br");
 ele.appendChild(br);
