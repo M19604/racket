@@ -1734,7 +1734,6 @@ badge.style.height = "auto";
 badge.style.paddingLeft = "1vw";
 username.appendChild(badge);
 }
-document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["VERIFIEDSUPPORTERS"] === event.data.split(" - ")[0].split(" >> ")[1]) {
 var vs = document.createElement("a");
@@ -1745,6 +1744,7 @@ vs.textContent = "verified_user";
 username.appendChild(vs);
 }
 }
+document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
 }
 }
 })
@@ -2600,7 +2600,6 @@ img.style.marginLeft = "5%";
 }
 }
 }
-document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
 var vs = document.createElement("a");
@@ -2611,6 +2610,7 @@ vs.textContent = "verified_user";
 usernameEle.appendChild(vs);
 }
 }
+document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
 }
 }
 }
