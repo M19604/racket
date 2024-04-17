@@ -1,4 +1,4 @@
-<!-- MADE BY LUKE SKUTT, 2023 -->
+22w<!-- MADE BY LUKE SKUTT, 2023 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito Sans">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -1577,6 +1577,7 @@ async function initialize() {
 await realtime.connection.once("connected");
 const channel = realtime.channels.get("location-ch");
 }
+var imagenum=0;
 realtime.channels.get("location-ch").subscribe((event) => {
 var d = new Date();
 if (event.name === "command") {
@@ -1690,10 +1691,15 @@ var img = document.createElement("img");
 for (let a = 0; a < text.textContent.split(" ").length; a++) {
 var endings = "comnetorgio";
 if (text.textContent.split(" ")[a].includes("https://") && !endings.includes(text.textContent.split(".")[text.textContent.split(".").length-1])) {
+imagenum++;
+img.id = imagenum;
 img.src = text.textContent.split(" ")[a];
 var br = document.createElement("br");
 ele.appendChild(br);
 ele.appendChild(img);
+document.getElementById(imagenum).addEventListener("error", e => {
+document.getElementById(imagenum).remove();
+})
 img.style.borderRadius = "1vw";
 if (img.clientWidth>img.clientHeight) {
 img.style.height = "15%";
@@ -2583,10 +2589,15 @@ var img = document.createElement("img");
 for (let a = 0; a < text.textContent.split(" ").length; a++) {
 var endings = "comnetorgio";
 if (text.textContent.split(" ")[a].includes("https://") && !endings.includes(text.textContent.split(".")[text.textContent.split(".").length-1])) {
+imagenum++;
+img.id = imagenum;
 img.src = text.textContent.split(" ")[a];
 var br = document.createElement("br");
 ele.appendChild(br);
 ele.appendChild(img);
+img.addEventListener("error", e => {
+e.target.remove();
+})
 img.style.borderRadius = "1vw";
 if (img.clientWidth>img.clientHeight) {
 img.style.height = "15%";
