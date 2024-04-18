@@ -1661,7 +1661,7 @@ if (icon.style.backgroundColor === "") {
 var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
 icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 }
-text.textContent = event.data.split(" - ")[1];
+text.textContent = `"${event.data.split(" - ")[1]}," says the ${username.textContent}.`;
 if (text.textContent.toLowerCase().includes("merry christmas")) {
 text.classList.add("christmasMessage");
 }
