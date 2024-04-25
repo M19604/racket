@@ -2272,8 +2272,9 @@ return response.json();
 serverData = data;
 if (data[0] === undefined) {
 fetch(url10).then(response => {
-return response.json(); 
+return response.json();
 }).then(data => {
+serverData = data;
 if (data[0] === undefined) {
 loadError("503", "Our servers are currently down. Check back later!");
 }
