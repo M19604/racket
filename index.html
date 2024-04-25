@@ -2225,6 +2225,7 @@ var url6 = "https://sheetdb.io/api/v1/vldnnozbyi93a";
 var url7 = "https://sheetdb.io/api/v1/uahn0pubbiorb";
 var url8 = "https://sheetdb.io/api/v1/g7npwb3ufk0ch";
 var url9 = "https://sheetdb.io/api/v1/jgkigxxi4o1hv";
+var url10 = "https://sheetdb.io/api/v1/723or30kgfk4e";
 fetch(url1).then(response => { 
 return response.json(); 
 }).then(data => { 
@@ -2270,7 +2271,13 @@ return response.json();
 }).then(data => { 
 serverData = data;
 if (data[0] === undefined) {
+fetch(url10).then(response => {
+return response.json(); 
+}).then(data => {
+if (data[0] === undefined) {
 loadError("503", "Our servers are currently down. Check back later!");
+}
+})
 }
 })
 }
