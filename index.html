@@ -1750,7 +1750,9 @@ vs.textContent = "verified_user";
 username.appendChild(vs);
 }
 }
+if (document.getElementById("chat").scrollHeight-document.getElementById("chat").scrollTop<500) {
 document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
+}
 }
 }
 })
