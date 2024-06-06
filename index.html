@@ -1,16 +1,15 @@
 <!-- MADE BY LUKE SKUTT, 2023 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito Sans">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="icon" type="image/x-icon" href="https://m19604.github.io/racket/racketLogo.png">
 <title>Racket</title>
-<div id="chat">
+<div id="chat"></div>
 <form id="chatForm">
 <input id="message" name="Message" placeholder="Type here..." maxlength="250" autocomplete="off">
 <input id="serverName" name="Server" value="Racket" hidden>
 <input id="chatUsername" name="Username" value="" hidden>
 </form>
-</div>
 <div class="sidebar">
 <div class="material-icons" id="dmsBTN">forum<div class="notificationIcon"></div></div>
 <div class="addServer">+</div>
@@ -72,11 +71,6 @@
 <div class="retryBTN" onclick="location.reload()">Retry</div>
 </div>
 <div id="serverNameElement"></div>
-<div class="material-icons" id="memberListBTN">menu</div>
-<div id="memberList">
-<div id="memberListTitle"></div>
-</div>
-<div id="memberListBox"></div>
 <div id="dmsPage">
 <div class="userTitle">Direct Messages</div>
 <input id="userSearch" placeholder="Search users..." tabindex="-1">
@@ -144,16 +138,20 @@
 </div>
 <div id="ChangeLogContainer" class="pageContainer">
 <div class="changeContainer">
-<div class="title">01/21/24</div>
-<div class="desc">Added settings, notifications, toggeable Christmas theme, custom profile colors, and custom server colors!</div>
+<div class="title">06/05/24</div>
+<div class="desc">New UI including username colors, smaller sidebar, and an overall better design.</div>
+</div>
+<div class="changeContainer">
+<div class="title">04/15/24</div>
+<div class="desc">Added automatic image and video embeds.</div>
 </div>
 <div class="changeContainer">
 <div class="title">04/04/24</div>
 <div class="desc">Minor bug and security fixes and new Racket favicon/logo.</div>
 </div>
 <div class="changeContainer">
-<div class="title">04/15/24</div>
-<div class="desc">Added automatic image and video embeds.</div>
+<div class="title">01/21/24</div>
+<div class="desc">Added settings, notifications, toggeable Christmas theme, custom profile colors, and custom server colors!</div>
 </div>
 </div>
 </div>
@@ -161,11 +159,11 @@
 <style>
 body {
 margin: 0;
-font-family: "Nunito Sans";
+font-family: "Montserrat";
 display: flex;
 align-items: center;
 justify-content: center;
-background-color: #121212;
+background-color: #2e2e2e;
 opacity: 0;
 overflow: hidden;
 }
@@ -175,21 +173,18 @@ display: none;
 }
 
 ::selection {
-color: #1e1e1e;
 background-color: #bb86fc;
+color: #262626;
 }
 
 #dmChat,
 #chat {
-width: 92%;
-height: 100%;
-background-color: #292929;
+height: calc(100vh - (3vw + 7vh));
+width: 94%;
 position: absolute;
+top: 0;
 right: 0;
-overflow-y: auto;
-padding-bottom: 8vw;
-padding-top: 3vw;
-z-index: 0;
+overflow: auto;
 }
 
 #dmChat.lightmode,
@@ -202,21 +197,28 @@ display: none;
 z-index: 5;
 }
 
-#dmChat #dmMessage,
-#chat #message {
-width: 92%;
+#dmMessage,
+#message {
+height: 7%;
+width: 91.2%;
+position: absolute;
+right: 1.25%;
+bottom: 1.5vw;
+background-color: #373737;
 outline: none;
 border: none;
-border-top: .15vw solid #0c0c0c;
-background-color: #1e1e1e;
-padding: .5vw;
+border-radius: 1vw;
+box-sizing: border-box;
+padding: 1vw;
+color: #ababab;
 font-size: 1.5vw;
-color: #fff;
-position: fixed;
-bottom: 0;
-right: 0;
-user-select: none;
-z-index: 2;
+border: .15vw solid #373737;
+transition: .3s;
+}
+
+#dmMessage:focus,
+#message:focus {
+border: .15vw solid #444;
 }
 
 #dmChat #dmMessage.lightmode,
@@ -228,163 +230,120 @@ color: #1e1e1e;
 
 #dmChat .message,
 #chat .message {
-padding: 1vw;
 width: 100%;
-box-sizing: border-box;
-transition: .5s;
 position: relative;
+color: #ddd;
+box-sizing: border-box;
+padding: 1vw;
+font-size: 1.25vw;
+transition: .3s;
+user-select: none;
 }
 
-#dmChat .message:not(.lightmode):hover,
-#chat .message:not(.lightmode):hover {
-background-color: rgba(37,37,37,.5);
-}
-
-#dmChat .message.lightmode:hover,
-#chat .message.lightmode:hover {
-background-color: rgba(247, 247, 247, 0.5);
-}
-
-#dmChat .message .header,
-#chat .message .header {
-display: flex;
-align-items: center;
+#dmChat .message:hover,
+#chat .message:hover {
+background-color: #2b2b2b;
 }
 
 #dmChat .message #icon,
 #chat .message #icon {
 width: 3vw;
-height: 3vw;
+aspect-ratio: 1;
+border-radius: 50%;
+display: inline-block;
+position: absolute;
+top: 1vw;
+left: 1vw;
 display: inline-flex;
 align-items: center;
 justify-content: center;
-color: #e1e1e1;
-border-radius: 50%;
-font-weight: bold;
-user-select: none;
-box-shadow: 0 .15vw .5vw #1e1e1e;
 }
 
-#dmChat .message #verified,
 #dmChat .message #username,
-#chat .message #verified,
 #chat .message #username {
-color: #e1e1e1;
-display: inline-flex;
-padding: .25vw;
-font-size: 1.5vw;
-box-sizing: border-box;
-font-weight: bold;
-align-items: center;
-padding-left: 1vw;
+font-weight: 800;
+display: inline-block;
+margin-right: .1vw;
+margin-left: 4vw;
 user-select: none;
-}
-
-#dmChat .message #verified.lightmode,
-#dmChat .message #username.lightmode,
-#chat .message #verified.lightmode,
-#chat .message #username.lightmode {
-color: #1a1a1a;
 }
 
 #dmChat .message #verified,
 #chat .message #verified {
-padding-left: .25vw;
 color: #bb86fc;
+font-size: 1.25vw;
+user-select: none;
+display: inline-block;
 }
 
 #dmChat .message #messageText,
 #chat .message #messageText {
-color: #e1e1e1;
-font-size: 1.5vw;
-padding-left: 4vw;
-overflow-wrap: break-word;
+margin-left: 4vw;
+margin-top: .4vw;
+user-select: text;
+display: block;
+overflow-wrap: anywhere;
 }
 
 #dmChat .message #timestamp,
 #chat .message #timestamp {
-position: absolute;
-top: 0;
-right: 0;
-padding: 1vw;
-color: #999999;
-font-size: 1vw;
-font-weight: bold;
-display: none;
+display: inline-block;
+color: #777;
+margin-left: .5vw;
 user-select: none;
 }
 
-#dmChat .message:hover #timestamp,
-#chat .message:hover #timestamp {
-display: block;
-}
-
 .sidebar {
-background-color: #121212;
-width: 8%;
-height: 85%;
+height: 100%;
+width: 6%;
+background-color: #262626;
 position: absolute;
 top: 0;
 left: 0;
-overflow-y: auto;
-overflow-x: hidden;
+box-sizing: border-box;
+padding-top: 1vw;
 }
 
 .sidebar #dmsBTN,
 .sidebar .addServer,
-.sidebar .server {
-color: #e1e1e1;
-font-weight: bold;
-font-size: 2vw;
-width: 5vw;
-height: 5vw;
-margin-left: 1.5vw;
-margin-top: 1.5vw;
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-user-select: none;
-cursor: pointer;
-position: relative;
-background-color: #bb86fc;
-}
-
+.sidebar .server, 
 .sidebar #settingsBTN {
-width: 8%;
-height: 15%;
-padding: 2vw;
-box-sizing: border-box;
-color: #777;
-font-size: 4vw;
+width: 75%;
+aspect-ratio: 1;
+border-radius: 50%;
+background-color: #bb86fc;
+margin-left: 12.5%;
+margin-bottom: 1.5vh;
+cursor: pointer;
 display: flex;
 align-items: center;
 justify-content: center;
-background-color: #121212;
-position: fixed;
-bottom: 0;
-left: 0;
-box-shadow: 0 -1vw 3vw #121212;
-user-select: none;
-cursor: pointer;
-transition: .5s;
-}
-
-.sidebar #settingsBTN:hover {
-color: #999;
+color: #e1e1e1;
+font-size: 1.5vw;
 }
 
 .sidebar #dmsBTN,
-.sidebar .addServer {
-background-color: #1e1e1e;
-box-shadow: 0 .15vw .5vw #0c0c0c;
-font-size: 3vw;
+.sidebar .addServer,
+.sidebar #settingsBTN {
+background-color: #2e2e2e;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #ddd;
+font-size: 2.25vw;
 transition: .3s;
+position: relative;
 }
 
-.sidebar #dmsBTN:hover,
-.sidebar .addServer:hover {
-color: #bb86fc;
+.sidebar #settingsBTN {
+position: absolute;
+bottom: 0;
+}
+
+.sidebar .addServer:hover,
+.sidebar #settingsBTN:hover,
+.sidebar #dmsBTN:hover {
+filter: brightness(115%);
 }
 
 #serverPage {
@@ -667,7 +626,7 @@ width: 100%;
 position: absolute;
 top: 0;
 left: 0;
-background-color: #1e1e1e;
+background-color: #262626;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -677,8 +636,7 @@ z-index: 3;
 #loginPage #loginContainer {
 width: 50%;
 height: 75%;
-background-color: #292929;
-box-shadow: 0 .5vw .5vw #181818;
+background-color: #2e2e2e;
 border-radius: 1vw;
 position: relative;
 transition: .5s;
@@ -733,25 +691,14 @@ width: 35%;
 width: 65%;
 padding: 2vw;
 font-size: 2vw;
-background-color: #1e1e1e;
+background-color: #262626;
 color: #e1e1e1;
 border-radius: 1vw;
 position: absolute;
 left: 17.5%;
-border: .15vw solid #1e1e1e;
 outline: none;
 transition: .5s;
-}
-
-#loginPage #loginContainer #loginPassword:hover,
-#loginPage #loginContainer #loginUsername:hover {
-border: .15vw solid #121212;
-}
-
-#loginPage #loginContainer #loginPassword:focus,
-#loginPage #loginContainer #loginUsername:focus {
-border: .15vw solid #bb86fc;
-box-shadow: 0 0 .20vw #aa76eb;
+border: none;
 }
 
 #loginPage #loginContainer #loginPassword {
@@ -785,7 +732,7 @@ width: 100%;
 position: absolute;
 top: 0;
 left: 0;
-background-color: #1e1e1e;
+background-color: #262626;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -796,8 +743,7 @@ display: none;
 #signupPage #signupContainer {
 width: 50%;
 height: 75%;
-background-color: #292929;
-box-shadow: 0 .5vw .5vw #181818;
+background-color: #2e2e2e;
 border-radius: 1vw;
 position: relative;
 transition: .5s;
@@ -854,29 +800,18 @@ width: 35%;
 width: 65%;
 padding: 2vw;
 font-size: 2vw;
-background-color: #1e1e1e;
+background-color: #262626;
 color: #e1e1e1;
 border-radius: 1vw;
 position: absolute;
 left: 17.5%;
-border: .15vw solid #1e1e1e;
 outline: none;
 transition: .5s;
+border: none;
 }
 
 #signupPage #signupContainer .signupSubmit.active {
 filter: brightness(100%);
-}
-
-#signupPage #signupContainer #signupPassword:hover,
-#signupPage #signupContainer #signupUsername:hover {
-border: .15vw solid #121212;
-}
-
-#signupPage #signupContainer #signupPassword:focus,
-#signupPage #signupContainer #signupUsername:focus {
-border: .15vw solid #bb86fc;
-box-shadow: 0 0 .20vw #aa76eb;
 }
 
 #signupPage #signupContainer #signupPassword {
@@ -985,12 +920,11 @@ cursor: pointer;
 #serverNameElement {
 padding-right: 1vw;
 padding-left: 1vw;
-background-color: #121212;
-box-shadow: 0 .15vw .5vw #0c0c0c;
-font-size: 2vw;
+background-color: #171717;
+font-size: 1.5vw;
 color: #e1e1e1;
 position: absolute;
-left: 9%;
+left: 7%;
 top: 0;
 border-radius: 1vw;
 height: 5vw;
@@ -1001,109 +935,13 @@ user-select: none;
 z-index: 99;
 }
 
-#memberListBTN {
-width: 5vw;
-height: 5vw;
-background-color: #121212;
-box-shadow: 0 .15vw .5vw #0c0c0c;
-border-radius: 50%;
-color: #e1e1e1;
-font-size: 3vw;
-display: flex;
-align-items: center;
-justify-content: center;
-position: absolute;
-top: 1vw;
-right: 1vw;
-user-select: none;
-cursor: pointer;
-transition: .5s;
-z-index: 1;
-}
-
-#memberListBTN:hover {
-filter: brightness(115%);
-}
-
-#memberList {
-height: 100%;
-width: 25%;
-background-color: #1e1e1e;
-position: absolute;
-top: 0;
-right: -25%;
-transition: .5s;
-box-shadow: 0 .15vw 5vw #0c0c0c;
-overflow-y: auto;
-z-index: 2;
-}
-
-#memberListBox {
-width: 100%;
-height: 100%;
-position: absolute;
-top: 0;
-left: 0;
-display: none;
-opacity: .5;
-background-color: #121212;
-cursor: pointer;
-}
-
-#memberList #memberListTitle {
-width: 100%;
-font-size: 2vw;
-color: #fff;
-font-weight: bold;
-text-align: center;
-padding: 1vw;
-box-sizing: border-box;
-user-select: none;
-box-shadow: 0 1vw 3vw #1e1e1e;
-position: sticky;
-top: 0;
-background-color: #1e1e1e;
-}
-
-#memberList .member {
-width: 100%;
-padding: .5vw;
-box-sizing: border-box;
-text-align: center;
-}
-
-#memberList .member #memberIcon {
-width: 3vw;
-height: 3vw;
-border-radius: 50%;
-display: inline-flex;
-align-items: center;
-justify-content: center;
-color: #e1e1e1;
-font-weight: bold;
-box-shadow: 0 .15vw .5vw #0c0c0c;
-user-select: none;
-font-size: 1.5vw;
-}
-
-#memberList .member #memberName {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-color: #e1e1e1;
-height: 5vw;
-padding-left: 1vw;
-font-size: 1.5vw;
-user-select: none;
-}
-
 #dmsPage {
 position: absolute;
 top: 0;
-width: 92%;
+width: 94%;
 height: 100%;
 right: -100%;
-background-color: #292929;
+background-color: #2e2e2e;
 transition: .5s;
 z-index: 4;
 display: none;
@@ -1150,13 +988,13 @@ height: 8%;
 }
 
 .notificationIcon {
-width: 1.5vw;
-height: 1.5vw;
+width: 1vw;
+aspect-ratio: 1;
 background-color: #bb86fc;
 position: absolute;
 bottom: 0;
 right: 0;
-border: .5vw solid #0c0c0c;
+border: .25vw solid #0c0c0c;
 border-radius: 50%;
 display: none;
 }
@@ -1228,8 +1066,8 @@ right: 3%;
 }
 
 #settingsPage {
-background-color: #292929;
-width: 92%;
+background-color: #2e2e2e;
+width: 94%;
 height: 100%;
 user-select: none;
 position: absolute;
@@ -1248,7 +1086,7 @@ height: 75%;
 position: absolute;
 left: 7.5vh;
 bottom: 7.5%;
-background-color: #202020;
+background-color: #262626;
 border-radius: 3vw;
 padding: 1vw;
 box-sizing: border-box;
@@ -1259,7 +1097,7 @@ position: absolute;
 top: 3%;
 left: 27.5%;
 height: 10%;
-background-color: #202020;
+background-color: #262626;
 width: 45%;
 border-radius: 50vw;
 padding: .5vw;
@@ -1299,7 +1137,7 @@ right: .5vw;
 
 #settingsPage #modeToggle .option.active {
 color: #e1e1e1;
-background-color: #252525;
+background-color: #2e2e2e;
 border-radius: 50vw;
 }
 
@@ -1483,7 +1321,7 @@ height: 93%;
 width: 65%;
 position: absolute;
 left: 17.5%;
-background-color: #222;
+background-color: #262626;
 border-radius: 2vw;
 }
 
@@ -1493,7 +1331,7 @@ top: 2vw;
 left: 2vw;
 right: 2vw;
 height: 65%;
-background-color: #272727;
+background-color: #2e2e2e;
 border-radius: 2vw;
 border: none;
 outline: none;
@@ -1502,7 +1340,7 @@ padding: 2vw;
 box-sizing: border-box;
 color: #fff;
 font-size: 1.25vw;
-font-family: "Nunito Sans"
+font-family: "Montserrat";
 }
 
 #settingsPage #settingsContainer .bugInputContainer #bugReportBTN {
@@ -1620,8 +1458,6 @@ serverData.push(obj);
 if (document.getElementById("serverName").value === event.data.split(" >> ")[0]) {
 var ele = document.createElement("div");
 ele.className = "message";
-var header = document.createElement("div");
-header.className = "header";
 var icon = document.createElement("div");
 icon.id = "icon";
 var username = document.createElement("a");
@@ -1666,11 +1502,11 @@ if (text.textContent.toLowerCase().includes("merry christmas")) {
 text.classList.add("christmasMessage");
 }
 document.getElementById("chat").appendChild(ele);
-ele.appendChild(header);
-header.appendChild(icon);
-header.appendChild(username);
-ele.appendChild(text);
+ele.appendChild(icon);
+username.style.color = icon.style.backgroundColor;
+ele.appendChild(username);
 ele.appendChild(timestamp);
+ele.appendChild(text);
 if (text.textContent.includes("https://")&&!text.textContent.includes("<")&&!text.textContent.includes("<")) {
 if (text.textContent.includes("https://youtu.be.com") || text.textContent.includes("https://www.youtube.com")) {
 for (let a = 0; a < text.textContent.split(" ").length; a++) {
@@ -1797,8 +1633,6 @@ var messageData = serverData[i][document.getElementById("serverName").value];
 if (messageData !== "") {
 var ele = document.createElement("div");
 ele.className = "message";
-var header = document.createElement("div");
-header.className = "header";
 var icon = document.createElement("div");
 icon.id = "icon";
 var username = document.createElement("a");
@@ -1833,10 +1667,10 @@ icon.style.backgroundColor = getProfileColor();
 text.textContent = messageData.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(header);
-header.appendChild(icon);
-header.appendChild(username);
-ele.appendChild(text);
+usernameEle.style.color = icon.style.backgroundColor;
+ele.appendChild(username);
 ele.appendChild(timestamp);
+ele.appendChild(text);
 document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
@@ -1950,43 +1784,6 @@ if (e.target.id === "signoutBTN") {
 localStorage.removeItem("username");
 localStorage.removeItem("password");
 location.reload();
-}
-if (e.target.id === "memberListBTN") {
-var members = document.getElementsByClassName("member");
-while (members[0]) {
-members[0].remove();
-}
-document.getElementById("memberListTitle").textContent = document.getElementById("serverName").value;
-for (let i = 0; i < serverData.length; i++) {
-for (let a = 0; a < serverData.length; a++) {
-if (serverData[i]["USER - " + serverData[a]["USERNAMES"]] === document.getElementById("serverName").value) {
-var member = document.createElement("div");
-member.className = "member";
-var memberIcon = document.createElement("div");
-memberIcon.id = "memberIcon";
-var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
-memberIcon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-memberIcon.textContent = serverData[a]["USERNAMES"];
-if (serverData[a]["USERNAMES"].split(" ")[1] !== undefined) {
-memberIcon.textContent = serverData[a]["USERNAMES"].split(" ")[0][0] + serverData[a]["USERNAMES"].split(" ")[1][0];
-} else {
-memberIcon.textContent = serverData[a]["USERNAMES"][0];
-}
-var memberName = document.createElement("div");
-memberName.id = "memberName";
-memberName.textContent = serverData[a]["USERNAMES"];
-document.getElementById("memberList").appendChild(member);
-member.appendChild(memberIcon);
-member.appendChild(memberName);
-}
-}
-}
-document.getElementById("memberList").style.right = "0";
-document.getElementById("memberListBox").style.display = "block";
-}
-if (e.target.id === "memberListBox") {
-document.getElementById("memberList").style.right = "-25%";
-document.getElementById("memberListBox").style.display = "none";
 }
 if (e.target.id === "dmsBTN" || e.target.className === "notificationIcon") {
 document.getElementById("dmsPage").style.display = "block";
@@ -2422,8 +2219,6 @@ for (let i = 0; i < serverData.length; i++) {
 var messageData = dmMessages;
 var ele = document.createElement("div");
 ele.className = "message";
-var header = document.createElement("div");
-header.className = "header";
 var icon = document.createElement("div");
 icon.id = "icon";
 var username = document.createElement("a");
@@ -2444,10 +2239,10 @@ icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 text.textContent = messageData[i].split(" - ")[1];
 document.getElementById("dmChat").appendChild(ele);
 ele.appendChild(header);
-header.appendChild(icon);
-header.appendChild(username);
-ele.appendChild(text);
+ele.appendChild(icon);
+ele.appendChild(username);
 ele.appendChild(timestamp);
+ele.appendChild(text);
 for (let a = 0; a < serverData.length; a++) {
 if (messageData[i] !== undefined && serverData[a]["VERIFIEDSUPPORTERS"] === messageData[i].split(" + ")[1].split(" - ")[0]) {
 var vs = document.createElement("a");
@@ -2530,8 +2325,6 @@ if (messageData !== "") {
 var ele = document.createElement("div");
 ele.className = "message";
 ele.name = serverData[i]["TIMESTAMP"];
-var header = document.createElement("div");
-header.className = "header";
 var icon = document.createElement("div");
 icon.id = "icon";
 var usernameEle = document.createElement("a");
@@ -2574,10 +2367,10 @@ icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 }
 text.textContent = messageData.split(" - ")[1];
 document.getElementById("chat").appendChild(ele);
-ele.appendChild(header);
+ele.appendChild(icon);
+usernameEle.style.color = icon.style.backgroundColor;
+ele.appendChild(usernameEle);
 ele.appendChild(timestamp);
-header.appendChild(icon);
-header.appendChild(usernameEle);
 ele.appendChild(text);
 if (text.textContent.includes("https://")) {
 if (text.textContent.includes("https://youtu.be.com") || text.textContent.includes("https://www.youtube.com")) {
@@ -2703,8 +2496,6 @@ for (let i = 0; i < serverData.length; i++) {
 var messageData = dmMessages;
 var ele = document.createElement("div");
 ele.className = "message";
-var header = document.createElement("div");
-header.className = "header";
 var icon = document.createElement("div");
 icon.id = "icon";
 var username = document.createElement("a");
@@ -2724,11 +2515,11 @@ var colors = ["tomato", "orange", "mediumseagreen", "dodgerBlue", "violet"];
 icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 text.textContent = messageData[i].split(" - ")[1];
 document.getElementById("dmChat").appendChild(ele);
-ele.appendChild(header);
-header.appendChild(icon);
-header.appendChild(username);
-ele.appendChild(text);
+ele.appendChild(icon);
+usernameEle.style.color = icon.style.backgroundColor;
+ele.appendChild(username);
 ele.appendChild(timestamp);
+ele.appendChild(text);
 for (let a = 0; a < serverData.length; a++) {
 if (messageData[i] !== undefined && serverData[a]["VERIFIEDSUPPORTERS"] === messageData[i].split(" + ")[1].split(" - ")[0]) {
 var vs = document.createElement("a");
