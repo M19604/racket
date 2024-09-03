@@ -1,0 +1,969 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito Sans">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<title>Racket</title>
+<div id="chat">
+<form id="chatForm">
+<input id="message" name="Message" placeholder="Type here...">
+<input id="serverName" name="Server" value="" hidden>
+<input id="chatUsername" name="Username" value="" hidden>
+</form>
+</div>
+<div class="sidebar">
+<div class="addServer">+</div>
+</div>
+<div id="serverPage">
+<div id="serverContainer">
+<div class="title">Add Server<div class="close">&times;</div></div>
+<div class="btnContainer">
+<div class="selectBTN" id="joinServer"><div class="material-icons">group</div><div class="text">Join Server</div></div>
+<div style="left: 55%" class="selectBTN" id="createServer"><div class="material-icons">add</div><div class="text">Create Server</div></div>
+</div>
+<div id="createServerPage">
+<form id="serverForm">
+<div class="serverNameTitle">Custom Server Name:</div>
+<input name="serverName" id="addServerName" placeholder="Server Name..." maxlength="32">
+<div class="serverCodeTitle">Custom Join Code:</div>
+<input name="serverCode" id="serverCode" placeholder="Server Code..." maxlength="15">
+<div class="serverCreateBTN">&plus; Create</div>
+<input id="serverUsername" name="serverUsername" value="" hidden>
+</form>
+</div>
+<div id="joinServerPage">
+<form id="joinServerForm">
+<div class="serverNameTitle">Server Join Code:</div>
+<input name="serverName" id="joinServerName" placeholder="Join Code..." maxlength="15">
+<div class="serverCreateBTN" id="serverJoinBTN">&plus; Join</div>
+<input id="joinServerUsername" name="joinServerUsername" value="" hidden>
+</form>
+</div>
+</div>
+</div>
+<div id="loginPage">
+<div id="loginContainer">
+<div class="title">Login</div>
+<form id="loginForm">
+<input id="loginUsername" placeholder="Username..." maxlength="32">
+<input id="loginPassword" placeholder="Password..." type="password">
+<div class="loginSubmit" onclick="login()">Login</div>
+</form>
+<div class="gotoSignup" onclick="openSignup()">Don't have an account? Sign up!</div>
+</div>
+</div>
+<div id="signupPage">
+<div id="signupContainer">
+<div class="title">Signup</div>
+<form id="signupForm">
+<input name="loginUsername" id="signupUsername" placeholder="Username..." maxlength="32">
+<input name="loginPassword" id="signupPassword" placeholder="Password..." type="password">
+<div class="signupSubmit" onclick="signup()">Signup</div>
+</form>
+<div class="gotoSignup" onclick="openLogin()">Already have an account? Log in!</div>
+</div>
+</div>
+<div id="alert" onclick="closeAlert()">Invalid username or password!</div>
+<style>
+body {
+margin: 0;
+font-family: "Nunito Sans";
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: #121212;
+opacity: 0;
+}
+
+::selection {
+color: #1e1e1e;
+background-color: #bb86fc;
+}
+
+#chat {
+width: 92%;
+height: 100%;
+background-color: #292929;
+position: absolute;
+right: 0;
+}
+
+#chat #message {
+width: 100%;
+outline: none;
+border: none;
+border-top: .15vw solid #0c0c0c;
+background-color: #1e1e1e;
+padding: .5vw;
+font-size: 1.5vw;
+color: #fff;
+position: absolute;
+bottom: 0;
+left: 0;
+user-select: none;
+}
+
+#chat .message {
+padding: 1vw;
+width: 100%;
+box-sizing: border-box;
+transition: .5s;
+}
+
+#chat .message:hover {
+background-color: #252525;
+}
+
+#chat .message .header {
+display: flex;
+align-items: center;
+}
+
+#chat .message #icon {
+width: 3vw;
+height: 3vw;
+background-color: mediumseagreen;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+color: #e1e1e1;
+border-radius: 50%;
+font-weight: bold;
+user-select: none;
+box-shadow: 0 .15vw .5vw #1e1e1e;
+}
+
+#chat .message #verified,
+#chat .message #username {
+color: #e1e1e1;
+display: inline-flex;
+padding: .25vw;
+font-size: 1.5vw;
+box-sizing: border-box;
+font-weight: bold;
+align-items: center;
+padding-left: 1vw;
+user-select: none;
+}
+
+#chat .message #verified {
+padding-left: .25vw;
+color: #bb86fc;
+}
+
+#chat .message #messageText {
+color: #e1e1e1;
+font-size: 1.5vw;
+padding-left: 4vw;
+overflow-wrap: break-word;
+}
+
+.sidebar {
+background-color: #121212;
+width: 8%;
+height: 100%;
+position: absolute;
+top: 0;
+left: 0;
+overflow-y: auto;
+}
+
+.sidebar .addServer,
+.sidebar .server {
+color: #e1e1e1;
+background-color: #bb86fc;
+font-weight: bold;
+font-size: 2vw;
+width: 5vw;
+height: 5vw;
+margin-left: 1.5vw;
+margin-top: 1.5vw;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+user-select: none;
+cursor: pointer;
+}
+
+.sidebar .addServer {
+background-color: #1e1e1e;
+box-shadow: 0 .15vw .5vw #0c0c0c;
+font-size: 3vw;
+transition: .3s;
+}
+
+.sidebar .addServer:hover {
+color: #bb86fc;
+}
+
+#serverPage {
+height: 100%;
+width: 100%;
+position: absolute;
+top: 0;
+left: 0;
+background-color: rgba(2,2,2,.5);
+display: flex;
+align-items: center;
+justify-content: center;
+display: none;
+opacity: 0;
+transition: .5s;
+}
+
+#serverPage #serverContainer {
+height: 0%;
+width: 0%;
+background-color: #292929;
+border-radius: 1vw;
+border: .25vw solid #1e1e1e;
+padding: 1vw;
+box-sizing: border-box;
+box-shadow: 0 .25vw .5vw #0c0c0c;
+position: relative;
+user-select: none;
+transition: .3s;
+overflow: hidden;
+}
+
+#serverPage #serverContainer .title {
+color: #e1e1e1;
+font-size: 3vw;
+font-weight: bold;
+display: flex;
+align-items: center;
+position: relative;
+height: 10%;
+transition: .5s;
+opacity: 0;
+}
+
+#serverPage #serverContainer .title .close {
+position: absolute;
+right: 1vw;
+font-size: 5vw;
+color: #b1b1b1;
+transition: .3s;
+}
+
+#serverPage #serverContainer .title .close:hover {
+color: #e1e1e1;
+cursor: pointer;
+}
+
+#serverPage #serverContainer .btnContainer {
+width: 100%;
+height: 90%;
+position: relative;
+transition: .5s;
+opacity: 0;
+}
+
+#serverPage #serverContainer .btnContainer .selectBTN {
+width: 35%;
+height: 55%;
+background-color: #1e1e1e;
+border-radius: 1vw;
+border: .25vw solid #513f6c;
+position: absolute;
+top: 22.5%;
+left: 10%;
+color: #e1e1e1;
+transition: .5s;
+cursor: pointer;
+text-align: center;
+}
+
+#serverPage #serverContainer .btnContainer .selectBTN:hover {
+border: .25vw solid #bb86fc;
+box-shadow: 0 .25vw .5vw #1e1e1e;
+}
+
+#serverPage #serverContainer .btnContainer .selectBTN .material-icons {
+width: 100%;
+height: 50%;
+position: absolute;
+top: 10%;
+left: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 8vw;
+}
+
+#serverPage #serverContainer .btnContainer .selectBTN .text {
+width: 100%;
+height: 50%;
+position: absolute;
+bottom: 10%;
+left: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 3vw;
+font-weight: 1000;
+}
+
+#serverPage #serverContainer #createServerPage {
+width: 100%;
+height: 80%;
+position: absolute;
+transition: .5s;
+background-color: #292929;
+bottom: 0;
+right: -100%;
+}
+
+#serverPage #serverContainer #createServerPage #serverCode,
+#serverPage #serverContainer #joinServerName,
+#serverPage #serverContainer #createServerPage #addServerName {
+width: 75%;
+background-color: #1e1e1e;
+color: #e1e1e1;
+padding: 1vw;
+font-size: 2vw;
+border-radius: 1vw;
+border: .15vw solid #513f6c;
+outline: none;
+transition: .5s;
+position: absolute;
+left: 12.5%;
+top: 10%;
+box-sizing: border-box;
+}
+
+#serverPage #serverContainer #createServerPage #serverCode:hover,
+#serverPage #serverContainer #createServerPage #serverCode:focus,
+#serverPage #serverContainer #joinServerName:hover,
+#serverPage #serverContainer #joinServerName:focus,
+#serverPage #serverContainer #createServerPage #addServerName:hover,
+#serverPage #serverContainer #createServerPage #addServerName:focus {
+border: .15vw solid #bb86fc;
+box-shadow: 0 .05vw .5vw #0c0c0c;
+}
+
+::placeholder {
+color: #b3b3b3;
+}
+
+#serverPage #serverContainer #createServerPage .serverCodeTitle,
+#serverPage #serverContainer #createServerPage .serverNameTitle {
+color: #fff;
+font-size: 2vw;
+position: absolute;
+left: 12.5%;
+top: -1%;
+}
+
+#serverPage #serverContainer #createServerPage .serverCodeTitle {
+top: 35%;
+}
+
+#serverPage #serverContainer #createServerPage #serverCode {
+top: 46%;
+}
+
+#serverPage #serverContainer #createServerPage .serverCreateBTN {
+width: 75%;
+position: absolute;
+left: 12.5%;
+top: 75%;
+padding: 1vw;
+background-color: #bb86fc;
+filter: brightness(85%);
+color: #fff;
+display: flex;
+align-items: center;
+justify-content: center;
+box-sizing: border-box;
+font-size: 2vw;
+border-radius: 1vw;
+font-weight: 1000;
+transition: .5s;
+cursor: pointer;
+}
+
+#serverPage #serverContainer #createServerPage .serverCreateBTN:hover {
+filter: brightness(100%);
+box-shadow: 0 .15vw .5vw #1e1e1e;
+}
+
+#serverPage #serverContainer #joinServerPage {
+width: 100%;
+height: 80%;
+position: absolute;
+transition: .5s;
+background-color: #292929;
+bottom: 0;
+left: -100%;
+}
+
+#serverPage #serverContainer #joinServerPage #serverCode,
+#serverPage #serverContainer #joinServerPage #addServerName {
+width: 75%;
+background-color: #1e1e1e;
+color: #e1e1e1;
+padding: 1vw;
+font-size: 2vw;
+border-radius: 1vw;
+border: .15vw solid #513f6c;
+outline: none;
+transition: .5s;
+position: absolute;
+left: 12.5%;
+top: 10%;
+box-sizing: border-box;
+}
+
+#serverPage #serverContainer #joinServerPage #serverCode:hover,
+#serverPage #serverContainer #joinServerPage #serverCode:focus,
+#serverPage #serverContainer #joinServerPage #addServerName:hover,
+#serverPage #serverContainer #joinServerPage #addServerName:focus {
+border: .15vw solid #bb86fc;
+box-shadow: 0 .05vw .5vw #0c0c0c;
+}
+
+::placeholder {
+color: #b3b3b3;
+}
+
+#serverPage #serverContainer #joinServerPage .serverCodeTitle,
+#serverPage #serverContainer #joinServerPage .serverNameTitle {
+color: #fff;
+font-size: 2vw;
+position: absolute;
+left: 12.5%;
+top: -1%;
+}
+
+#serverPage #serverContainer #joinServerPage .serverCodeTitle {
+top: 35%;
+}
+
+#serverPage #serverContainer #joinServerPage #serverCode {
+top: 46%;
+}
+
+#serverPage #serverContainer #joinServerPage .serverCreateBTN {
+width: 75%;
+position: absolute;
+left: 12.5%;
+top: 75%;
+padding: 1vw;
+background-color: #bb86fc;
+filter: brightness(85%);
+color: #fff;
+display: flex;
+align-items: center;
+justify-content: center;
+box-sizing: border-box;
+font-size: 2vw;
+border-radius: 1vw;
+font-weight: 1000;
+transition: .5s;
+cursor: pointer;
+}
+
+#serverPage #serverContainer #joinServerPage .serverCreateBTN:hover {
+filter: brightness(100%);
+box-shadow: 0 .15vw .5vw #1e1e1e;
+}
+
+#loginPage {
+height: 100%;
+width: 100%;
+position: absolute;
+top: 0;
+left: 0;
+background-color: #292929;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+#loginPage #loginContainer {
+width: 65%;
+height: 75%;
+background-color: #121212;
+box-shadow: 0 .5vw .25vw #0c0c0c;
+border-radius: 1vw;
+position: relative;
+}
+
+#loginPage #loginContainer .title {
+width: 100%;
+height: 20%;
+display: flex;
+align-items: center;
+padding: 2vw;
+box-sizing: border-box;
+color: #bb86fc;
+font-size: 4vw;
+font-weight: bold;
+user-select: none;
+}
+
+#loginPage #loginContainer .gotoSignup {
+color: #bb86fc;
+font-weight: bold;
+width: 100%;
+position: absolute;
+bottom: 0;
+height: 15%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.5vw;
+cursor: pointer;
+user-select: none;
+}
+
+#loginPage #loginContainer .gotoSignup:after {
+content:"";
+position: absolute;
+bottom: 25%;
+background-color: #bb86fc;
+width: 0%;
+height: .25vw;
+transition: .5s;
+}
+
+#loginPage #loginContainer .gotoSignup:hover:after {
+width: 35%;
+}
+
+#loginPage #loginContainer .loginSubmit,
+#loginPage #loginContainer #loginPassword,
+#loginPage #loginContainer #loginUsername {
+width: 65%;
+padding: 2vw;
+font-size: 2vw;
+background-color: #1e1e1e;
+color: #e1e1e1;
+border-radius: 1vw;
+position: absolute;
+left: 17.5%;
+border: .15vw solid #8561b1;
+box-shadow: 0 .5vw .25vw #0c0c0c;
+outline: none;
+transition: .5s;
+}
+
+#loginPage #loginContainer #loginPassword:hover,
+#loginPage #loginContainer #loginPassword:focus,
+#loginPage #loginContainer #loginUsername:hover,
+#loginPage #loginContainer #loginUsername:focus {
+border: .15vw solid #bb86fc;
+}
+
+#loginPage #loginContainer #loginPassword {
+top: 45%;
+}
+
+#loginPage #loginContainer .loginSubmit {
+top: 70%;
+text-align: center;
+box-sizing: border-box;
+background-color: #8561b1;
+font-size: 3vw;
+font-weight: 1000;
+padding: .5vw;
+user-select: none;
+cursor: pointer;
+}
+
+#loginPage #loginContainer .loginSubmit:hover {
+filter: brightness(125%);
+}
+
+#signupPage {
+height: 100%;
+width: 100%;
+position: absolute;
+top: 0;
+left: 0;
+background-color: #292929;
+display: flex;
+align-items: center;
+justify-content: center;
+display: none;
+}
+
+#signupPage #signupContainer {
+width: 65%;
+height: 75%;
+background-color: #121212;
+box-shadow: 0 .5vw .25vw #0c0c0c;
+border-radius: 1vw;
+position: relative;
+}
+
+#signupPage #signupContainer .title {
+width: 100%;
+height: 20%;
+display: flex;
+align-items: center;
+padding: 2vw;
+box-sizing: border-box;
+color: #bb86fc;
+font-size: 4vw;
+font-weight: bold;
+user-select: none;
+}
+
+#signupPage #signupContainer .gotoSignup {
+color: #bb86fc;
+font-weight: bold;
+width: 100%;
+position: absolute;
+bottom: 0;
+height: 15%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.5vw;
+cursor: pointer;
+user-select: none;
+}
+
+#signupPage #signupContainer .gotoSignup:after {
+content:"";
+position: absolute;
+bottom: 25%;
+background-color: #bb86fc;
+width: 0%;
+height: .25vw;
+transition: .5s;
+}
+
+#signupPage #signupContainer .gotoSignup:hover:after {
+width: 35%;
+}
+
+#signupPage #signupContainer .signupSubmit,
+#signupPage #signupContainer #signupPassword,
+#signupPage #signupContainer #signupUsername {
+width: 65%;
+padding: 2vw;
+font-size: 2vw;
+background-color: #1e1e1e;
+color: #e1e1e1;
+border-radius: 1vw;
+position: absolute;
+left: 17.5%;
+border: .15vw solid #8561b1;
+box-shadow: 0 .5vw .25vw #0c0c0c;
+outline: none;
+transition: .5s;
+}
+
+#signupPage #signupContainer #signupPassword:hover,
+#signupPage #signupContainer #signupPassword:focus,
+#signupPage #signupContainer #signupUsername:hover,
+#signupPage #signupContainer #signupUsername:focus {
+border: .15vw solid #bb86fc;
+}
+
+#signupPage #signupContainer #signupPassword {
+top: 45%;
+}
+
+#signupPage #signupContainer .signupSubmit {
+top: 70%;
+text-align: center;
+box-sizing: border-box;
+background-color: #8561b1;
+font-size: 3vw;
+font-weight: 1000;
+padding: .5vw;
+user-select: none;
+cursor: pointer;
+}
+
+#signupPage #signupContainer .signupSubmit:hover {
+filter: brightness(125%);
+}
+
+#alert {
+width: 65%;
+padding: .5vw;
+font-size: 1.5vw;
+background-color: #191919;
+border-radius: .5vw;
+box-shadow: 0 .25vw .5vw #0c0c0c;
+position: absolute;
+top: -8%;
+left: 17vw;
+color: tomato;
+cursor: pointer;
+transition: .5s;
+text-align: center;
+}
+
+#alert:hover {
+filter: brightness(125%);
+}
+</style>
+<script>
+var form = document.getElementById("chatForm");
+var input = document.getElementById("message");
+var serverData = null;
+form.addEventListener("submit", e => {
+e.preventDefault();
+})
+var slowmodeTime = 10;
+var slowmode = 0;
+input.addEventListener("keyup", e => {
+if (e.key === "Enter" && input.value.trim() !== "" && slowmode === 0) {
+var scriptURL = "https://script.google.com/macros/s/AKfycbySQ1G_jf9XnyVJ-z5GxN1z94PKjc2TQw8oBR53CGbZYuXXMq043KFV-fKwYhg9042kcA/exec";
+fetch(scriptURL, {method:"POST", body: new FormData(form)});
+input.value = "";
+var interval = setInterval(function() {
+slowmode += 1;
+if (slowmode > slowmodeTime) {
+clearInterval(interval);
+slowmode = 0;
+}
+}, 1000)
+}
+})
+document.addEventListener("click", e => {
+if (e.target.className === "server") {
+document.getElementById("serverName").value = e.target.title;
+var messages = document.getElementsByClassName("message");
+while (messages[0]) {
+messages[0].remove();
+}
+for (let i = 0; i < serverData.length; i++) {
+var messageData = serverData[i][document.getElementById("serverName").value];
+if (messageData !== "") {
+var ele = document.createElement("div");
+ele.className = "message";
+var header = document.createElement("div");
+header.className = "header";
+var icon = document.createElement("div");
+icon.id = "icon";
+var username = document.createElement("a");
+username.id = "username";
+var text = document.createElement("a");
+text.id = "messageText";
+username.textContent = messageData.split(" - ")[0] + " ";
+if (messageData.trim().includes(" ")) {
+icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.split(" - ")[0].split(" ")[1][0];
+} else {
+icon.textContent = messageData.split(" - ")[0][0];
+}
+text.textContent = messageData.split(" - ")[1];
+document.getElementById("chat").appendChild(ele);
+ele.appendChild(header);
+header.appendChild(icon);
+header.appendChild(username);
+ele.appendChild(text);
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
+var vs = document.createElement("a");
+vs.id = "verified";
+vs.className = "material-icons";
+vs.title = "Verified Supporter";
+vs.textContent = "verified_user";
+username.appendChild(vs);
+}
+}
+}
+}
+}
+if (e.target.className === "close") {
+setTimeout(function() {
+document.getElementById("serverContainer").getElementsByClassName("title")[0].style.opacity = 0;
+document.getElementById("serverContainer").getElementsByClassName("btnContainer")[0].style.opacity = 0;
+document.getElementById("createServerPage").style.right = "-100%";
+document.getElementById("joinServerPage").style.left = "-100%";
+}, 100)
+setTimeout(function() {
+document.getElementById("serverContainer").style.height = "0%";
+}, 500)
+setTimeout(function() {
+document.getElementById("serverContainer").style.width = "0%";
+}, 1100)
+setTimeout(function() {
+document.getElementById("serverPage").style.opacity = 0;
+}, 1700)
+setTimeout(function() {
+document.getElementById("serverPage").style.display = "none";
+}, 2200)
+}
+if (e.target.className === "addServer") {
+document.getElementById("serverPage").style.display = "flex";
+setTimeout(function() {
+document.getElementById("serverPage").style.opacity = 1;
+}, 100)
+setTimeout(function() {
+document.getElementById("serverContainer").style.width = "65%";
+}, 500)
+setTimeout(function() {
+document.getElementById("serverContainer").style.height = "85%";
+}, 1100)
+setTimeout(function() {
+document.getElementById("serverContainer").getElementsByClassName("title")[0].style.opacity = 1;
+document.getElementById("serverContainer").getElementsByClassName("btnContainer")[0].style.opacity = 1;
+}, 1700)
+}
+if (e.target.id === "createServer" || e.target.parentElement.id === "createServer") {
+document.getElementById("createServerPage").style.right = 0;
+}
+if (e.target.id === "joinServer" || e.target.parentElement.id === "joinServer") {
+document.getElementById("joinServerPage").style.left = 0;
+}
+if (e.target.className === "serverCreateBTN" && document.getElementById("serverName").value !== "" && document.getElementById("serverCode").value !== "") {
+const form1 = document.getElementById("serverForm");
+var scriptURL = "https://script.google.com/macros/s/AKfycbxQLlIitJkjZIpIP2EzbdGXar-ZSIgO9ydb_YJOvlI3daHPZ3YmUn3Lm2cMzo32eWV-Kg/exec";
+fetch(scriptURL, {method:"POST", body: new FormData(form1)});
+document.getElementById("addServerName").value = "";
+document.getElementById("serverCode").value = "";
+setTimeout(function() {
+document.getElementById("serverContainer").getElementsByClassName("title")[0].style.opacity = 0;
+document.getElementById("serverContainer").getElementsByClassName("btnContainer")[0].style.opacity = 0;
+document.getElementById("createServerPage").style.right = "-100%";
+document.getElementById("joinServerPage").style.left = "-100%";
+}, 100)
+setTimeout(function() {
+document.getElementById("serverContainer").style.height = "0%";
+}, 500)
+setTimeout(function() {
+document.getElementById("serverContainer").style.width = "0%";
+}, 1100)
+setTimeout(function() {
+document.getElementById("serverPage").style.opacity = 0;
+}, 1700)
+setTimeout(function() {
+document.getElementById("serverPage").style.display = "none";
+}, 2200)
+}
+if (e.target.id === "serverJoinBTN") {
+var joinForm = document.getElementById("joinServerForm");
+var joinScriptURL = "https://script.google.com/macros/s/AKfycbwBPlCKkYYBwAHTNARtn46cTqtZpzLYk2qrb5DQ75dbq1IUQFEdAkSH7ej1riqr3Cb52A/exec";
+var serverName = "";
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["SERVERCODES"] === document.getElementById("joinServerName").value) {
+document.getElementById("joinServerName").value = serverData[i]["SERVERLIST"];
+fetch(joinScriptURL, {method:"POST", body: new FormData(joinForm)});
+setTimeout(function() {
+location.reload();
+}, 500)
+} else if (i === serverData.length - 1) {
+alert("Invalid join code!");
+}
+setTimeout(function() {
+document.getElementById("joinServerName").value = "";
+}, 100)
+}
+}
+})
+function openSignup() {
+document.getElementById("signupPage").style.display = "flex";
+document.getElementById("loginPage").style.display = "none";
+}
+function openLogin() {
+document.getElementById("loginPage").style.display = "flex";
+document.getElementById("signupPage").style.display = "none";
+}
+function signup() {
+var signupForm = document.getElementById("signupForm");
+var scriptURL = "https://script.google.com/macros/s/AKfycbyB03ROjtSfL3BcRqRmS_GWoeoWta3thIQkbKJebhj1WTjZm4Ye3U1UDh5bvGUHdbQlSw/exec";
+if (document.getElementById("signupUsername").value.trim() !== "" && document.getElementById("signupPassword").value.trim() !== "" && !document.getElementById("signupUsername").value.includes("-") && document.getElementById("signupUsername") !== "SERVERLIST" && document.getElementById("signupUsername") !== "SERVERCODES" && document.getElementById("signupUsername") !== "USERNAMES" && document.getElementById("signupUsername") !== "PASSWORDS" && document.getElementById("signupUsername") !== "VERIFIEDSUPPORTERS") {
+fetch(scriptURL, {method:"POST", body: new FormData(signupForm)});
+localStorage.setItem("username", document.getElementById("signupUsername").value.trim());
+localStorage.setItem("password", document.getElementbyId("signupPassword").value)
+setTimeout(function() {
+location.reload();
+}, 500)
+}
+}
+function login() {
+var logged = false;
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["USERNAMES"] === document.getElementById("loginUsername").value && serverData[i]["PASSWORDS"] === document.getElementById("loginPassword").value) {
+loadData(document.getElementById("loginUsername").value);
+document.getElementById("loginPage").style.display = "none";
+logged = true;
+localStorage.setItem("username", document.getElementById("loginUsername").value);
+localStorage.setItem("password", document.getElementById("loginPassword").value);
+} else if (i === serverData.length - 1 && logged === false) {
+alert("Invalid username or password.");
+}
+}
+}
+function updateData() {
+var apiUrl = 'https://sheetdb.io/api/v1/2azyssbcwwacw';
+fetch(apiUrl).then(response => { 
+return response.json(); 
+}).then(data => { 
+serverData = data;
+})
+}
+updateData();
+function loadData(username) {
+document.getElementById("chatUsername").value = username;
+document.getElementById("serverUsername").value = username;
+document.getElementById("joinServerUsername").value = username;
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["USER - " + username] !== "" && serverData[i]["USER - " + username] !== undefined) {
+var serverEle = document.createElement("div");
+serverEle.title = serverData[i]["USER - " + username];
+serverEle.textContent = serverEle.title[0];
+serverEle.className = "server";
+document.getElementsByClassName("sidebar")[0].appendChild(serverEle);
+document.getElementsByClassName("sidebar")[0].appendChild(document.getElementsByClassName("addServer")[0]);
+}
+}
+for (let i = 0; i < serverData.length; i++) {
+var messageData = serverData[i]["Racket"];
+if (messageData !== "") {
+var ele = document.createElement("div");
+ele.className = "message";
+var header = document.createElement("div");
+header.className = "header";
+var icon = document.createElement("div");
+icon.id = "icon";
+var username = document.createElement("a");
+username.id = "username";
+var text = document.createElement("a");
+text.id = "messageText";
+username.textContent = messageData.split(" - ")[0] + " ";
+if (messageData.trim().includes(" ")) {
+icon.textContent = messageData.split(" - ")[0].split(" ")[0][0] + messageData.split(" - ")[0].split(" ")[1][0];
+} else {
+icon.textContent = messageData.split(" - ")[0][0];
+}
+text.textContent = messageData.split(" - ")[1];
+document.getElementById("chat").appendChild(ele);
+ele.appendChild(header);
+header.appendChild(icon);
+header.appendChild(username);
+ele.appendChild(text);
+for (let i = 0; i < serverData.length; i++) {
+if (serverData[i]["VERIFIEDSUPPORTERS"] === messageData.split(" - ")[0]) {
+var vs = document.createElement("a");
+vs.id = "verified";
+vs.className = "material-icons";
+vs.title = "Verified Supporter";
+vs.textContent = "verified_user";
+username.appendChild(vs);
+}
+}
+}
+}
+}
+window.alert = function(text) {
+document.getElementById("alert").textContent = text;
+document.getElementById("alert").style.top = "3%";
+}
+function closeAlert() {
+document.getElementById("alert").style.top = "-7%";
+}
+setTimeout(function() {
+if (localStorage.getItem("username") !== "" && localStorage.getItem("password") !== "") {
+document.getElementById("loginPage").style.display = "none";
+loadData(localStorage.getItem("username"));
+}
+document.body.style.opacity = 1;
+}, 500)
+</script>
