@@ -138,6 +138,10 @@
 </div>
 <div id="ChangeLogContainer" class="pageContainer">
 <div class="changeContainer">
+<div class="title">09/03/24</div>
+<div class="desc">Added message merging.</div>
+</div>
+<div class="changeContainer">
 <div class="title">06/06/24</div>
 <div class="desc">Added pings (type @ and the user's name to highlight the message for that user).</div>
 </div>
@@ -1445,6 +1449,13 @@ window.focus();
 }
 }
 }
+if (event.data.split(" - ")[0].split(" >> ")[1] === document.getElementsByClassName("message")[document.getElementsByClassName("message").length-1].querySelector("#username").textContent || `${event.data.split(" - ")[0].split(" >> ")[1]} verified_user` === document.getElementsByClassName("message")[document.getElementsByClassName("message").length-1].querySelector("#username").textContent) {
+var text = document.createElement("a");
+text.id = "messageText";
+text.textContent = event.data.split(" - ")[1];
+document.getElementsByClassName("message")[document.getElementsByClassName("message").length-1].appendChild(text);
+document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
+} else {
 var obj = {};
 if (d.getHours() > 12) {
 obj["TIMESTAMP"] = d.getMonth() + 1 + "/" + d.getDate() + "/" + d.getFullYear() + " - " + d.getHours() % 12 + ":" + d.getMinutes() + " PM";
@@ -1558,6 +1569,7 @@ img.style.height = "auto";
 img.style.width = "25%";
 }
 img.style.marginLeft = "5%";
+}
 }
 }
 }
@@ -2342,6 +2354,13 @@ document.getElementById("serverNameElement").style.display = "none";
 for (let i = serverData.length - 300; i < serverData.length; i++) {
 var messageData = serverData[i]["Racket"];
 if (messageData !== "") {
+if (i>5&&messageData.split(" - ")[0] === serverData[i-1]["Racket"].split(" - ")[0]) {
+// GOTO
+var text = document.createElement("a");
+text.id = "messageText";
+text.textContent = messageData.split(" - ")[1];
+document.getElementsByClassName("message")[document.getElementsByClassName("message").length-1].appendChild(text);
+} else {
 var ele = document.createElement("div");
 ele.className = "message";
 ele.name = serverData[i]["TIMESTAMP"];
@@ -2460,6 +2479,7 @@ usernameEle.appendChild(vs);
 }
 }
 document.getElementById("chat").scrollTo(0,document.getElementById("chat").scrollHeight);
+}
 }
 }
 }
