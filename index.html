@@ -1622,7 +1622,7 @@ for (let i = 0; i < Object.keys(emojis).length; i++) {
 input.value=input.value.replaceAll(Object.keys(emojis)[i], Object.values(emojis)[i]);
 }
 realtime.channels.get("location-ch").publish("update", document.getElementById("serverName").value + " >> " + document.getElementById("chatUsername").value + " - " + input.value);
-var scriptURL = "https://script.google.com/macros/s/AKfycbzqN7HF1_YFn6opvYCShIK7UWyco70_FsEKqPqYrNi8KHHIqQersCBkwwqdxpFsc5NR/exec";
+var scriptURL = "https://script.google.com/a/macros/clioschools.net/s/AKfycbzcp7SZ5TMRHjm1Gz7i5zNcTGDuMNHrDcFxPTIvW-49zn8zaCOW1lhmUHDjVK45zAnBLw/exec";
 fetch(scriptURL, {method:"POST", body: new FormData(form)});
 input.value = "";
 var interval = setInterval(function() {
