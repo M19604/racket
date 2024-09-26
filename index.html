@@ -1595,6 +1595,13 @@ badge.style.height = "auto";
 badge.src = "https://imgtr.ee/images/2024/06/06/74c6f633619425baa6cae6e5b4a92030.png";
 badge.style.paddingLeft = "1vw";
 username.appendChild(badge);
+} else if (event.data.split(" >> ")[1].split(" - ")[0] === "Colton") {
+var badge = document.createElement("img");
+badge.style.width = "15px";
+badge.style.height = "auto";
+badge.src = "https://media.wired.com/photos/62acb29dab6eba7567c17629/3:2/w_2400,h_1600,c_limit/Canyon-Spectral-On-Gear.jpg";
+badge.style.paddingLeft = "1vw";
+username.appendChild(badge);
 }
 for (let i = 0; i < serverData.length; i++) {
 if (serverData[i]["VERIFIEDSUPPORTERS"] === event.data.split(" - ")[0].split(" >> ")[1]) {
