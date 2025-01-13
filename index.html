@@ -1393,6 +1393,15 @@ background-clip: text;
 -webkit-background-clip: text;
 font-weight: bold;
 }
+
+.adamMessage {
+font-family: sans-serif;
+background: linear-gradient(to right, gold, #FFF, tomato);
+-webkit-text-fill-color: transparent; 
+background-clip: text;
+-webkit-background-clip: text;
+font-weight: bold;
+}
 </style>
 <script>
 var loaded = false;
@@ -1498,6 +1507,9 @@ icon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 text.textContent = event.data.split(" - ")[1];
 if (text.textContent.toLowerCase().includes("merry christmas")) {
 text.classList.add("christmasMessage");
+}
+if (text.textContent.toLowerCase().replaceAll(",", "").replaceAll(".", "").includes("happy birthday adam") {
+text.classList.add("adamMessage");
 }
 document.getElementById("chat").appendChild(ele);
 ele.appendChild(icon);
