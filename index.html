@@ -1396,11 +1396,31 @@ font-weight: bold;
 
 .adamMessage {
 font-family: sans-serif;
-background: linear-gradient(to right, gold, #FFF, tomato);
 -webkit-text-fill-color: transparent; 
+background: linear-gradient(to right, gold, #FFF);
 background-clip: text;
 -webkit-background-clip: text;
 font-weight: bold;
+}
+
+.adamMessage:after {
+height: 100%;
+width: 100%;
+background: linear-gradient(to right, gold, #FFF);
+animation: adamAnimation .5s linear;
+position: absolute;
+top: 0;
+left: 0;
+z-index: 10;
+}
+
+@keyframes adamAnimation {
+0% {
+left: 0;
+}
+100% {
+left: 100%;
+}
 }
 </style>
 <script>
@@ -1508,7 +1528,7 @@ text.textContent = event.data.split(" - ")[1];
 if (text.textContent.toLowerCase().includes("merry christmas")) {
 text.classList.add("christmasMessage");
 }
-if (text.textContent.toLowerCase().replaceAll(",", "").includes("happy birthday adam")) {
+if (username.textContent === "Polska Man") {
 text.classList.add("adamMessage");
 }
 document.getElementById("chat").appendChild(ele);
